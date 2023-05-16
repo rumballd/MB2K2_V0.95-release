@@ -1,0 +1,146 @@
+ nam termio
+ ttl console IO via MON09
+
+ use defsfile
+
+Edition  equ 1
+Revision equ 1
+ org V.SCF
+PST equ .
+
+ mod TEND,TNAM,Drivr+Objct,Reent+Revision,TENT,PST
+ fcb READ.+WRITE.
+TNAM fcs /termio/
+ fcb Edition
+
+TENT lbra INIT
+ lbra READ
+ lbra WRITE
+ lbra GETSTA
+ lbra PUTSTA
+ lbra TERM
+
+**********************
+* INIT
+*
+INIT  clrb
+      rts
+
+
+**********************
+* READ
+* Read a byte from MON09
+READ 	pshs 	d,x
+		tst		$DF8D	OPORT	
+		bne		flash1
+		ldx 	$DFF8	FLASH
+		bne		flash2
+  		jsr 	$FA37 	CURS
+  		ldx		#2000
+flash2	leax	-1,x
+		stx 	$DFF8	FLASH
+flash1	ldx		#$F1B7	STATAB
+		ldb		$DF8C	IPORT
+		aslb
+ 		jsr 	[b,x]
+		puls	d,x		
+ 		bne 	readbyte
+ 		pshs 	x
+ 		ldx 	#1
+ 		os9 	f$sleep
+ 		puls 	x
+ 		bra 	read
+readbyte pshs 	b,x
+ 		tst 	$DFFA 	CFLAG
+ 		beq 	rd11
+  		jsr 	$FA37 	CURS
+rd11 	ldx 	#$F1AB 	INTAB
+ 		ldb 	$DF8C 	IPORT
+ 		aslb
+ 		jsr 	[b,x]
+ 		anda 	#$7F
+ 		puls b,x
+wrt 	clrb 
+ 		rts
+
+**********************
+* WRITE
+*   Write a byte to MON09 OUTCH
+*
+WRITE jsr [$F00A]
+ clrb
+ rts
+
+**********************
+* GETSTA
+*   Return OK for data ready & EOF
+*
+GETSTA cmpa #1
+ beq wrt
+ cmpa #6
+ beq wrt
+ comb
+ ldb #E$UnkSVC
+ rts
+
+**********************
+* PUTSTA
+*   No status requests
+*
+PUTSTA comb
+ ldb #E$UnkSVC
+ rts
+
+**********************
+* TERM
+*   Terminate Driver
+*
+TERM rts
+
+ emod
+TEND equ * 
+
+**************************
+*  TERMINAL device descriptor module
+
+ mod TrmEnd,TrmNam,DEVIC+OBJCT,REENT+1,TrmMgr,TrmDrv
+ fcb UPDAT. mode
+ fcb $F port bank
+ fdb 0 port address
+ fcb TrmNam-*-1 option byte count
+ fcb DT.SCF Device Type: SCF
+
+* DEFAULT PARAMETERS
+
+ fcb 0 case=UPPER and lower
+ fcb 1 backspace=BS,SP,BS
+ fcb 0 delete=backspace over line
+ fcb 1 auto echo on
+ fcb 1 auto line feed on
+ fcb 0 null count
+ fcb 0 end of page pause on
+ fcb 24 lines per page
+ fcb C$BSP backspace char
+ fcb C$DEL delete line char
+ fcb C$CR end of record char
+ fcb C$EOF end of file char
+ fcb C$RPRT reprint line char
+ fcb C$RPET dup last line char
+ fcb C$PAUS pause char
+ fcb C$INTR Keyboard Interrupt char
+ fcb $11 Keyboard Quit char
+ fcb C$BSP backspace echo char
+ fcb C$BELL line overflow char
+ fcb 0 reserved
+ fcb 0 reserved
+ fdb TrmNam offset of echo device
+ fcb 0 Transmit Enable char
+ fcb 0 Transmit Disable char
+TrmNam fcs "term" device name
+TrmMgr fcs "SCF"  file manager
+TrmDrv fcs "termio" device driver
+
+ emod Module CRC
+
+TrmEnd EQU *
+ 

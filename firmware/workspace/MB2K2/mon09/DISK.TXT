@@ -1,0 +1,365 @@
+* Disc drivers for the MB2K2
+*
+* Floppy disk controller registers
+COMREG EQU $FF10
+TRKREG EQU $FF11
+SECREG EQU $FF12
+DATREG EQU $FF13
+*
+* ramdisk controller registers
+RCOMRG EQU $FF20
+RTRKRG EQU $FF21
+RSECRG EQU $FF22
+RDATRG EQU $FF23
+*
+* promdisk controller registers
+ECOMRG EQU $FF30
+ETRKRG EQU $FF31
+ESECRG EQU $FF32
+EDATRG EQU $FF33
+*
+* disk controller commands
+RSCMD EQU $00
+SECMD EQU $10
+RECMD EQU $84
+WRCMD EQU $A4
+*
+* Floppy disk controller status bits
+RSMASK EQU $58
+SEMASK EQU $10
+REMASK EQU $1C
+WRMASK EQU $5C
+VEMASK EQU $18
+DRQ EQU $2
+BUSY EQU $1
+*
+* Jump tables.
+TABSRT FDB EREAD Drive type 0 - Eprom disk.
+ FDB EWRITE
+ FDB EDUMMY
+ FDB EDUMMY
+ FDB ECHECK
+ FDB ECHECK
+ FDB ECHECK
+ RPT 3
+ FDB DDUMMY
+*
+ FDB RREAD Drive type 1 - Ramdisk.
+ FDB RWRITE
+ RPT 3
+ FDB RCHECK
+ FDB RCHECK
+ FDB RCHECK
+ RPT 3
+ FDB DDUMMY
+*
+ FDB FREAD Drive type 2 - Floppy drive.
+ FDB FWRITE
+ FDB FVERIFY
+ FDB FRESTORE
+ FDB FSEL0
+ RPT 4
+ FDB DDUMMY
+ FDB FSEEK
+*
+ FDB NREAD  Drive type 3 - NetPC drive via ACIA2.
+ FDB NWRITE
+ FDB NVERIFY
+ FDB NCHECK
+ FDB NCHECK
+ FDB NCHECK
+ FDB NCHECK
+ FDB DDUMMY
+ FDB DDUMMY
+ FDB DDUMMY
+*
+* floppy disk controller routines (not used at the moment)
+FWAIT RTS
+FCMD RTS
+FREAD RTS
+FWRITE RTS
+FVERIFY RTS
+FRESTORE RTS
+FSEEK RTS
+FSEL0 BRA DDUMMY
+FSEL1 BRA DDUMMY
+*
+* Dummy routine (no errors).
+DDUMMY CLRB
+ TSTB Set (z)=1
+ CLC  Set (c)=0
+ RTS
+*
+* Dummy return for epromdisk (write protected!)
+EDUMMY CLRB
+ TST PDWPRT zero = protected
+ BNE ED1
+ LDB #$40
+ED1 TSTB
+ SEC
+ RTS
+*
+* speed change routines unused in MB2K2
+FAST RTS
+SLOW RTS
+*
+EREAD STA ETRKRG
+ STB ESECRG
+ LDA #RECMD
+ STA ECOMRG trigger a read
+ LDB #256
+ERDLP LDA EDATRG
+ STA ,X+
+ DECB
+ BNE ERDLP
+ LBRA DDUMMY
+*
+EWRITE TST PDWPRT zero = protected
+ BEQ EDUMMY
+ STA ETRKRG
+ STB ESECRG
+ LDB #256
+EWDLP LDA ,X+
+ STA EDATRG
+ DECB
+ BNE EWDLP
+ LDA #WRCMD trigger a write
+ STA ECOMRG
+*
+ECHECK LBRA DDUMMY will always be valid
+*
+* Ramdisk routines
+RREAD STA RTRKRG
+ STB RSECRG
+ LDA #RECMD
+ STA RCOMRG
+ LDB #256
+RRDLP LDA RDATRG
+ STA ,X+
+ DECB
+ BNE RRDLP
+ LBRA DDUMMY
+*
+RWRITE STA RTRKRG
+ STB RSECRG
+ LDA #WRCMD
+ STA RCOMRG
+ LDB #256
+WRDLP LDA ,X+
+ STA RDATRG
+ DECB
+ BNE WRDLP
+ LBRA DDUMMY
+*
+RCHECK LBRA DDUMMY will always be ready
+*
+*****************************************************
+* FlexNet drivers                                   *
+* ---------------                                   *
+* Drivers to support a remote connection via the    *
+* serial port using the FlexNet protocol as defined *
+* in FLEXNet_421B                                   *
+*****************************************************
+*
+ACK     EQU     $06             FlexNet driver acknowledge char
+NAK     EQU     $15             FlexNet driver negative acknowledge char
+*
+*
+* read sector from remote drive
+*
+NREAD   PSHS    B
+        PSHS    A
+        CLR     CHKSUM          clear checksum
+        CLR     CHKSUM+1
+*	
+        LDA     #'s             Send read sector command
+        JSR     SCHAR
+        BCC     NRD_DNR         if timeout, then flag drive not ready
+*
+        LDA     DRIVE           send drive
+        JSR     SCHAR
+        BCC     NRD_DNR           
+*
+        PULS    A               send track
+        JSR     SCHAR
+        BCC     NRD_DNR          
+*
+        PULS    A               send sector
+        JSR     SCHAR
+        BCC     NRD_DNR          
+*
+* transfer 256 bytes
+        CLRB                    
+NREAD1  JSR     RCHAR           read byte
+        BCC     NRD_DNR         if timeout, then flag drive not ready
+        STA     0,X+
+        ADDA    CHKSUM+1        update checksum
+        STA     CHKSUM+1
+        BCC     NREAD2         
+        INC     CHKSUM
+NREAD2  DECB         
+        BNE     NREAD1          
+*
+* compare checksums
+        JSR     RCHAR           get checksum msb
+        BCC     NRD_DNR
+        PSHS    A
+        JSR     RCHAR           get checksum lsb
+        BCC     NRD_DNR
+        TFR     A,B            
+        PULS    A               
+        CMPD    CHKSUM          compare checksums
+        BNE     NRD_ERR         if checksum error, then flag crc read error
+*
+        LDA     #ACK            no checksum error, send ACK char
+        JSR     SCHAR
+        BCC     NRD_DNR 
+        CLRB                    all OK, flag no error
+        BRA     NRD_END
+*
+NRD_DNR LDB     #16             flag drive not ready
+        BRA     NRD_END
+*
+NRD_ERR LDA     #NAK            send NAK
+        JSR     SCHAR
+        BCC     NRD_DNR  
+        LDB     #09             flag crc read error
+*
+NRD_END STB     CHKSUM          used by VERIFY
+        TSTB                    
+        RTS
+*
+*
+* write sector to remote drive
+*
+NWRITE  PSHS B
+        PSHS A
+        CLR     CHKSUM          clear checksum
+        CLR     CHKSUM+1
+*	
+        LDA     #'r             Send write sector command
+        JSR     SCHAR
+        BCC     NRD_DNR         if timeout, then flag drive not ready
+*
+        LDA     DRIVE           send drive
+        JSR     SCHAR
+        BCC     NRD_DNR           
+*
+        PULS    A               send track
+        JSR     SCHAR
+        BCC     NRD_DNR          
+*
+        PULS    A               send sector
+        JSR     SCHAR
+        BCC     NRD_DNR          
+*
+* transfer 256 bytes
+        CLRB                    
+NWRITE1 LDA     0,X+
+        JSR     SCHAR           write byte
+        BCC     NRD_DNR         if timeout, then flag drive not ready
+        ADDA    CHKSUM+1        update checksum
+        STA     CHKSUM+1
+        BCC     NWRITE2         
+        INC     CHKSUM
+NWRITE2 DECB         
+        BNE     NWRITE1          
+*
+* compare checksums
+        LDA     CHKSUM
+        JSR     SCHAR           send checksum msb
+        BCC     NRD_DNR
+        LDA     CHKSUM+1
+        JSR     SCHAR           send checksum lsb
+        BCC     NRD_DNR
+*
+        JSR     RCHAR           get checksum response
+        BCC     NRD_DNR        
+        CMPA    #ACK
+        BNE     NWR_ERR         if checksum error, then flag write error    
+*
+        CLRB                    all OK, flag no error
+        BRA     NWR_END
+*
+NWR_ERR LDB     #10             flag write error
+*
+NWR_END STB     CHKSUM          used by VERIFY
+        TSTB                    
+        RTS
+*
+*
+*   verify last sector written to remote drive
+*
+NVERIFY LDB     CHKSUM         test last checksum
+        TSTB
+        RTS
+*
+*
+*   quick check and check drive ready
+*
+NCHECK  LDA     #'Q             quick check command
+        JSR     SCHAR
+        BCC     NCK_ERR         if timeout, then flag drive not ready
+
+        JSR     RCHAR           get response from host
+        BCC     NCK_ERR
+        CMPA    #ACK
+        BNE     NCK_ERR         if NAK, then flag drive not ready
+
+        CLRB                    all OK, flag drive ready
+        BRA     NCK_END
+*
+NCK_ERR LDB     #16             report drive not ready
+        ORCC    #$01            check needs carry set as well
+*
+NCK_END TSTB
+        RTS
+*
+*
+* receive char from remote drive.
+* timeout if no response for approx 1s.
+* Entry: no parameters
+* Exit:  (A) = received char, (C)=1 if valid char, (C)=0 if timeout.
+*
+RCHAR     PSHS    X,Y
+*
+          LDX     #1000         1000x inner loop
+RCHAR1    LDY     #DELCON       delay constant for inner loop (approx 1ms).
+RCHAR2    LDA     ACIAC2        test for received char
+          ASRA
+          ASRA
+          BCS     RCHAR3        get character
+          LEAY    -1,Y          else, continue to count delay
+          BNE     RCHAR2
+          LEAX    -1,X
+          BNE     RCHAR1
+          PULS    X,Y,PC        return with error if timed out
+*
+RCHAR3    LDA     ACIAD2        return data (carry bit still set)
+          PULS    X,Y,PC
+*
+*
+* transmit char to remote drive.
+* timeout if no response for approx 1s. (allows for use of hardware flow control)
+* Entry: (A) = char to transmit
+* Exit:  (A) = received char, (C)=1 if valid char, (C)=0 if timeout.
+*
+SCHAR     PSHS    X,Y
+          PSHS    A
+*
+          LDX     #1000         1000x inner loop
+SCHAR1    LDY     #DELCON       delay constant for inner loop (approx 1ms).
+SCHAR2    LDA     ACIAC2        test for space in transmit FIFO
+          ASRA
+          BCS     SCHAR3        send character
+          LEAY    -1,Y          else, continue to count delay
+          BNE     SCHAR2
+          LEAX    -1,X
+          BNE     SCHAR1
+          PULS    A
+          PULS    X,Y,PC        return with error if timed out
+*
+SCHAR3    PULS    A
+          STA     ACIAD2        send data (carry bit still set)
+          PULS    X,Y,PC
+*               *

@@ -1,0 +1,259 @@
+                      (   core\clock.txt):00001          nam Clock Module
+                      (   core\clock.txt):00002         
+                      (   core\clock.txt):00003         * Copyright 1980 by Microware Systems Corp.,
+                      (   core\clock.txt):00004         
+                      (   core\clock.txt):00005         *
+                      (   core\clock.txt):00006         * This source code is the proprietary confidential property of
+                      (   core\clock.txt):00007         * Microware Systems Corporation, and is provided to licensee
+                      (   core\clock.txt):00008         * solely  for documentation and educational purposes. Reproduction,
+                      (   core\clock.txt):00009         * publication, or distribution in any form to any party other than 
+                      (   core\clock.txt):00010         * the licensee is strictly prohibited!
+                      (   core\clock.txt):00011         *
+                      (   core\clock.txt):00012         
+                      (   core\clock.txt):00013          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (   core\clock.txt):00014         
+     FFE0             (   core\clock.txt):00015         CLOCK set $FFE0
+                      (   core\clock.txt):00016          opt c
+                      (   core\clock.txt):00017          ttl Definitions
+                      (   core\clock.txt):00018          page
+                      (   core\clock.txt):00019         *****
+                      (   core\clock.txt):00020         *
+                      (   core\clock.txt):00021         *  Clock Module
+                      (   core\clock.txt):00022         *
+                      (   core\clock.txt):00023         * Initializes MB2K2 TMR for 20ms Intervals and handle RTC
+                      (   core\clock.txt):00024         * Sets Irq Polling Routine
+                      (   core\clock.txt):00025         *
+                      (   core\clock.txt):00026         *****
+                      (   core\clock.txt):00027         *
+                      (   core\clock.txt):00028         *  Module Header
+                      (   core\clock.txt):00029         *
+     00C1             (   core\clock.txt):00030         Type set SYSTM+OBJCT
+     0081             (   core\clock.txt):00031         Revs set REENT+1
+0000 87CD0146000DC181 (   core\clock.txt):00032         ClkMod mod ClkEnd,ClkNam,Type,Revs,ClkEnt,0
+     BF008A0000
+000D 436C6F63EB       (   core\clock.txt):00033         ClkNam fcs /Clock/
+0012 03               (   core\clock.txt):00034          fcb 3 Edition number
+                      (   core\clock.txt):00035         *********************
+                      (   core\clock.txt):00036         * Edition history
+                      (   core\clock.txt):00037         *
+                      (   core\clock.txt):00038         * Ed.  1 - prehistoric times                           12/08/82 WGP
+                      (   core\clock.txt):00039         *
+                      (   core\clock.txt):00040         * Ed.  2 - file set up for LI V1.2                     12/08/82 WGP
+                      (   core\clock.txt):00041         *
+                      (   core\clock.txt):00042         * Ed.  3 - conditionals added for 6840 time fix of     12/15/82 WGP
+                      (   core\clock.txt):00043         *          IRQ mask problem
+                      (   core\clock.txt):00044         *          set up to use defsfile in assembly directory
+                      (   core\clock.txt):00045         *
+                      (   core\clock.txt):00046         *
+                      (   core\clock.txt):00047         * Clock Data Definitions
+                      (   core\clock.txt):00048         *
+0013 15               (   core\clock.txt):00049         TIMSVC fcb F$TIME
+0014 00DB             (   core\clock.txt):00050          fdb TIME-*-2
+0016 80               (   core\clock.txt):00051          fcb $80
+                      (   core\clock.txt):00052         
+                      (   core\clock.txt):00053         *
+                      (   core\clock.txt):00054         *  Days In Months Table
+                      (   core\clock.txt):00055         *
+0017 00               (   core\clock.txt):00056         MONTHS fcb 0 Uninitialized month
+0018 1F               (   core\clock.txt):00057                                 fcb     31              January
+0019 1C               (   core\clock.txt):00058                                 fcb     28              February
+001A 1F               (   core\clock.txt):00059                                 fcb     31              March
+001B 1E               (   core\clock.txt):00060                                 fcb     30              April
+001C 1F               (   core\clock.txt):00061                                 fcb     31              May
+001D 1E               (   core\clock.txt):00062                                 fcb     30              June
+001E 1F               (   core\clock.txt):00063                                 fcb     31              July
+001F 1F               (   core\clock.txt):00064                                 fcb     31              August
+0020 1E               (   core\clock.txt):00065                                 fcb     30              September
+0021 1F               (   core\clock.txt):00066                                 fcb     31              October
+0022 1E               (   core\clock.txt):00067                                 fcb     30              November
+0023 1F               (   core\clock.txt):00068                                 fcb     31              December
+                      (   core\clock.txt):00069         *
+     FF18             (   core\clock.txt):00070         Clockas         equ     RTCADD  clock IO ports
+     FF19             (   core\clock.txt):00071         Clockds         equ     RTCDAT
+     0000             (   core\clock.txt):00072         second          equ     $0              time registers
+     0002             (   core\clock.txt):00073         minute          equ     $2
+     0004             (   core\clock.txt):00074         hour            equ             $4
+     0006             (   core\clock.txt):00075         day                     equ             $6
+     0007             (   core\clock.txt):00076         date            equ             $7
+     0008             (   core\clock.txt):00077         month           equ     $8
+     0009             (   core\clock.txt):00078         year            equ     $9
+                      (   core\clock.txt):00079          page
+                      (   core\clock.txt):00080         *****
+                      (   core\clock.txt):00081         *
+                      (   core\clock.txt):00082         *  Clock Interrupt Service Routine
+                      (   core\clock.txt):00083         *
+0024 6E9F0038         (   core\clock.txt):00084 (8)     NOTCLK jmp [D.SvcIRQ] Go to interrupt service
+                      (   core\clock.txt):00085         *
+0028 B6FF40           (   core\clock.txt):00086 (4)     CLKSRV          lda     TMRREG
+002B 8580             (   core\clock.txt):00087 (2)                             bita    #$80    Is it the TMR?
+002D 27F5             (   core\clock.txt):00088 (3)                             beq     NOTCLK  Branch if not
+                      (   core\clock.txt):00089         *
+                      (   core\clock.txt):00090         * Update Current Time
+002F 4F               (   core\clock.txt):00091 (1)                             clra    SET     Direct page
+0030 1F8B             (   core\clock.txt):00092 (4)                             tfr     A,DP
+                      (   core\clock.txt):00093         *
+0032 0A59             (   core\clock.txt):00094 (5)                             dec     D.Tick  Count tick
+0034 264D             (   core\clock.txt):00095 (3)                             bne     TICK50  Branch if not end of second
+                      (   core\clock.txt):00096         *
+0036 B6FF02           (   core\clock.txt):00097 (4)                             lda     SYSREG invert the red LED state every second
+0039 8801             (   core\clock.txt):00098 (2)                             eora    #$01
+003B B7FF02           (   core\clock.txt):00099 (4)                             sta             SYSREG
+                      (   core\clock.txt):00100         *
+003E DC57             (   core\clock.txt):00101 (4)                             ldd     D.MIN   Get minute & second
+0040 5C               (   core\clock.txt):00102 (1)                             incb                    Second
+0041 C13C             (   core\clock.txt):00103 (2)                             cmpb    #60     End of minute?
+0043 2538             (   core\clock.txt):00104 (3)                             bcs     TICK35  Branch if not
+0045 4C               (   core\clock.txt):00105 (1)                             inca                    Minute
+0046 813C             (   core\clock.txt):00106 (2)                             cmpa    #60     End of hour?
+0048 2532             (   core\clock.txt):00107 (3)                             bcs     TICK30  Branch if not
+                      (   core\clock.txt):00108         *
+004A DC55             (   core\clock.txt):00109 (4)                             ldd     D.DAY   Get day & hour
+004C 5C               (   core\clock.txt):00110 (1)                             incb                    Hour
+004D C118             (   core\clock.txt):00111 (2)                             cmpb    #24     End of day?
+004F 2528             (   core\clock.txt):00112 (3)                             bcs     TICK25  Branch if not
+0051 4C               (   core\clock.txt):00113 (1)                             inca    COUNT   Day
+0052 308CC2           (   core\clock.txt):00114 (5)                             leax    MONTHS,PCR Get days/month table
+0055 D654             (   core\clock.txt):00115 (3)                             ldb     D.Month Get month
+0057 C102             (   core\clock.txt):00116 (2)                             cmpb    #2              Is it february?
+0059 2609             (   core\clock.txt):00117 (3)                             bne     TICK10  Branch if not
+                      (   core\clock.txt):00118         *
+005B D653             (   core\clock.txt):00119 (3)                             ldb     D.YEAR  Get year
+005D 2705             (   core\clock.txt):00120 (3)                             beq     TICK10  Branch if even hundred
+005F C403             (   core\clock.txt):00121 (2)                             andb    #3              Is it leap year?
+0061 2601             (   core\clock.txt):00122 (3)                             bne     TICK10  Branch if not
+0063 4A               (   core\clock.txt):00123 (1)                             deca                    Feb 29
+0064 D654             (   core\clock.txt):00124 (3)     TICK10          ldb     D.Month Get month
+0066 A185             (   core\clock.txt):00125 (5)                             cmpa    B,X End of month?
+0068 230E             (   core\clock.txt):00126 (3)                             bls     TICK20  Branch if not
+006A DC53             (   core\clock.txt):00127 (4)                             ldd     D.YEAR  Get year & month
+006C 5C               (   core\clock.txt):00128 (1)                             incb                    Month
+006D C10D             (   core\clock.txt):00129 (2)                             cmpb    #13     End of year?
+006F 2503             (   core\clock.txt):00130 (3)                             bcs     TICK15  Branch if not
+0071 4C               (   core\clock.txt):00131 (1)                             inca                    Year
+0072 C601             (   core\clock.txt):00132 (2)                             ldb     #1              New month
+                      (   core\clock.txt):00133          *
+0074 DD53             (   core\clock.txt):00134 (4)     TICK15          std     D.YEAR  Update year & month
+0076 8601             (   core\clock.txt):00135 (2)                             lda     #1              New day
+0078 5F               (   core\clock.txt):00136 (1)     TICK20          clrb                    Hour
+0079 DD55             (   core\clock.txt):00137 (4)     TICK25          std     D.DAY   Update day & hour
+007B 4F               (   core\clock.txt):00138 (1)                             clra                    Minute
+007C 5F               (   core\clock.txt):00139 (1)     TICK30          clrb                    Second
+007D DD57             (   core\clock.txt):00140 (4)     TICK35          std     D.MIN   Update minute & second
+                      (   core\clock.txt):00141         *
+007F 965A             (   core\clock.txt):00142 (3)                             lda     D.TSEC  Get ticks/second
+0081 9759             (   core\clock.txt):00143 (3)                             sta     D.Tick
+                      (   core\clock.txt):00144         *
+0083 B7FF40           (   core\clock.txt):00145 (4)     TICK50          sta     TMRREG  restart TMR
+0086 6E9FFFE0         (   core\clock.txt):00146 (8)                             jmp     [CLOCK] Go to system clock routine ($FFE0)
+                      (   core\clock.txt):00147         *
+                      (   core\clock.txt):00148         *****
+                      (   core\clock.txt):00149         *
+                      (   core\clock.txt):00150         *  Clock Initialization Entry (pull time & date from RTC)
+                      (   core\clock.txt):00151         *
+008A 3408             (   core\clock.txt):00152 (5)     ClkEnt          pshs    DP              save direct page
+008C 4F               (   core\clock.txt):00153 (1)                             clra                    clear Dp
+008D 1F8B             (   core\clock.txt):00154 (4)                             tfr     A,DP
+008F 3401             (   core\clock.txt):00155 (5)                             pshs    CC              save interrupt masks
+0091 1A50             (   core\clock.txt):00156 (2)                             orcc    #IRQMask+FIRQMask disable interrupts
+                      (   core\clock.txt):00157         *
+0093 860A             (   core\clock.txt):00158 (2)                             lda     #10     Set ticks/second
+0095 975A             (   core\clock.txt):00159 (3)                             sta     D.TSEC
+0097 9759             (   core\clock.txt):00160 (3)                             sta     D.Tick
+0099 8601             (   core\clock.txt):00161 (2)                             lda     #1              Set ticks / time-slice
+009B 975B             (   core\clock.txt):00162 (3)                             sta     D.TSlice
+009D 9748             (   core\clock.txt):00163 (3)                             sta     D.Slice
+                      (   core\clock.txt):00164         *
+009F 308C86           (   core\clock.txt):00165 (5)                             leax    CLKSRV,PCR Get service routine
+00A2 9F32             (   core\clock.txt):00166 (4)                             stx     D.IRQ   Set interrupt vector
+00A4 B6FF40           (   core\clock.txt):00167 (4)                             lda     TMRREG  clear TMR flag
+                      (   core\clock.txt):00168         *
+                      (   core\clock.txt):00169         * Get inital time/date from RTC
+00A7 8609             (   core\clock.txt):00170 (2)                     lda     #year   read year
+00A9 B7FF18           (   core\clock.txt):00171 (4)                     sta     clockas write RTC address
+00AC F6FF19           (   core\clock.txt):00172 (4)                     ldb     clockds read RTC data
+00AF D753             (   core\clock.txt):00173 (3)                     stb     D.YEAR  into DP0 variable
+00B1 8608             (   core\clock.txt):00174 (2)                     lda     #month  
+00B3 B7FF18           (   core\clock.txt):00175 (4)                     sta     clockas
+00B6 F6FF19           (   core\clock.txt):00176 (4)                     ldb     clockds
+00B9 D754             (   core\clock.txt):00177 (3)                     stb     D.MONTH 
+00BB 8607             (   core\clock.txt):00178 (2)                     lda     #date   
+00BD B7FF18           (   core\clock.txt):00179 (4)                     sta     clockas
+00C0 F6FF19           (   core\clock.txt):00180 (4)                     ldb     clockds
+00C3 D755             (   core\clock.txt):00181 (3)                     stb     D.DAY   
+00C5 8604             (   core\clock.txt):00182 (2)                     lda     #hour   
+00C7 B7FF18           (   core\clock.txt):00183 (4)                     sta     clockas
+00CA F6FF19           (   core\clock.txt):00184 (4)                     ldb     clockds
+00CD D756             (   core\clock.txt):00185 (3)                     stb     D.HOUR  
+00CF 8602             (   core\clock.txt):00186 (2)                     lda     #minute 
+00D1 B7FF18           (   core\clock.txt):00187 (4)                     sta     clockas
+00D4 F6FF19           (   core\clock.txt):00188 (4)                     ldb     clockds
+00D7 D757             (   core\clock.txt):00189 (3)                     stb     D.MIN   
+00D9 8600             (   core\clock.txt):00190 (2)                     lda     #second 
+00DB B7FF18           (   core\clock.txt):00191 (4)                     sta     clockas
+00DE F6FF19           (   core\clock.txt):00192 (4)                     ldb     clockds
+00E1 D758             (   core\clock.txt):00193 (3)                     stb     D.SEC
+                      (   core\clock.txt):00194         *       
+00E3 B7FF40           (   core\clock.txt):00195 (4)                             sta     TMRREG  start TMR
+00E6 3501             (   core\clock.txt):00196 (5)                             puls    CC              retrieve masks
+00E8 318DFF27         (   core\clock.txt):00197 (7)                             leay    TIMSVC,PCR
+00EC 103F32           (   core\clock.txt):00198 (22)                            OS9     F$SSVC  Set time sevice routine
+00EF 3588             (   core\clock.txt):00199 (7)                             puls    DP,PC
+                      (   core\clock.txt):00200         *
+                      (   core\clock.txt):00201          page
+                      (   core\clock.txt):00202         *****
+                      (   core\clock.txt):00203         *
+                      (   core\clock.txt):00204         *  Subroutine Time
+                      (   core\clock.txt):00205         *
+                      (   core\clock.txt):00206         * Return Time Of Day
+                      (   core\clock.txt):00207         *
+     00F1             (   core\clock.txt):00208         TIME            equ     *
+00F1 3401             (   core\clock.txt):00209 (5)                             pshs    CC      Save masks
+00F3 1A50             (   core\clock.txt):00210 (2)                             orcc    #IRQMask+FIRQMask Set interrupt masks
+                      (   core\clock.txt):00211         *
+                      (   core\clock.txt):00212         * Get current time/date from RTC
+00F5 8609             (   core\clock.txt):00213 (2)                     lda     #year   read year
+00F7 B7FF18           (   core\clock.txt):00214 (4)                     sta     clockas write RTC address
+00FA F6FF19           (   core\clock.txt):00215 (4)                     ldb     clockds read RTC data
+00FD D753             (   core\clock.txt):00216 (3)                     stb     D.YEAR  into DP0 variable
+00FF 8608             (   core\clock.txt):00217 (2)                     lda     #month  
+0101 B7FF18           (   core\clock.txt):00218 (4)                     sta     clockas
+0104 F6FF19           (   core\clock.txt):00219 (4)                     ldb     clockds
+0107 D754             (   core\clock.txt):00220 (3)                     stb     D.MONTH 
+0109 8607             (   core\clock.txt):00221 (2)                     lda     #date   
+010B B7FF18           (   core\clock.txt):00222 (4)                     sta     clockas
+010E F6FF19           (   core\clock.txt):00223 (4)                     ldb     clockds
+0111 D755             (   core\clock.txt):00224 (3)                     stb     D.DAY   
+0113 8604             (   core\clock.txt):00225 (2)                     lda     #hour   
+0115 B7FF18           (   core\clock.txt):00226 (4)                     sta     clockas
+0118 F6FF19           (   core\clock.txt):00227 (4)                     ldb     clockds
+011B D756             (   core\clock.txt):00228 (3)                     stb     D.HOUR  
+011D 8602             (   core\clock.txt):00229 (2)                     lda     #minute 
+011F B7FF18           (   core\clock.txt):00230 (4)                     sta     clockas
+0122 F6FF19           (   core\clock.txt):00231 (4)                     ldb     clockds
+0125 D757             (   core\clock.txt):00232 (3)                     stb     D.MIN   
+0127 8600             (   core\clock.txt):00233 (2)                     lda     #second 
+0129 B7FF18           (   core\clock.txt):00234 (4)                     sta     clockas
+012C F6FF19           (   core\clock.txt):00235 (4)                     ldb     clockds
+012F D758             (   core\clock.txt):00236 (3)                     stb     D.SEC
+                      (   core\clock.txt):00237         *
+0131 3501             (   core\clock.txt):00238 (5)                             puls    CC      Retrieve interrupt masks
+                      (   core\clock.txt):00239         *
+0133 AE44             (   core\clock.txt):00240 (6)                             ldx     R$X,U Get specified location
+0135 DC53             (   core\clock.txt):00241 (4)                             ldd     D.YEAR Get year & month
+0137 ED00             (   core\clock.txt):00242 (6)                             std     0,X
+0139 DC55             (   core\clock.txt):00243 (4)                             ldd     D.DAY   Get day & hour
+013B ED02             (   core\clock.txt):00244 (6)                             std     2,X
+013D DC57             (   core\clock.txt):00245 (4)                             ldd     D.MIN   Get minute & second
+013F ED04             (   core\clock.txt):00246 (6)                             std     4,X
+0141 5F               (   core\clock.txt):00247 (1)                             clrb                    Clear Carry
+0142 39               (   core\clock.txt):00248 (4)                             rts
+                      (   core\clock.txt):00249         *
+0143 29FC36           (   core\clock.txt):00250                                 emod
+                      (   core\clock.txt):00251         *
+     0146             (   core\clock.txt):00252         ClkEnd          equ     *
+                      (   core\clock.txt):00253         *
+                      (   core\clock.txt):00254          opt c
+                      (   core\clock.txt):00255          end

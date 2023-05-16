@@ -1,0 +1,16 @@
+* Set up PIA, /DDEN and MAP bits.
+ LDA #6
+ STA SYSREG
+* 
+* flush ACIA buffers
+ LDA #$FF
+ STA ACIAC1
+ STA ACIAC2
+*
+* init IRQ handler vector and start timer
+ ldx #irqhdl init IRQ vector
+ stx IRQV
+ clra
+ sta $FF40 start timer
+* ANDCC #%11101111 enable IRQ.
+ JMP MINIT

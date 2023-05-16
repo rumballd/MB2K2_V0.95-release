@@ -1,0 +1,12 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_usb/xudlib/XUD_UIFM_RegAccess.S">
+  <fCall global="true" name="XUD_UIFM_Enable"/>
+  <fCall global="true" name="XUD_UIFM_Enable.nstackwords"/>
+  <fCall global="true" name="XUD_UIFM_Enable.maxchanends"/>
+  <fCall global="true" name="XUD_UIFM_Enable.maxtimers"/>
+  <fCall global="true" name="XUD_UIFM_Enable.maxcores"/>
+  <fCall global="true" name="XUD_UIFM_Enable.locnoside"/>
+  <fCall global="true" name="XUD_UIFM_Enable.locnochandec"/>
+  <fCall global="true" name="XUD_UIFM_Enable.locnoglobalaccess"/>
+  <fCall global="true" name="XUD_UIFM_Enable.locnointerfaceaccess"/>
+  <fCall global="true" name="XUD_UIFM_Enable.locnonotificationselect"/>
+</preCompilationAnalysis>

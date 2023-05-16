@@ -1,0 +1,172 @@
+ NAM FMTPD
+*
+* PROMdisk formatting program.
+* Version 1.0   D.A.Rumball  29/05/20
+*
+ opt nol
+ lib FLEXLINK
+ opt lis
+ org $C100
+*
+ramdisk lbra start
+*
+ fcb 1
+*
+mess1 fcc 'This will completely erase the PROMdisk, are you sure? ',4
+mess3 fcc 'Formatting complete. Number of sectors = ',4
+mess6 fcc 7,'PROMdisk not allocated!',4
+mess7 fcc $0b,'Writing track/sector = ',4
+*
+maxtrk fcb 192
+maxsec fcb 30
+trk fcb 0
+sec fcb 1
+temp fdb 0
+*
+start ldx #mess1 are you sure?
+ jsr FPSTRNG
+ jsr GETCHR
+ cmpa #'Y
+ beq fmt1
+ cmpa #'y
+ beq fmt1
+ jmp FWARM
+*
+fmt1 ldx #DDSTAB search for PROMdisk drive number
+ clrb
+fmt9 lda ,x+
+ cmpa #0 drive type 0 is the PROMdisk
+ beq ffound
+ incb
+ cmpb #4
+ bne fmt9
+ ldx #mess6 not found, inform and quit
+ jsr FPSTRNG
+ jmp FWARM
+*
+ffound jsr FPCRLF 
+ stb DRIVE select PROMdisk
+ ldx #(DRIVE-3)
+ jsr [DRV]
+*
+* Main formatting loop.
+fmt3 ldx #BUFFER clear buffer
+ clra
+fl sta ,x+
+ cmpx #(BUFFER+256)
+ bne fl
+*
+fmt5 ldd trk
+ std temp
+ incb
+ cmpb #31
+ bne fmt6
+ inca
+ cmpa maxtrk
+ beq fmt7
+ ldb #1
+fmt6 std trk
+ std BUFFER
+ ldd temp
+ ldx #BUFFER
+ jsr [WRITE]
+ ldx #mess7 show current track/sector
+ jsr FPSTRNG
+ ldx #temp
+ jsr OUTHEX
+ lda #$2F
+ jsr FOUTCH
+ leax 1,x
+ jsr OUTHEX
+ bra fmt5
+*
+* Define end of free chain.
+fmt7 ldd #0
+ std BUFFER
+ lda maxtrk
+ deca
+ ldb #30
+ ldx #BUFFER
+ jsr [WRITE]
+*
+* Define end of directory.
+ lda #0
+ ldb #30
+ ldx #BUFFER
+ jsr [WRITE]
+*
+* This is the layout of the SIR:
+* The first 16 bytes are not used (all zeros)
+* offset(hex)   size(hex)   contents
+* -----------   ---------   -------------------------
+*   $10           $0B       Volume Label
+*   $1B           $01       Volume Number High byte
+*   $1C           $01       Volume Number Low byte
+*   $1D           $01       First User Track
+*   $1E           $01       First User Sector
+*   $1F           $01       Last User Track
+*   $20           $01       Last User Sector
+*   $21           $01       Total Sectors High byte
+*   $22           $01       Total Sectors Low byte
+*   $23           $01       Creation Month
+*   $24           $01       Creation Day
+*   $25           $01       Creation Year
+*   $26           $01       Max Track
+*   $27           $01       Max Sector
+* The First User Track and Sector mark the beginning of the free chain. This is the chain of available unused sectors. The Last User Track and Sector * mark the end of this chain.
+* Set up SIR.
+ ldx #BUFFER
+ ldd #$4D42 (label MB2K2PD)
+ std $10,X
+ ldd #$324B 
+ std $12,X
+ ldd #$3250 
+ std $14,X
+ ldd #$4420
+ std $16,X
+ ldd #1 (volume number)
+ std $1B,X
+ ldd #$0101 (1st trk/sec)
+ std $1D,X
+ ldd maxtrk (last trk/sec)
+ deca
+ std $1F,X
+ std $26,X
+ lda MONTH current date (from RTC)
+ sta $23,X
+ lda DAY
+ sta $24,X
+ lda YEAR
+ sta $25,X
+ ldd maxtrk (total sectors)
+ deca
+ mul
+ std temp
+ std $21,X
+ clra write the SIR
+ ldb #3
+ ldx #BUFFER
+ jsr [WRITE]
+*
+* Set up format flag.
+ ldx #BUFFER clear buffer
+ clra
+fl1 sta ,x+
+ cmpx #(BUFFER+256)
+ bne fl1
+ ldx #BUFFER
+ ldd #$AA55
+ std ,X
+ clra
+ ldb #1
+ ldx #BUFFER
+ jsr [WRITE]
+*
+ ldx #mess3
+ jsr FPSTRNG
+ ldx #temp
+ clrb
+ jsr OUTDEC
+ jmp FWARM
+*
+ end ramdisk

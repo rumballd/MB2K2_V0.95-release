@@ -1,0 +1,358 @@
+#include <platform.h>
+#include <quadflashlib.h>
+#include <xclib.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+
+fl_PortHolderStruct portHolder_0 =
+{
+  PORT_SQI_CS,
+  PORT_SQI_SCLK,
+  PORT_SQI_SIO,
+  on tile[0]: XS1_CLKBLK_5
+};
+
+fl_QuadDeviceSpec deviceSpecs[] =
+{
+  FL_QUADDEVICE_SPANSION_S25FL116K,
+  FL_QUADDEVICE_SPANSION_S25FL132K,
+  FL_QUADDEVICE_SPANSION_S25FL164K,
+  FL_QUADDEVICE_ISSI_IS25LQ080B,
+  FL_QUADDEVICE_ISSI_IS25LQ016B,
+  FL_QUADDEVICE_ISSI_IS25LQ032B,
+  FL_QUADDEVICE_ISSI_IS25LP080D,
+  FL_QUADDEVICE_ISSI_IS25LP016D,
+  FL_QUADDEVICE_ISSI_IS25LP032,
+  FL_QUADDEVICE_ISSI_IS25LP064,
+  FL_QUADDEVICE_ISSI_IS25LP128,
+  FL_QUADDEVICE_WINBOND_W25Q16JV,
+  FL_QUADDEVICE_WINBOND_W25Q32JV,
+  FL_QUADDEVICE_WINBOND_W25Q64JV,
+  FL_QUADDEVICE_WINBOND_W25Q128JV,
+};//fl_QuadDeviceSpec
+
+#define FILE_BUF_SIZE 16384
+char file_buf[FILE_BUF_SIZE];
+
+extern "C" {int setvbuf ( FILE * stream, char * buffer, int mode, size_t size );}
+#undef feof
+extern "C" {int feof ( FILE * stream );}
+
+void sendProgress(chanend cProgress, unsigned int value)
+{
+  cProgress <: value;
+}
+
+void ackProgress(chanend cProgress)
+{
+  unsigned int dud;
+  cProgress :> dud;
+}
+
+int readPage( unsigned char* readBuffer, FILE * inFile )
+{
+  int lastPage = 0;
+  int pageSize = fl_getPageSize();
+  int bytesRead = fread( readBuffer, 1, pageSize, inFile );
+  if( bytesRead == 0 )
+  {
+    return( 1 );
+  }
+  if( bytesRead < (pageSize) )
+  {
+    lastPage = 1;
+    while( bytesRead < (pageSize) )
+    {
+      readBuffer[bytesRead++] = '0';
+    }
+  }
+  int c = fgetc(inFile);
+  lastPage |= feof(inFile);
+  if( c != EOF )
+  {
+    ungetc(c,inFile);
+  }
+  return( lastPage );
+}
+
+int programAndCheckPage( unsigned int pageAddress, unsigned char* readBuffer, unsigned char* checkBuffer )
+{
+  int i;
+  int pageSize = fl_getPageSize();
+  if( fl_writePage( pageAddress, readBuffer ) != 0 )
+  {
+    fprintf(stderr,"Failed to program SQI flash at address 0x%x.",pageAddress);
+    exit(1);
+  }
+  if( fl_readPage( pageAddress, checkBuffer ) != 0 )
+  {
+    fprintf(stderr,"Failed to read back SQI flash at address 0x%x.",pageAddress);
+    exit(1);
+  }
+  int gotError = 0;
+  for( i=0; i<pageSize; i++ )
+  {
+    if( readBuffer[i] != checkBuffer[i] )
+    {
+      fprintf(stderr,"Verify failed for page 0x%08x, offset 0x%04x (read 0x%02x, expected 0x%02x).",pageAddress,i,checkBuffer[i],readBuffer[i]);
+      gotError = 1;
+    }
+  }
+  if( gotError )
+  {
+    exit(1);
+  }
+  return(0);
+}
+
+int DoProgram(chanend cProgress, int cRes, const char* dataFileName)
+{
+  int lastPage = 0;
+  unsigned int pageAddress;
+  FILE * movable inFile = NULL;
+  unsigned char* readBuffer = NULL;
+  unsigned char* checkBuffer = NULL;
+  unsigned int pageSize = 0;
+  int lastAddress;
+
+  sendProgress(cProgress,1);
+  ackProgress(cProgress);
+
+  if(0 != cRes)
+  {
+    fprintf(stderr,"Error: failed to recognise attached flash device.");
+    exit(1);
+  }
+
+  inFile = fopen(dataFileName, "rb");
+  if(inFile == NULL)
+  {
+    fprintf(stderr,"Error: Failed to open input data file %s.",dataFileName);
+    exit(1);
+  }
+
+  setvbuf(inFile, file_buf, _IOFBF, FILE_BUF_SIZE);
+
+  if(0 != fseek( inFile, 0, SEEK_END))
+  {
+    fprintf(stderr,"Error: Failed to discover input data file size.");
+  }
+
+  lastAddress = ((int)ftell( inFile ))>>1;
+  if(0 != fseek(inFile, 0, SEEK_SET))
+  {
+    fprintf(stderr,"Error: Failed to discover input data file size.");
+    exit(1);
+  }
+
+  pageSize = fl_getPageSize();
+  if(pageSize > 256)
+  {
+    fprintf(stderr,"Error: page sizes greater than 256 bytes are unsupported (found %d bytes).", pageSize);
+    exit(1);
+  }
+
+  sendProgress(cProgress,2);
+  sendProgress(cProgress, fl_getFlashType());
+  ackProgress(cProgress);
+
+  if(0 != fl_eraseAll())
+  {
+    fprintf(stderr,"Error: erase failed.");
+    exit(1);
+  }
+
+  readBuffer = (unsigned char*)malloc(pageSize);
+  checkBuffer = (unsigned char*)malloc(pageSize);
+
+  if(!readBuffer || !checkBuffer)
+  {
+    fprintf(stderr,"Error: allocating buffer memory failed.");
+    exit(1);
+  }
+
+  pageAddress = 0;
+  while(!lastPage)
+  {
+    int i;
+
+    lastPage = readPage(readBuffer, inFile);
+    for(i = 0; i < pageSize; i++)
+    {
+      checkBuffer[i] = 0;
+    }
+
+    sendProgress(cProgress,3);
+    sendProgress(cProgress,pageAddress);
+    ackProgress(cProgress);
+
+    programAndCheckPage(pageAddress, readBuffer, checkBuffer);
+
+    sendProgress(cProgress,4);
+    sendProgress(cProgress,pageAddress);
+    ackProgress(cProgress);
+
+    pageAddress += pageSize;
+  }
+
+  if(0 != fl_disconnect())
+  {
+    fprintf(stderr,"Error: end write failed.");
+    exit(1);
+  }
+
+  fclose(move(inFile));
+  inFile = NULL;
+  free(readBuffer);
+
+  return(0);
+}
+
+int main()
+{
+  chan backFrom[1];
+  par
+  {
+    on tile[0]:
+    {
+      unsigned int siteStatus[1];
+      unsigned int siteDatum[1];
+      unsigned int isOkay = 1;
+      unsigned int respCount = 0;
+      unsigned int thisNodeIsWorking=0;
+      unsigned int lastLength=0;
+      for( int i=0; i<1; i++ )
+      {
+        siteStatus[i]=0;
+      }
+      while( respCount < 1 )
+      {
+        unsigned int status;
+        unsigned int srcSite;
+        unsigned int isChanged = 0;
+        select
+        {
+        case backFrom[0] :> status:
+          srcSite = 0;
+          break;
+        }
+        switch( status )
+        {
+        default:
+          isOkay = 0;
+          break;
+        case 1:
+        {
+          siteStatus[srcSite] = 1;
+          isChanged = 1;
+          break;
+        }
+        case 2:
+        {
+          unsigned int value;
+          backFrom[srcSite] :> value;
+          if(srcSite==0) { thisNodeIsWorking=1; }
+          isChanged = 1;
+          siteStatus[srcSite] = 2;
+          siteDatum[srcSite] = value;
+          isChanged = 1;
+          break;
+        }
+        case 3:
+        {
+          unsigned int value;
+          backFrom[srcSite] :> value;
+          if(srcSite==0) { thisNodeIsWorking=1; }
+          siteStatus[srcSite] = 3;
+          siteDatum[srcSite] = value;
+          isChanged = 1;
+          break;
+        }
+        case 4:
+        {
+          unsigned int value;
+          if(srcSite==0) { thisNodeIsWorking=0; }
+          backFrom[srcSite] :> value;
+          siteStatus[srcSite] = 4;
+          siteDatum[srcSite] = value;
+          isChanged = 1;
+          break;
+        }
+        case 5:
+        {
+          unsigned int value;
+          backFrom[srcSite] :> value;
+          isOkay &= (value==0);
+          respCount++;
+          isChanged = 1;
+          siteStatus[srcSite] = 5;
+          siteDatum[srcSite] = value;
+          break;
+        }
+        }
+        if( isChanged )
+        {
+          unsigned int thisLength=0;
+          thisLength += printf("\r");
+          for( int i=0; i<1; i++ )
+          {
+            thisLength += printf("Site %d ",i);
+            switch(siteStatus[i])
+            {
+            case 1:
+              thisLength += printf("has started.         ");
+              break;
+            case 2:
+              thisLength += printf("has type %03d.        ",siteDatum[i]);
+              break;
+            case 3:
+              thisLength += printf("write    0x%08x. ",siteDatum[i]);
+              break;
+            case 4:
+              thisLength += printf("verified 0x%08x. ",siteDatum[i]);
+              break;
+            case 5:
+              thisLength += printf("has finished successfully.        ");
+              break;
+            }
+          }
+          while( thisLength < lastLength )
+          {
+            thisLength += printf(" ");
+          }
+          lastLength = thisLength;
+        }
+        backFrom[srcSite] <: 0;
+      }
+      printf("\n");
+      if( !isOkay )
+      {
+        exit(1);
+      }
+      for( int i=0; i<1; i++ )
+      {
+        backFrom[i] <: 0;
+      }
+      exit(0);
+    }
+
+    on tile[0]:
+    {
+      int cRes = fl_connectToDevice(portHolder_0, deviceSpecs, sizeof(deviceSpecs)/sizeof(fl_QuadDeviceSpec));
+      int res = DoProgram( backFrom[0], cRes, "flash_bin_node0" );
+      backFrom[0] <: 5;
+      backFrom[0] <: res;
+      backFrom[0] :> res;
+      backFrom[0] :> res;
+    }
+
+    on tile[1]:
+    {
+      while(1) {}
+    }
+
+  }
+
+  return(0);
+}

@@ -1,0 +1,9 @@
+lwasm -p nosymbolcase -f -l os9 -o os9p1.bin os9p1.txt > os9p1.lis
+lwasm -p nosymbolcase -f -l os9 -o os9p2.bin os9p2.txt > os9p2.lis
+lwasm -p nosymbolcase -f -l os9 -o clock.bin clock.txt > clock.lis
+lwasm -p nosymbolcase -f -l os9 -o sysgo.bin sysgo.txt > sysgo.lis
+lwasm -p nosymbolcase -f -l os9 -o termio.bin termio.txt > termio.lis
+lwasm -p nosymbolcase -f -l os9 -o term.bin term.txt > term.lis
+lwasm -p nosymbolcase -f -l os9 -o blinky.bin blinky.txt > blinky.lis
+copy /B os9p1.bin + os9p2.bin + clock.bin + sysgo.bin + ioman.bin + scf.bin + termio.bin  + term.bin + shell.bin + blinky.bin + mdir.bin + date.bin os9.bin
+copy os9.bin ..\mon09\os9.bin

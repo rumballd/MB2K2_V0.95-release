@@ -1,0 +1,135 @@
+*************************************************************************************
+*   Remote directory list via FLEXNet
+*
+* SYNTAX: rdir <CR> to list all files
+*         rdir <Pparameters> to pass the command line to Windows (e.g. rdir ab*  <CR>)
+*
+*   History
+*   1.0 (2020-07-09) - Initial version derived from the MB2K codebase
+**************************************************************************************
+*
+*
+ nam rdir
+ ttl Remote directory list via FLEXNet
+*
+ use defsfile
+*
+SCHAR   equ     $F0A0           FLEXNet driver send char
+RCHAR   equ     $F0A2           FLEXNet driver receive charck
+ACK     equ     $06             acknowledge character
+CR      equ     $0D             carriage return character
+LF      equ     $0A             line feed character
+SCREEN  equ     20              lines per screen
+ESC		equ		$1B				escape char
+*
+* Data area
+        org     0
+count   rmb     1               screen line count
+char    rmb     8               keyboard input buffer
+tbuff   rmb     256             text buffer
+*
+stack   rmb     200
+datsiz  equ     .
+*
+* Module header
+type    equ     PRGRM+OBJCT
+revs    equ     REENT+1
+        mod     length,name,type,revs,start,datsiz
+name    fcs     /rdir/
+*
+* main code
+*
+start   lda     #'A			send the 'dir' command
+        jsr     [SCHAR]
+        bcc     nowork
+*
+* send the contents of the parameter buffer
+loop    lda     ,x+
+        jsr     [SCHAR]
+        bcc     nowork
+        cmpa    #CR
+        bne     loop
+*
+new     lda     #SCREEN
+        sta     count,u
+*
+onelin  leax    tbuff,u      receive one line
+lp1     jsr     [RCHAR]
+        bcc     nowork
+        cmpa    #ACK
+        beq     exit
+        sta		,x+
+        cmpa    #LF
+        bne     lp1
+*
+        clra		         add terminator
+        sta		,x
+        leax    tbuff,u
+        bsr     pdata
+*
+        dec     count,u
+        beq     ask
+*
+        lda     #$20        send a space for the next line
+        jsr     [SCHAR]
+        bcc     nowork
+        bra     onelin
+*
+ask     leax askusr,pcr     more?
+        ldy		#80
+		lda     #1
+        os9     i$writln
+        leax    char,u
+        ldy     #1          get one char
+        lda     #1          from console input
+        os9     i$read
+        leax    char,u
+        lda		,x
+        cmpa    #CR
+        bne		ex1
+*
+* next screen
+        lda		#$20
+        jsr     [SCHAR]
+        bra     new
+*
+* pass through escape char
+ex1     lda		#ESC
+		jsr     [SCHAR]
+        bcc     nowork
+        bsr     PCRLF
+*
+* wait for ack
+wtack   jsr     [RCHAR]
+        bcc     nowork
+        cmpa    #ACK
+        bne     wtack
+        bra     exit
+*
+nowork  leax    tout,pcr
+		ldy		#80
+		lda     #1
+        os9     i$writln
+*
+exit    clrb
+        os9     f$exit
+*
+pcrlf   leax	crlf,pcr
+pdata	pshs	a,y
+pdata1  lda		,x+			pribt buffer untill null char
+		beq		done
+		lda		#1
+		ldy		#1
+		os9     i$write
+		bra		pdata1
+done	puls	a,y,pc
+*
+askusr  fcc     /Return to continue, any other key to stop /
+        fcb     CR
+tout    fcc     /Comms time-out error/
+crlf    fcb     CR
+        fcb		LF
+		fcb		0    
+*
+ emod
+length equ *

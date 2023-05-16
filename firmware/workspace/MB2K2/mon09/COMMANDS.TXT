@@ -1,0 +1,236 @@
+*
+DCM FCC $0D,'Display RTC contents.',4
+NORTC FCC $07,'   No RTC found!'
+ FCB 4
+DCLK LDX #DCM
+ JSR PDATA1
+ TST RTCFAIL
+ BNE DC_OK
+ LDX #NORTC 
+ JSR PDATA1
+ JMP CONTRL
+DC_OK JSR PCRLF
+*
+ LDB #HOURS
+ JSR GETRTC	display hours
+ JSR BIN2BCD
+ JSR PRTA
+ LDA #':
+ JSR OUTCH
+ LDB #MINS
+ JSR GETRTC	display mins
+ JSR BIN2BCD
+ JSR PRTA
+ LDA #':
+ JSR OUTCH
+ LDB #SECS
+ JSR GETRTC	display secs
+ JSR BIN2BCD
+ JSR PRTA
+ LDA #$20
+*
+ JSR OUTCH      space betwen time and date
+ LDA #$20
+ JSR OUTCH
+*
+ LDB #DAY
+ JSR GETRTC	display day
+ JSR BIN2BCD
+ BSR PRTA
+ LDA #'/
+ JSR OUTCH
+ LDB #MONTH
+ JSR GETRTC	display month
+ JSR BIN2BCD
+ BSR PRTA
+ LDA #'/
+ JSR OUTCH
+ LDB #YEAR
+ JSR GETRTC	display year
+ JSR BIN2BCD
+ BSR PRTA
+ JSR PCRLF
+*
+ LDB #$0A
+ LDX #4		reserved by system
+ BSR PAXT
+ LDB #$0E	options	
+ LDX #1		
+ BSR PAXT
+ LDX #1		RTC valid byte
+ BSR PAXT
+ LDX #4		physical/logical drive assignments
+ BSR PAXT
+ LDX #11	FLEX TTYSET parameters
+ BSR PAXT
+ LDX #2		FLEX ASN parameters
+ BSR PAXT
+ LDX #15  	reserved by system
+ BSR PAXT
+ LDX #16	general user bytes
+ BSR PAXT
+ JMP CONTRL
+*
+PAXT JSR GETRTC
+ INCB
+ STA TEMP
+ PSHS X
+ LDX #TEMP
+ JSR OUT2HS
+ PULS X
+ LEAX -1,X
+ BNE PAXT
+ JSR PCRLF
+ RTS
+* print the A reg (no space)
+PRTA PSHS D,X
+  STA  TEMP
+  LDX  #TEMP
+  JSR  OUT2H
+  PULS  D,X,PC
+*
+*
+MCS FCC $0D,'RTC examine and alter from ',4
+MC LDX #MCS
+ JSR PDATA1
+ JSR BYTE
+ TFR A,B
+MC1 ANDB #$3F
+ JSR PCRLF
+ STB TEMP
+ LDX #TEMP
+ JSR OUT2HS
+ JSR GETRTC
+ STA TEMP
+ LDX #TEMP
+ JSR OUT2H
+ JSR INCH
+ CMPA #$20
+ BNE MC2
+ JSR BYTE
+ JSR PUTRTC
+ INCB
+ BRA MC1
+MC2 CMPA #$0D
+ BNE MC3
+ INCB
+ BRA MC1
+MC3 CMPA #'-
+ LBNE CONTRL
+ DECB
+ BRA MC1
+*
+* Set breakpoint at XXXX.
+BPS FCC $0D,'Set breakpoint at ',4
+BP        LDX     #BPS
+          JSR     PDATA1
+          JSR     BADDR
+          LDA     0,X      save the instruction byte under the breakpoint
+          STA     BRKPNT
+          LDA     #$3F     SWI instruction
+          STA     0,X
+          JMP     CONTRL
+*
+*
+rms     fcc $0D,'Remote mount PROMdisk image (MB2K2PD.DSK) to drive 0',4
+synstr  fcc 'Cannot sync serial transfer!',4
+filenm  fcc 0,'MB2K2PD',$0D drive zero and filename(.dsk)
+nwrkst  fcc 'Communication is not working!',4
+badfst  fcc 'Could not open file',4
+readst  fcc 'File open in read-only mode',4
+writest fcc 'File opened with full access (read/write)',4
+scnest  fcc 'Serial connection established',4
+*
+RM      ldx     #rms
+        jsr     PDATA1
+*
+*   Check if host is ready with 'Q', if not, then resync and report on connection
+*
+start   lda     #'Q             quick check that communication is working
+        jsr     SCHAR
+        bcc     timeout         time out, communication not working
+*
+        jsr     RCHAR           get response
+        bcc     timeout         time out, communication not working
+        cmpa    #ACK            got an ack?
+        bne     timeout          communication not working
+        bra     check           carry on with MOUNT
+*
+* sync and report on connection
+timeout lda     #5              number of tries
+        sta     TRIES
+        lda     #$55            1st sync char
+sync04  sta     TEMP
+*
+sync08  jsr     SCHAR           send char
+        bcc     sync16          time out, report error
+*
+        jsr     RCHAR           get answer from receiver
+        bcc     sync16
+        cmpa    TEMP            same as sent?
+        beq     sync12          yes
+*
+        lda     TEMP
+        cmpa    #$55            1st sync char?
+        bne     sync16          nope, something is wrong
+*
+        dec     TRIES           decrease try count
+        bne     sync08          try again if not 0
+        bra     sync16          report sync error
+*
+sync12  cmpa    #$aa            2nd sync char?
+        beq     sync20          yes, continue
+*
+        lda     #$aa            send 2nd sync char
+        bra     sync04
+*
+sync16  ldx     #synstr         "Cannot sync..."
+sync17  jsr     PSTRNG
+        jmp     CONTRL
+*
+sync20  ldx     #scnest         "Serial connection established"
+        jsr     PSTRNG
+        ldx     #500
+        jsr     DELAY
+*
+check   ldx     #DDSTAB         force map to drive 0
+        lda     #3              FlexNet drive type
+        staa    0,x
+*
+main    lda     #'m             send m(ount) command to remote host
+        jsr     SCHAR
+        lbcc    nwrkng          time out, communication not working
+*
+        ldx     #filenm         send PROMdisk filename ('MB2K2PD')
+main1   ldaa    0,x+
+        jsr     SCHAR           send one character to remote host
+        lbcc    nwrkng          time out, communication not working
+        cmpa    #$0D            last character in line?
+        bne     main1
+*
+main2   jsr     RCHAR           get response
+        lbcc    nwrkng          time out, communication not working
+        cmpa    #ACK            got an ack?
+        lbne    badfnm          no, report bad file name
+*
+* Check for "R" or "W" after the ack
+        jsr     RCHAR           get character
+        lbcc    nwrkng          time out, not working
+        cmpa    #'R             Read only?
+        beq     read
+        cmpa    #'W             Write only?
+        beq     write
+        bra     badfnm          otherwise, report error
+*
+read    ldx     #readst         Read-only message
+        bra     finish
+write   ldx     #writest        Full access message
+        bra     finish
+nwrkng  ldx     #nwrkst         communication is not working
+        bra     finish
+badfnm  ldx     #badfst         bad file name
+*
+finish  jsr     PSTRNG          
+        jmp     CONTRL
+* 
+                                                                        

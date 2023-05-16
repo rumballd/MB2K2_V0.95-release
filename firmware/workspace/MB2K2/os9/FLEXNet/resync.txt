@@ -1,0 +1,83 @@
+*************************************************************************************
+*   This utility will try to re-synchronize the communication
+*   to the remote host.
+*
+*   Syntax: RESYNC 
+*
+*   History
+*   1.0 (2020-07-09) - Initial version derived from the MB2K codebase                                                               *
+*****************************************************************************************
+*
+*
+ nam resync
+ ttl restablish connection to remote host
+*
+ use defsfile
+*
+SCHAR   equ     $F0A0           FLEXNet driver send char
+RCHAR   equ     $F0A2           FLEXNet driver receive charck
+ACK     equ     $06             acknowledge character
+CR      equ     $0D             carriage return character
+*
+* Data area
+ 	    org 	0
+tries   rmb     1               tries counter for resync
+tmp		rmb	1
+*
+stack   rmb     200
+datsiz  equ     .
+*
+* Module header
+type    equ     PRGRM+OBJCT
+revs    equ     REENT+1
+        mod     length,name,type,revs,start,datsiz
+name    fcs     /resync/
+*
+* main code 
+*
+start   lda     #5              number of tries
+        sta     tries,u
+        lda     #$55            1st sync char
+sync04  sta 	tmp,u
+*
+sync08  jsr    [SCHAR]          send char
+        bcc     sync16          time out, report error
+*
+        jsr    [RCHAR]          get answer from receiver
+        bcc     sync16
+        cmpa    tmp,u           same as sent?
+        beq     sync12          yes
+*
+        lda     tmp,u
+        cmpa    #$55            1st sync char?
+        bne     sync16          nope, something is wrong
+*
+        dec     tries,u         decrease try count
+        bne     sync08          try again if not 0
+        bra     sync16          report sync error
+*
+sync12  cmpa    #$aa            2nd sync char?
+        beq     sync20          yes, continue
+*
+        lda     #$aa            send 2nd sync char
+        bra     sync04
+*
+sync16  leax    synstr,pcr      "Can't sync..."
+sync17  bra     sync21
+*
+sync20  leax    scnest,pcr       "Serial connection established"
+sync21  ldy     #80
+        lda     #1
+        os9     i$writln
+alldone clrb
+        os9     f$exit
+*                    
+synstr  fcc     /Can't sync serial transfer!/
+        fcb     CR
+scnest  fcc     /Serial connection established/
+        fcb     CR
+*
+ emod
+length equ *
+
+                                                                                                                                                                                                                                                                                                                                                                      

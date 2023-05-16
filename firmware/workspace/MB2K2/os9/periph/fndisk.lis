@@ -1,0 +1,394 @@
+                      (periph\fndisk.txt):00001          nam fndisk
+                      (periph\fndisk.txt):00002          ttl Device Driver for FLEXNet on the MB2K2
+                      (periph\fndisk.txt):00003         
+                      (periph\fndisk.txt):00004          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (periph\fndisk.txt):00005         
+     0001             (periph\fndisk.txt):00006         Edition  equ 1 Current Edition
+     0001             (periph\fndisk.txt):00007         Revision equ 1 Current Revision number
+                      (periph\fndisk.txt):00008         
+     0004             (periph\fndisk.txt):00009         NumDrvs set     4               Number of drives
+                      (periph\fndisk.txt):00010         
+     F0A0             (periph\fndisk.txt):00011         SCHAR   equ     $F0A0           FLEXNet driver send char
+     F0A2             (periph\fndisk.txt):00012         RCHAR   equ     $F0A2           FLEXNet driver receive char
+     0006             (periph\fndisk.txt):00013         ACK     EQU     $06             acknowledge char
+     0015             (periph\fndisk.txt):00014         NAK     EQU     $15             negative acknowledge char
+     00F3             (periph\fndisk.txt):00015         RDCMD   EQU     $F3             read command (msb set for OS9)
+     00F2             (periph\fndisk.txt):00016         WRCMD   EQU     $F2             write command (msb set for OS9)
+                      (periph\fndisk.txt):00017         
+                      (periph\fndisk.txt):00018          org Drvbeg
+000F                  (periph\fndisk.txt):00019          rmb NumDrvs*DrvMem
+00A7                  (periph\fndisk.txt):00020         LSNZERO rmb     1
+00A8                  (periph\fndisk.txt):00021         track   rmb     1
+00A9                  (periph\fndisk.txt):00022         sector  rmb     1
+00AA                  (periph\fndisk.txt):00023         CHKSUM  rmb     2
+     00AC             (periph\fndisk.txt):00024         FNSTA   equ     .
+                      (periph\fndisk.txt):00025         
+0000 87CD0198000EE181 (periph\fndisk.txt):00026                 mod     FNEND,FNNAM,Drivr+Objct,Reent+Revision,FNENT,FNSTA
+     42001500AC
+000D FF               (periph\fndisk.txt):00027                 fcb     $FF         set all capabilities
+000E 666E646973EB     (periph\fndisk.txt):00028         FNNAM   fcs     /fndisk/
+0014 01               (periph\fndisk.txt):00029                 fcb     Edition
+                      (periph\fndisk.txt):00030         
+0015 16000F           (periph\fndisk.txt):00031         FNENT   lbra    INIT
+0018 160029           (periph\fndisk.txt):00032                 lbra    READ
+001B 160052           (periph\fndisk.txt):00033                 lbra    WRITE
+001E 160165           (periph\fndisk.txt):00034                 lbra    GETSTA
+0021 160166           (periph\fndisk.txt):00035                 lbra    PUTSTA
+0024 16016D           (periph\fndisk.txt):00036                 lbra    TERM
+                      (periph\fndisk.txt):00037         
+                      (periph\fndisk.txt):00038         *****************************
+                      (periph\fndisk.txt):00039         * INIT
+                      (periph\fndisk.txt):00040         *  The remote connection should already be set up from the rmount command
+                      (periph\fndisk.txt):00041         *  FIXME - put a serial link check here
+0027 6F45             (periph\fndisk.txt):00042         INIT    clr     V.WAKE,U
+0029 8604             (periph\fndisk.txt):00043                 lda     #NumDrvs
+002B 1F89             (periph\fndisk.txt):00044                 tfr     a,b
+002D A746             (periph\fndisk.txt):00045                 sta     V.NDRV,U
+002F 6FC900A7         (periph\fndisk.txt):00046                 clr     LSNZERO,U
+                      (periph\fndisk.txt):00047         *
+0033 86FF             (periph\fndisk.txt):00048                 lda     #$FF
+0035 304F             (periph\fndisk.txt):00049                         leax    DrvBeg,U
+0037 A784             (periph\fndisk.txt):00050         ilp     sta     DD.Tot,X
+0039 A78815           (periph\fndisk.txt):00051                 sta     V.Trak,X
+003C 308826           (periph\fndisk.txt):00052                 leax    DrvMem,x
+003F 5A               (periph\fndisk.txt):00053                         decb                    loop through drives
+0040 26F5             (periph\fndisk.txt):00054                         bne     ilp
+                      (periph\fndisk.txt):00055                 
+                      (periph\fndisk.txt):00056         * serial link check
+                      (periph\fndisk.txt):00057         *
+0042 5F               (periph\fndisk.txt):00058                 clrb
+0043 39               (periph\fndisk.txt):00059         INITXIT rts
+                      (periph\fndisk.txt):00060         
+                      (periph\fndisk.txt):00061         *****************************
+                      (periph\fndisk.txt):00062         * READ
+                      (periph\fndisk.txt):00063         *  read a sector from disk
+                      (periph\fndisk.txt):00064         *
+0044 6FC900A7         (periph\fndisk.txt):00065         READ    clr     LSNZERO,U
+0048 8D32             (periph\fndisk.txt):00066                 bsr     VALID
+004A 2523             (periph\fndisk.txt):00067                 bcs     READ99
+004C 170046           (periph\fndisk.txt):00068                 lbsr     READS
+004F 5D               (periph\fndisk.txt):00069                 tstb
+0050 261D             (periph\fndisk.txt):00070                 bne     read99
+0052 6DC900A7         (periph\fndisk.txt):00071                 tst     LSNZERO,U
+0056 2716             (periph\fndisk.txt):00072                 beq     READ90
+0058 A6A821           (periph\fndisk.txt):00073                 lda     PD.DRV,Y
+005B C626             (periph\fndisk.txt):00074                 ldb     #DRVMEM
+005D 3D               (periph\fndisk.txt):00075                 mul
+005E 304F             (periph\fndisk.txt):00076                 leax    DRVBEG,U
+0060 308B             (periph\fndisk.txt):00077                 leax    D,X
+0062 10AE28           (periph\fndisk.txt):00078                 ldy     PD.BUF,Y
+0065 C614             (periph\fndisk.txt):00079                 ldb     #DD.SIZ-1
+0067 A6A5             (periph\fndisk.txt):00080         COPLSN0 lda     B,Y
+0069 A785             (periph\fndisk.txt):00081                 sta     B,X
+006B 5A               (periph\fndisk.txt):00082                 decb
+006C 2AF9             (periph\fndisk.txt):00083                 bpl     COPLSN0
+                      (periph\fndisk.txt):00084         *
+006E 5F               (periph\fndisk.txt):00085         READ90  clrb
+006F 39               (periph\fndisk.txt):00086         READ99  rts
+                      (periph\fndisk.txt):00087         
+                      (periph\fndisk.txt):00088         *****************************
+                      (periph\fndisk.txt):00089         * WRITE
+                      (periph\fndisk.txt):00090         *  Write a sector to disk
+                      (periph\fndisk.txt):00091         *
+0070 8D0A             (periph\fndisk.txt):00092         WRITE bsr VALID
+0072 2507             (periph\fndisk.txt):00093                 bcs     WRIT99
+0074 17009E           (periph\fndisk.txt):00094                 lbsr     WRITS
+0077 5D               (periph\fndisk.txt):00095                 tstb
+0078 2601             (periph\fndisk.txt):00096                 bne     writ99
+007A 5F               (periph\fndisk.txt):00097                 clrb
+007B 39               (periph\fndisk.txt):00098         WRIT99  rts
+                      (periph\fndisk.txt):00099         
+                      (periph\fndisk.txt):00100         
+                      (periph\fndisk.txt):00101         *****************************
+                      (periph\fndisk.txt):00102         * VALID
+                      (periph\fndisk.txt):00103         *  validate a sector
+                      (periph\fndisk.txt):00104         *  and set up external registers
+                      (periph\fndisk.txt):00105         *
+007C 8C0000           (periph\fndisk.txt):00106         VALID           cmpx    #$0000          LSN 0?
+007F 2604             (periph\fndisk.txt):00107                                 bne     NOTLSN0
+0081 6CC900A7         (periph\fndisk.txt):00108                                 inc     LSNZERO,U
+0085 1F10             (periph\fndisk.txt):00109         NOTLSN0         tfr     x,d
+0087 A7C900A8         (periph\fndisk.txt):00110                                 sta     track,u
+008B E7C900A9         (periph\fndisk.txt):00111                                 stb     sector,u
+008F 5F               (periph\fndisk.txt):00112                                 clrb                            no error
+0090 39               (periph\fndisk.txt):00113                                 rts
+0091 53               (periph\fndisk.txt):00114         SECTERR         comb
+0092 C6F1             (periph\fndisk.txt):00115                                 ldb     #241 sector error
+0094 39               (periph\fndisk.txt):00116                                 rts
+                      (periph\fndisk.txt):00117         *
+                      (periph\fndisk.txt):00118         ************************
+                      (periph\fndisk.txt):00119         * READS
+                      (periph\fndisk.txt):00120         *  Y=Path Discr.
+                      (periph\fndisk.txt):00121         *
+0095 3430             (periph\fndisk.txt):00122         READS           pshs    X,Y
+0097 6FC900AA         (periph\fndisk.txt):00123         NREAD       CLR     CHKSUM,u            clear checksum
+009B 6FC900AB         (periph\fndisk.txt):00124                     CLR     (CHKSUM+1),u
+                      (periph\fndisk.txt):00125         *       
+009F 86F3             (periph\fndisk.txt):00126                     LDA     #rdcmd                      Send read sector command
+00A1 AD9FF0A0         (periph\fndisk.txt):00127                     JSR     [SCHAR]
+00A5 245E             (periph\fndisk.txt):00128                     BCC     NRD_DNR                     if timeout, then flag drive not ready
+                      (periph\fndisk.txt):00129         *
+00A7 A6A821           (periph\fndisk.txt):00130                     lda         PD.DRV,Y                extract drive num
+00AA AD9FF0A0         (periph\fndisk.txt):00131                     JSR     [SCHAR]
+00AE 2455             (periph\fndisk.txt):00132                     BCC     NRD_DNR
+                      (periph\fndisk.txt):00133         *
+00B0 A6C900A8         (periph\fndisk.txt):00134                     lda     track,u             send track value
+00B4 AD9FF0A0         (periph\fndisk.txt):00135                     JSR     [SCHAR]
+00B8 244B             (periph\fndisk.txt):00136                     BCC     NRD_DNR
+                      (periph\fndisk.txt):00137         *
+00BA A6C900A9         (periph\fndisk.txt):00138                     lda     sector,u        send sector value
+00BE AD9FF0A0         (periph\fndisk.txt):00139                     JSR     [SCHAR]
+00C2 2441             (periph\fndisk.txt):00140                     BCC     NRD_DNR
+                      (periph\fndisk.txt):00141         *
+                      (periph\fndisk.txt):00142         * transfer 256 bytes
+00C4 10AE28           (periph\fndisk.txt):00143                     ldy         PD.BUF,Y
+00C7 5F               (periph\fndisk.txt):00144                     CLRB
+00C8 AD9FF0A2         (periph\fndisk.txt):00145         NREAD1      JSR     [RCHAR]           read byte
+00CC 2437             (periph\fndisk.txt):00146                     BCC     NRD_DNR         if timeout, then flag drive not ready
+00CE A7A0             (periph\fndisk.txt):00147                     STA     ,y+
+00D0 ABC900AB         (periph\fndisk.txt):00148                     ADDA    (CHKSUM+1),u        update checksum
+00D4 A7C900AB         (periph\fndisk.txt):00149                     STA     (CHKSUM+1),u
+00D8 2404             (periph\fndisk.txt):00150                     BCC     NREAD2
+00DA 6CC900AA         (periph\fndisk.txt):00151                     INC     CHKSUM,u
+00DE 5A               (periph\fndisk.txt):00152         NREAD2      DECB
+00DF 26E7             (periph\fndisk.txt):00153                     BNE     NREAD1
+                      (periph\fndisk.txt):00154         *
+                      (periph\fndisk.txt):00155         * compare checksums
+00E1 AD9FF0A2         (periph\fndisk.txt):00156                     JSR     [RCHAR]           get checksum msb
+00E5 241E             (periph\fndisk.txt):00157                     BCC     NRD_DNR
+00E7 3402             (periph\fndisk.txt):00158                     PSHS    A
+00E9 AD9FF0A2         (periph\fndisk.txt):00159                     JSR     [RCHAR]           get checksum lsb
+00ED 2416             (periph\fndisk.txt):00160                     BCC     NRD_DNR
+00EF 1F89             (periph\fndisk.txt):00161                     TFR     A,B
+00F1 3502             (periph\fndisk.txt):00162                     PULS    A
+00F3 10A3C900AA       (periph\fndisk.txt):00163                     CMPD    CHKSUM,u          compare checksums
+00F8 260F             (periph\fndisk.txt):00164                     BNE     NRD_ERR         if checksum error, then flag crc read error
+                      (periph\fndisk.txt):00165         *
+00FA 8606             (periph\fndisk.txt):00166                     LDA     #ACK            no checksum error, send ACK char
+00FC AD9FF0A0         (periph\fndisk.txt):00167                     JSR     [SCHAR]
+0100 2403             (periph\fndisk.txt):00168                     BCC     NRD_DNR
+0102 5F               (periph\fndisk.txt):00169                     CLRB                    all OK, flag no error
+0103 200E             (periph\fndisk.txt):00170                     BRA     NRD_END
+                      (periph\fndisk.txt):00171         *
+0105 C6F6             (periph\fndisk.txt):00172         NRD_DNR     LDB     #246            flag drive not ready
+0107 200A             (periph\fndisk.txt):00173                     BRA     NRD_END
+                      (periph\fndisk.txt):00174         *
+0109 8615             (periph\fndisk.txt):00175         NRD_ERR     LDA     #NAK            send NAK
+010B AD9FF0A0         (periph\fndisk.txt):00176                     JSR     [SCHAR]
+010F 24F4             (periph\fndisk.txt):00177                     BCC     NRD_DNR
+0111 C6F4             (periph\fndisk.txt):00178                     LDB     #244             flag crc read error
+                      (periph\fndisk.txt):00179         *
+0113 35B0             (periph\fndisk.txt):00180         NRD_END     puls    X,Y,PC
+                      (periph\fndisk.txt):00181         
+                      (periph\fndisk.txt):00182         ************************
+                      (periph\fndisk.txt):00183         * WRITS
+                      (periph\fndisk.txt):00184         *  Y=Path Discr.
+                      (periph\fndisk.txt):00185         *
+0115 3430             (periph\fndisk.txt):00186         WRITS           pshs    X,Y
+                      (periph\fndisk.txt):00187         *
+                      (periph\fndisk.txt):00188         * write sector to remote drive
+                      (periph\fndisk.txt):00189         *
+0117 6FC900AA         (periph\fndisk.txt):00190                     CLR     CHKSUM,u        clear checksum
+011B 6FC900AB         (periph\fndisk.txt):00191                     CLR     (CHKSUM+1),u
+                      (periph\fndisk.txt):00192         *
+011F 86F2             (periph\fndisk.txt):00193                     LDA     #wrcmd          Send write sector command
+0121 AD9FF0A0         (periph\fndisk.txt):00194                     JSR     [SCHAR]
+0125 24DE             (periph\fndisk.txt):00195                     BCC     NRD_DNR         if timeout, then flag drive not ready
+                      (periph\fndisk.txt):00196         *
+0127 A6A821           (periph\fndisk.txt):00197                     lda         PD.DRV,Y                extract drive num
+012A AD9FF0A0         (periph\fndisk.txt):00198                     JSR     [SCHAR]
+012E 24D5             (periph\fndisk.txt):00199                     BCC     NRD_DNR
+                      (periph\fndisk.txt):00200         *
+0130 A6C900A8         (periph\fndisk.txt):00201                     lda     track,u         send track
+0134 AD9FF0A0         (periph\fndisk.txt):00202                     JSR     [SCHAR]
+0138 24CB             (periph\fndisk.txt):00203                     BCC     NRD_DNR
+                      (periph\fndisk.txt):00204         *
+013A A6C900A9         (periph\fndisk.txt):00205                     lda     sector,u        send sector
+013E AD9FF0A0         (periph\fndisk.txt):00206                     JSR     [SCHAR]
+0142 24C1             (periph\fndisk.txt):00207                     BCC     NRD_DNR
+                      (periph\fndisk.txt):00208         *
+                      (periph\fndisk.txt):00209         * transfer 256 bytes
+0144 10AE28           (periph\fndisk.txt):00210                                 ldy     PD.BUF,Y
+0147 5F               (periph\fndisk.txt):00211                     CLRB
+0148 A6A0             (periph\fndisk.txt):00212         NWRITE1     LDA     ,y+
+014A AD9FF0A0         (periph\fndisk.txt):00213                     JSR     [SCHAR]         write byte
+014E 24B5             (periph\fndisk.txt):00214                     BCC     NRD_DNR         if timeout, then flag drive not ready
+0150 ABC900AB         (periph\fndisk.txt):00215                     ADDA    (CHKSUM+1),u    update checksum
+0154 A7C900AB         (periph\fndisk.txt):00216                     STA     (CHKSUM+1),u
+0158 2404             (periph\fndisk.txt):00217                     BCC     NWRITE2
+015A 6CC900AA         (periph\fndisk.txt):00218                     INC     CHKSUM,u
+015E 5A               (periph\fndisk.txt):00219         NWRITE2     DECB
+015F 26E7             (periph\fndisk.txt):00220                     BNE     NWRITE1
+                      (periph\fndisk.txt):00221         *
+                      (periph\fndisk.txt):00222         * compare checksums
+0161 A6C900AA         (periph\fndisk.txt):00223                     LDA     CHKSUM,u
+0165 AD9FF0A0         (periph\fndisk.txt):00224                     JSR     [SCHAR]           send checksum msb
+0169 249A             (periph\fndisk.txt):00225                     BCC     NRD_DNR
+016B A6C900AB         (periph\fndisk.txt):00226                     LDA     (CHKSUM+1),u
+016F AD9FF0A0         (periph\fndisk.txt):00227                     JSR     [SCHAR]           send checksum lsb
+0173 2490             (periph\fndisk.txt):00228                     BCC     NRD_DNR
+                      (periph\fndisk.txt):00229         *
+0175 AD9FF0A2         (periph\fndisk.txt):00230                     JSR     [RCHAR]           get checksum response
+0179 248A             (periph\fndisk.txt):00231                     BCC     NRD_DNR
+017B 8106             (periph\fndisk.txt):00232                     CMPA    #ACK
+017D 2603             (periph\fndisk.txt):00233                     BNE     NWR_ERR         if checksum error, then flag write error
+                      (periph\fndisk.txt):00234         *
+017F 5F               (periph\fndisk.txt):00235                     CLRB                    all OK, flag no error
+0180 2002             (periph\fndisk.txt):00236                     BRA     NWR_END
+                      (periph\fndisk.txt):00237         *
+0182 C6F5             (periph\fndisk.txt):00238         NWR_ERR     LDB     #245             flag write error
+                      (periph\fndisk.txt):00239         *
+0184 35B0             (periph\fndisk.txt):00240         NWR_END     puls        X,Y,PC
+                      (periph\fndisk.txt):00241         
+                      (periph\fndisk.txt):00242         
+                      (periph\fndisk.txt):00243         
+                      (periph\fndisk.txt):00244         **************************
+                      (periph\fndisk.txt):00245         * GETSTA
+                      (periph\fndisk.txt):00246         *  get device status
+                      (periph\fndisk.txt):00247         *
+     0186             (periph\fndisk.txt):00248         GETSTA equ *
+                      (periph\fndisk.txt):00249         
+0186 53               (periph\fndisk.txt):00250         Unknown comb
+0187 C6D0             (periph\fndisk.txt):00251          ldb #E$UnkSVC
+0189 39               (periph\fndisk.txt):00252          rts
+                      (periph\fndisk.txt):00253         
+                      (periph\fndisk.txt):00254         **************************
+                      (periph\fndisk.txt):00255         * PUTSTA
+                      (periph\fndisk.txt):00256         *  Set device Status
+                      (periph\fndisk.txt):00257         *
+018A C103             (periph\fndisk.txt):00258         PUTSTA cmpb #SS.Reset
+018C 2704             (periph\fndisk.txt):00259          beq PUTSTA90
+018E C104             (periph\fndisk.txt):00260          cmpb #SS.WTrk
+0190 26F4             (periph\fndisk.txt):00261          bne Unknown
+                      (periph\fndisk.txt):00262         
+0192 5F               (periph\fndisk.txt):00263         PUTSTA90 clrb
+0193 39               (periph\fndisk.txt):00264          rts
+                      (periph\fndisk.txt):00265         
+                      (periph\fndisk.txt):00266         *****************************
+                      (periph\fndisk.txt):00267         * TERM
+                      (periph\fndisk.txt):00268         *  terminate Driver
+                      (periph\fndisk.txt):00269         *
+0194 39               (periph\fndisk.txt):00270         TERM rts
+                      (periph\fndisk.txt):00271         
+0195 354E97           (periph\fndisk.txt):00272          emod
+     0198             (periph\fndisk.txt):00273         FNEND equ *
+                      (periph\fndisk.txt):00274         
+                      (periph\fndisk.txt):00275         ******************************************
+                      (periph\fndisk.txt):00276         * FNdisk Discriptor modules
+                      (periph\fndisk.txt):00277         *
+                      (periph\fndisk.txt):00278          nam h0
+                      (periph\fndisk.txt):00279          ttl Drive Descriptor module
+                      (periph\fndisk.txt):00280         
+0000 87CD002F0021F181 (periph\fndisk.txt):00281          mod D0End,D0Nam,DEVIC+OBJCT,REENT+1,D0Mgr,D0Drv
+     CB00230026
+                      (periph\fndisk.txt):00282         
+000D FF               (periph\fndisk.txt):00283          fcb $FF mode byte (DIR.+SHARE.+PREAD.+PWRIT.+UPDAT.+EXEC.+PEXEC.)
+000E FF               (periph\fndisk.txt):00284          fcb $FF IOBlock address bits 23:16 (unused)
+000F 0000             (periph\fndisk.txt):00285          fdb $0 hardware address is used as a proxy for the drive number (0-3)
+0011 0F               (periph\fndisk.txt):00286          fcb D0Nam-*-1 option byte count
+0012 01               (periph\fndisk.txt):00287          fcb $1 Rbf device
+0013 00               (periph\fndisk.txt):00288          fcb 0 Drive number
+0014 03               (periph\fndisk.txt):00289          fcb 03 6ms Step rate
+0015 80               (periph\fndisk.txt):00290          fcb $80 Standard OS9 Winchester drive
+0016 00               (periph\fndisk.txt):00291          fcb 0 Single density
+0017 00C0             (periph\fndisk.txt):00292          fdb 192 number of tracks
+0019 01               (periph\fndisk.txt):00293          fcb 1 number of sides
+001A 01               (periph\fndisk.txt):00294          fcb 1 don't verify any writes
+001B 001E             (periph\fndisk.txt):00295          fdb 30 sectors per track
+001D 001E             (periph\fndisk.txt):00296          fdb 30 sectors on track 0, side 0
+001F 01               (periph\fndisk.txt):00297          fcb 1 sector interleave factor
+0020 01               (periph\fndisk.txt):00298          fcb 1 sector allocation size
+0021 48B0             (periph\fndisk.txt):00299         D0Nam fcs "H0"
+0023 5242C6           (periph\fndisk.txt):00300         D0Mgr fcs "RBF"
+0026 666E646973EB     (periph\fndisk.txt):00301         D0Drv fcs "fndisk"
+002C F61438           (periph\fndisk.txt):00302          emod
+     002F             (periph\fndisk.txt):00303         D0End equ *
+                      (periph\fndisk.txt):00304         *
+                      (periph\fndisk.txt):00305          nam h1
+                      (periph\fndisk.txt):00306          ttl Drive Descriptor module
+                      (periph\fndisk.txt):00307         
+0000 87CD002F0021F181 (periph\fndisk.txt):00308          mod D1End,D1Nam,DEVIC+OBJCT,REENT+1,D1Mgr,D1Drv
+     CB00230026
+                      (periph\fndisk.txt):00309         
+000D FF               (periph\fndisk.txt):00310          fcb $FF mode byte (DIR.+SHARE.+PREAD.+PWRIT.+UPDAT.+EXEC.+PEXEC.)
+000E FF               (periph\fndisk.txt):00311          fcb $FF IOBlock address bits 23:16 (unused)
+000F 0001             (periph\fndisk.txt):00312          fdb $1 hardware address is used as a proxy for the drive number (0-3)
+0011 0F               (periph\fndisk.txt):00313          fcb D1Nam-*-1 option byte count
+0012 01               (periph\fndisk.txt):00314          fcb $1 Rbf device
+0013 01               (periph\fndisk.txt):00315          fcb 1 Drive number
+0014 03               (periph\fndisk.txt):00316          fcb 03 6ms Step rate
+0015 80               (periph\fndisk.txt):00317          fcb $80 Standard OS9 Winchester drive
+0016 00               (periph\fndisk.txt):00318          fcb 0 Single density
+0017 00C0             (periph\fndisk.txt):00319          fdb 192 number of tracks
+0019 01               (periph\fndisk.txt):00320          fcb 1 number of sides
+001A 01               (periph\fndisk.txt):00321          fcb 1 don't verify any writes
+001B 001E             (periph\fndisk.txt):00322          fdb 30 sectors per track
+001D 001E             (periph\fndisk.txt):00323          fdb 30 sectors on track 0, side 0
+001F 01               (periph\fndisk.txt):00324          fcb 1 sector interleave factor
+0020 01               (periph\fndisk.txt):00325          fcb 1 sector allocation size
+0021 48B1             (periph\fndisk.txt):00326         D1Nam fcs "H1"
+0023 5242C6           (periph\fndisk.txt):00327         D1Mgr fcs "RBF"
+0026 666E646973EB     (periph\fndisk.txt):00328         D1Drv fcs "fndisk"
+002C 627311           (periph\fndisk.txt):00329          emod
+     002F             (periph\fndisk.txt):00330         D1End equ *
+                      (periph\fndisk.txt):00331         *
+                      (periph\fndisk.txt):00332          nam h2
+                      (periph\fndisk.txt):00333          ttl Drive Descriptor module
+                      (periph\fndisk.txt):00334         *
+0000 87CD002F0021F181 (periph\fndisk.txt):00335          mod D2End,D2Nam,DEVIC+OBJCT,REENT+1,D2Mgr,D2Drv
+     CB00230026
+                      (periph\fndisk.txt):00336         *
+000D FF               (periph\fndisk.txt):00337          fcb $FF mode byte (DIR.+SHARE.+PREAD.+PWRIT.+UPDAT.+EXEC.+PEXEC.)
+000E FF               (periph\fndisk.txt):00338          fcb $FF IOBlock address bits 23:16 (unused)
+000F 0002             (periph\fndisk.txt):00339          fdb $2 hardware address is used as a proxy for the drive number (0-3)
+0011 0F               (periph\fndisk.txt):00340          fcb D2Nam-*-1 option byte count
+0012 01               (periph\fndisk.txt):00341          fcb $1 Rbf device
+0013 02               (periph\fndisk.txt):00342          fcb 2 Drive number
+0014 03               (periph\fndisk.txt):00343          fcb 03 6ms Step rate
+0015 80               (periph\fndisk.txt):00344          fcb $80 Standard OS9 Winchester drive
+0016 00               (periph\fndisk.txt):00345          fcb 0 Single density
+0017 00C0             (periph\fndisk.txt):00346          fdb 192 number of tracks
+0019 01               (periph\fndisk.txt):00347          fcb 1 number of sides
+001A 01               (periph\fndisk.txt):00348          fcb 1 don't verify any writes
+001B 001E             (periph\fndisk.txt):00349          fdb 30 sectors per track
+001D 001E             (periph\fndisk.txt):00350          fdb 30 sectors on track 0, side 0
+001F 01               (periph\fndisk.txt):00351          fcb 1 sector interleave factor
+0020 01               (periph\fndisk.txt):00352          fcb 1 sector allocation size
+0021 48B2             (periph\fndisk.txt):00353         D2Nam fcs "H2"
+0023 5242C6           (periph\fndisk.txt):00354         D2Mgr fcs "RBF"
+0026 666E646973EB     (periph\fndisk.txt):00355         D2Drv fcs "fndisk"
+002C 5EDA09           (periph\fndisk.txt):00356          emod
+     002F             (periph\fndisk.txt):00357         D2End equ *
+                      (periph\fndisk.txt):00358         *
+                      (periph\fndisk.txt):00359          nam h3
+                      (periph\fndisk.txt):00360          ttl Drive Descriptor module
+                      (periph\fndisk.txt):00361         *
+0000 87CD002F0021F181 (periph\fndisk.txt):00362          mod D3End,D3Nam,DEVIC+OBJCT,REENT+1,D3Mgr,D3Drv
+     CB00230026
+                      (periph\fndisk.txt):00363         *
+000D FF               (periph\fndisk.txt):00364          fcb $FF mode byte (DIR.+SHARE.+PREAD.+PWRIT.+UPDAT.+EXEC.+PEXEC.)
+000E FF               (periph\fndisk.txt):00365          fcb $FF IOBlock address bits 23:16 (unused)
+000F 0003             (periph\fndisk.txt):00366          fdb $3 hardware address is used as a proxy for the drive number (0-3)
+0011 22               (periph\fndisk.txt):00367          fcb D3Nam--1 option byte count
+0012 01               (periph\fndisk.txt):00368          fcb $1 Rbf device
+0013 03               (periph\fndisk.txt):00369          fcb 3 Drive number
+0014 03               (periph\fndisk.txt):00370          fcb 03 6ms Step rate
+0015 80               (periph\fndisk.txt):00371          fcb $80 Standard OS9 Winchester drive
+0016 00               (periph\fndisk.txt):00372          fcb 0 Single density
+0017 00C0             (periph\fndisk.txt):00373          fdb 192 number of tracks
+0019 01               (periph\fndisk.txt):00374          fcb 1 number of sides
+001A 01               (periph\fndisk.txt):00375          fcb 1 don't verify any writes
+001B 001E             (periph\fndisk.txt):00376          fdb 30 sectors per track
+001D 001E             (periph\fndisk.txt):00377          fdb 30 sectors on track 0, side 0
+001F 01               (periph\fndisk.txt):00378          fcb 1 sector interleave factor
+0020 01               (periph\fndisk.txt):00379          fcb 1 sector allocation size
+0021 48B3             (periph\fndisk.txt):00380         D3Nam fcs "H3"
+0023 5242C6           (periph\fndisk.txt):00381         D3Mgr fcs "RBF"
+0026 666E646973EB     (periph\fndisk.txt):00382         D3Drv fcs "fndisk"
+002C 0D6DAD           (periph\fndisk.txt):00383          emod
+     002F             (periph\fndisk.txt):00384         D3End equ *
+                      (periph\fndisk.txt):00385         *
+                      (periph\fndisk.txt):00386          end

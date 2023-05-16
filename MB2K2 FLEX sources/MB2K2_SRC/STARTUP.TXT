@@ -1,0 +1,1 @@
+TIME:ASN:ECHO Microbox MB2K2 auto setup of ASN and TTYSET.

@@ -1,0 +1,124 @@
+*******************************************
+* PIA21
+*  Device Driver for MC6821 PIAs
+*
+* By J.Bird [APRMCS] (C) 1992
+*
+* Uses Side A for i/p & side B for o/p
+* CA2 & CB2 Control Strobe lines
+* Non-interrupt driven
+*
+
+ nam PIA21
+ ttl MC6821 PIA Device Driver
+
+ ifp1
+ use /d0/defs/os9defs
+ use /d0/defs/iodefs
+ use /d0/defs/scfdefs
+ endc
+
+***********************
+* Edition History
+*
+* #   date     Comments
+* - -------- -------------------------------
+* 1 05.05.92  Driver first written. JRB
+
+Edition  equ 1
+Revision equ 1
+ org V.SCF
+PST equ .
+
+ mod PEND,PNAM,Drivr+Objct,Reent+Revision,PENT,PST
+ fcb READ.+WRITE.
+PNAM fcs /PIA21/
+ fcb Edition
+
+PENT lbra INIT
+ lbra READ
+ lbra WRITE
+ lbra GETSTA
+ lbra PUTSTA
+ lbra TERM
+
+**********************
+* INIT
+*   Setup the PIA
+*
+INIT ldx V.PORT,U
+ clr 1,x
+ clr ,x
+ lda #47
+ sta 1,x
+ clr 3,x
+ lda #$ff
+ sta 2,x
+ lda #47
+ sta 3,x
+ lda ,x
+ clrb
+ rts
+
+**********************
+* READ
+*   Read a byte from Port A
+*
+READ ldx V.PORT,U
+readlp tst 1,x
+ bmi readbyte
+ pshs x
+ ldx #1
+ os9 f$sleep
+ puls x
+ bra readlp
+readbyte lda ,x
+ clrb 
+ rts
+
+**********************
+* WRITE
+*   Write a byte to Port B
+*
+WRITE ldx V.PORT,U
+ sta 2,x
+writlp tst 3,x
+ bmi wrt
+ pshs x
+ ldx #1
+ os9 f$sleep
+ puls x
+ bra writlp
+wrt clrb
+ rts
+
+**********************
+* GETSTA
+*   Return OK for data ready & EOF
+*
+GETSTA cmpa #1
+ beq wrt
+ cmpa #6
+ beq wrt
+ comb
+ ldb #E$UnkSVC
+ rts
+
+**********************
+* PUTSTA
+*   No status requests impl
+*
+PUTSTA comb
+ ldb #E$UnkSVC
+ rts
+
+**********************
+* TERM
+*   Terminate Driver
+*
+TERM rts
+
+ emod
+PEND equ * 
+
+ 

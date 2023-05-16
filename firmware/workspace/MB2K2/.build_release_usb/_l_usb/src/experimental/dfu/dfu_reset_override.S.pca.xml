@@ -1,0 +1,4 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/dfu/dfu_reset_override.S">
+  <fCall global="true" name="_edp.bss"/>
+  <fCall global="true" name="DFU_reset_override"/>
+</preCompilationAnalysis>

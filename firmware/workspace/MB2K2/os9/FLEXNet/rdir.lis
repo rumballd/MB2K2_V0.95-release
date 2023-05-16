@@ -1,0 +1,146 @@
+                      ( FLEXNet\rdir.txt):00001         *************************************************************************************
+                      ( FLEXNet\rdir.txt):00002         *   Remote directory list via FLEXNet
+                      ( FLEXNet\rdir.txt):00003         *
+                      ( FLEXNet\rdir.txt):00004         * SYNTAX: rdir <CR> to list all files
+                      ( FLEXNet\rdir.txt):00005         *         rdir <Pparameters> to pass the command line to Windows (e.g. rdir ab*  <CR>)
+                      ( FLEXNet\rdir.txt):00006         *
+                      ( FLEXNet\rdir.txt):00007         *   History
+                      ( FLEXNet\rdir.txt):00008         *   1.0 (2020-07-09) - Initial version derived from the MB2K codebase
+                      ( FLEXNet\rdir.txt):00009         **************************************************************************************
+                      ( FLEXNet\rdir.txt):00010         *
+                      ( FLEXNet\rdir.txt):00011         *
+                      ( FLEXNet\rdir.txt):00012          nam rdir
+                      ( FLEXNet\rdir.txt):00013          ttl Remote directory list via FLEXNet
+                      ( FLEXNet\rdir.txt):00014         *
+                      ( FLEXNet\rdir.txt):00015          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      ( FLEXNet\rdir.txt):00016         *
+     F0A0             ( FLEXNet\rdir.txt):00017         SCHAR   equ     $F0A0           FLEXNet driver send char
+     F0A2             ( FLEXNet\rdir.txt):00018         RCHAR   equ     $F0A2           FLEXNet driver receive charck
+     0006             ( FLEXNet\rdir.txt):00019         ACK     equ     $06             acknowledge character
+     000D             ( FLEXNet\rdir.txt):00020         CR      equ     $0D             carriage return character
+     000A             ( FLEXNet\rdir.txt):00021         LF      equ     $0A             line feed character
+     0014             ( FLEXNet\rdir.txt):00022         SCREEN  equ     20              lines per screen
+     001B             ( FLEXNet\rdir.txt):00023         ESC             equ             $1B                             escape char
+                      ( FLEXNet\rdir.txt):00024         *
+                      ( FLEXNet\rdir.txt):00025         * Data area
+                      ( FLEXNet\rdir.txt):00026                 org     0
+0000                  ( FLEXNet\rdir.txt):00027         count   rmb     1               screen line count
+0001                  ( FLEXNet\rdir.txt):00028         char    rmb     8               keyboard input buffer
+0009                  ( FLEXNet\rdir.txt):00029         tbuff   rmb     256             text buffer
+                      ( FLEXNet\rdir.txt):00030         *
+0109                  ( FLEXNet\rdir.txt):00031         stack   rmb     200
+     01D1             ( FLEXNet\rdir.txt):00032         datsiz  equ     .
+                      ( FLEXNet\rdir.txt):00033         *
+                      ( FLEXNet\rdir.txt):00034         * Module header
+     0011             ( FLEXNet\rdir.txt):00035         type    equ     PRGRM+OBJCT
+     0081             ( FLEXNet\rdir.txt):00036         revs    equ     REENT+1
+0000 87CD00FB000D1181 ( FLEXNet\rdir.txt):00037                 mod     length,name,type,revs,start,datsiz
+     D3001101D1
+000D 726469F2         ( FLEXNet\rdir.txt):00038         name    fcs     /rdir/
+                      ( FLEXNet\rdir.txt):00039         *
+                      ( FLEXNet\rdir.txt):00040         * main code
+                      ( FLEXNet\rdir.txt):00041         *
+0011 8641             ( FLEXNet\rdir.txt):00042         start   lda     #'A                     send the 'dir' command
+0013 AD9FF0A0         ( FLEXNet\rdir.txt):00043                 jsr     [SCHAR]
+0017 2475             ( FLEXNet\rdir.txt):00044                 bcc     nowork
+                      ( FLEXNet\rdir.txt):00045         *
+                      ( FLEXNet\rdir.txt):00046         * send the contents of the parameter buffer
+0019 A680             ( FLEXNet\rdir.txt):00047         loop    lda     ,x+
+001B AD9FF0A0         ( FLEXNet\rdir.txt):00048                 jsr     [SCHAR]
+001F 246D             ( FLEXNet\rdir.txt):00049                 bcc     nowork
+0021 810D             ( FLEXNet\rdir.txt):00050                 cmpa    #CR
+0023 26F4             ( FLEXNet\rdir.txt):00051                 bne     loop
+                      ( FLEXNet\rdir.txt):00052         *
+0025 8614             ( FLEXNet\rdir.txt):00053         new     lda     #SCREEN
+0027 A7C4             ( FLEXNet\rdir.txt):00054                 sta     count,u
+                      ( FLEXNet\rdir.txt):00055         *
+0029 3049             ( FLEXNet\rdir.txt):00056         onelin  leax    tbuff,u      receive one line
+002B AD9FF0A2         ( FLEXNet\rdir.txt):00057         lp1     jsr     [RCHAR]
+002F 245D             ( FLEXNet\rdir.txt):00058                 bcc     nowork
+0031 8106             ( FLEXNet\rdir.txt):00059                 cmpa    #ACK
+0033 2766             ( FLEXNet\rdir.txt):00060                 beq     exit
+0035 A780             ( FLEXNet\rdir.txt):00061                 sta             ,x+
+0037 810A             ( FLEXNet\rdir.txt):00062                 cmpa    #LF
+0039 26F0             ( FLEXNet\rdir.txt):00063                 bne     lp1
+                      ( FLEXNet\rdir.txt):00064         *
+003B 4F               ( FLEXNet\rdir.txt):00065                 clra                     add terminator
+003C A784             ( FLEXNet\rdir.txt):00066                 sta             ,x
+003E 3049             ( FLEXNet\rdir.txt):00067                 leax    tbuff,u
+0040 8D61             ( FLEXNet\rdir.txt):00068                 bsr     pdata
+                      ( FLEXNet\rdir.txt):00069         *
+0042 6AC4             ( FLEXNet\rdir.txt):00070                 dec     count,u
+0044 270A             ( FLEXNet\rdir.txt):00071                 beq     ask
+                      ( FLEXNet\rdir.txt):00072         *
+0046 8620             ( FLEXNet\rdir.txt):00073                 lda     #$20        send a space for the next line
+0048 AD9FF0A0         ( FLEXNet\rdir.txt):00074                 jsr     [SCHAR]
+004C 2440             ( FLEXNet\rdir.txt):00075                 bcc     nowork
+004E 20D9             ( FLEXNet\rdir.txt):00076                 bra     onelin
+                      ( FLEXNet\rdir.txt):00077         *
+0050 308D0062         ( FLEXNet\rdir.txt):00078         ask     leax askusr,pcr     more?
+0054 108E0050         ( FLEXNet\rdir.txt):00079                 ldy             #80
+0058 8601             ( FLEXNet\rdir.txt):00080                         lda     #1
+005A 103F8C           ( FLEXNet\rdir.txt):00081                 os9     i$writln
+005D 3041             ( FLEXNet\rdir.txt):00082                 leax    char,u
+005F 108E0001         ( FLEXNet\rdir.txt):00083                 ldy     #1          get one char
+0063 8601             ( FLEXNet\rdir.txt):00084                 lda     #1          from console input
+0065 103F89           ( FLEXNet\rdir.txt):00085                 os9     i$read
+0068 3041             ( FLEXNet\rdir.txt):00086                 leax    char,u
+006A A684             ( FLEXNet\rdir.txt):00087                 lda             ,x
+006C 810D             ( FLEXNet\rdir.txt):00088                 cmpa    #CR
+006E 2608             ( FLEXNet\rdir.txt):00089                 bne             ex1
+                      ( FLEXNet\rdir.txt):00090         *
+                      ( FLEXNet\rdir.txt):00091         * next screen
+0070 8620             ( FLEXNet\rdir.txt):00092                 lda             #$20
+0072 AD9FF0A0         ( FLEXNet\rdir.txt):00093                 jsr     [SCHAR]
+0076 20AD             ( FLEXNet\rdir.txt):00094                 bra     new
+                      ( FLEXNet\rdir.txt):00095         *
+                      ( FLEXNet\rdir.txt):00096         * pass through escape char
+0078 861B             ( FLEXNet\rdir.txt):00097         ex1     lda             #ESC
+007A AD9FF0A0         ( FLEXNet\rdir.txt):00098                         jsr     [SCHAR]
+007E 240E             ( FLEXNet\rdir.txt):00099                 bcc     nowork
+0080 8D1D             ( FLEXNet\rdir.txt):00100                 bsr     PCRLF
+                      ( FLEXNet\rdir.txt):00101         *
+                      ( FLEXNet\rdir.txt):00102         * wait for ack
+0082 AD9FF0A2         ( FLEXNet\rdir.txt):00103         wtack   jsr     [RCHAR]
+0086 2406             ( FLEXNet\rdir.txt):00104                 bcc     nowork
+0088 8106             ( FLEXNet\rdir.txt):00105                 cmpa    #ACK
+008A 26F6             ( FLEXNet\rdir.txt):00106                 bne     wtack
+008C 200D             ( FLEXNet\rdir.txt):00107                 bra     exit
+                      ( FLEXNet\rdir.txt):00108         *
+008E 308D004F         ( FLEXNet\rdir.txt):00109         nowork  leax    tout,pcr
+0092 108E0050         ( FLEXNet\rdir.txt):00110                         ldy             #80
+0096 8601             ( FLEXNet\rdir.txt):00111                         lda     #1
+0098 103F8C           ( FLEXNet\rdir.txt):00112                 os9     i$writln
+                      ( FLEXNet\rdir.txt):00113         *
+009B 5F               ( FLEXNet\rdir.txt):00114         exit    clrb
+009C 103F06           ( FLEXNet\rdir.txt):00115                 os9     f$exit
+                      ( FLEXNet\rdir.txt):00116         *
+009F 308D0052         ( FLEXNet\rdir.txt):00117         pcrlf   leax    crlf,pcr
+00A3 3422             ( FLEXNet\rdir.txt):00118         pdata   pshs    a,y
+00A5 A680             ( FLEXNet\rdir.txt):00119         pdata1  lda             ,x+                     pribt buffer untill null char
+00A7 270B             ( FLEXNet\rdir.txt):00120                         beq             done
+00A9 8601             ( FLEXNet\rdir.txt):00121                         lda             #1
+00AB 108E0001         ( FLEXNet\rdir.txt):00122                         ldy             #1
+00AF 103F8A           ( FLEXNet\rdir.txt):00123                         os9     i$write
+00B2 20F1             ( FLEXNet\rdir.txt):00124                         bra             pdata1
+00B4 35A2             ( FLEXNet\rdir.txt):00125         done    puls    a,y,pc
+                      ( FLEXNet\rdir.txt):00126         *
+00B6 52657475726E2074 ( FLEXNet\rdir.txt):00127         askusr  fcc     /Return to continue, any other key to stop /
+     6F20636F6E74696E
+     75652C20616E7920
+     6F74686572206B65
+     7920746F2073746F
+     7020
+00E0 0D               ( FLEXNet\rdir.txt):00128                 fcb     CR
+00E1 436F6D6D73207469 ( FLEXNet\rdir.txt):00129         tout    fcc     /Comms time-out error/
+     6D652D6F75742065
+     72726F72
+00F5 0D               ( FLEXNet\rdir.txt):00130         crlf    fcb     CR
+00F6 0A               ( FLEXNet\rdir.txt):00131                 fcb             LF
+00F7 00               ( FLEXNet\rdir.txt):00132                         fcb             0    
+                      ( FLEXNet\rdir.txt):00133         *
+00F8 07B360           ( FLEXNet\rdir.txt):00134          emod
+     00FB             ( FLEXNet\rdir.txt):00135         length equ *

@@ -1,0 +1,11 @@
+xcore_c_clock.o: \
+  D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/src/xcore_c_clock.c \
+  D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/src/xcore_c_clock_impl.h \
+  D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/api\xcore_c_clock.h \
+  D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/src\xcore_c_exception_impl.h \
+  D:/MB2K2_OS9/Firmware/workspace/lib_trycatch/api\trycatch.h \
+  D:/MB2K2_OS9/Firmware/workspace/lib_trycatch/src\trycatch_impl.h \
+  D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/api\xcore_c_error_codes.h \
+  D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/src\xcore_c_resource_impl.h \
+  D:/MB2K2_OS9/Firmware/workspace/lib_xassert/api\xassert.h \
+  D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/src/xcore_c_macros.h

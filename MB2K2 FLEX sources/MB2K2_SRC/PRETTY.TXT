@@ -1,0 +1,484 @@
+ opt nol
+ lib flexlink
+ opt lis
+ org $E000
+*
+pretty bra start
+ fcb 1
+*
+ jmp inch1
+ jmp status
+ jmp out
+ jmp in
+*
+row RMB 1
+col RMB 1
+czoom RMB 1
+ctype RMB 1
+escflg RMB 1
+ts1 RMB 2
+ts2 RMB 2
+tl1 RMB 2
+tl2 RMB 2
+flash fdb 0
+cflag fcb 0
+*
+start ldx #inch1
+ stx $D3E5
+ ldx #status
+ stx $cd4f
+ ldx #out
+ stx $cd13
+ ldx #in
+ stx $cd0d
+ jsr [CLEART]
+ jsr curs
+ jmp FWARM
+*
+* Status routine.
+* Entry: no parameters.
+* Exit:  (Z)=0 if character ready.
+status PSHS D,X
+ ldx flash
+ bne flash2
+ JSR curs
+ LDX #1000
+flash2 LEAX -1,X
+ STX flash
+flash1 LDX #statab
+ LDB IPORT
+ ASLB
+ JSR [B,X]
+ PULS D,X,PC
+*
+* Input character with no echo and  input.
+* Entry: no parameters.
+* Exit:  (A) = character.
+inch1 PSHS B,X
+ jsr curs
+inch1a BSR status
+ BEQ inch1a
+ TST cflag
+ BEQ inch1b
+ JSR curs
+inch1b LDX #intab
+ LDB IPORT
+ ASLB
+ JSR [B,X]
+ PULS B,X,PC
+in BSR inch1
+ jmp out
+*
+intab FDB inkey
+ FDB INTER
+ FDB INPRI
+*
+statab FDB STAKEY
+ FDB STATER
+ FDB STAPRI
+*
+* Keyboard input.
+inkey LDA KEYREG
+ RPT 8
+ NOP
+ RTS
+*
+* Terminal input routine.
+INTER LDA ACIAD1
+ NOP
+ NOP
+ RTS
+*
+* Printer input routine.
+INPRI LDA ACIAD2
+ ANDA #$7F
+ RTS
+*
+* Keyboard status routine.
+STAKEY LDA PIACA
+ BITA #$80
+ RTS
+*
+* Terminal status routine.
+STATER LDA ACIAC1
+ ANDA #$02
+ RTS
+*
+* Printer status routine.
+STAPRI LDA ACIAC2
+ ANDA #$2
+ RTS
+*
+*
+txtpar LDX #$CA00
+ TFR X,D
+ LDY #288
+ LDU #0
+txtpr1 STX TS1
+ STD TS2
+ STY TL1
+ STU TL2
+ PSHS A
+ LDA GMODE
+ BITA #9
+ BEQ TXTPR2
+ PULS A,PC
+TXTPR2 PULS A
+ JSR [SETPAR]
+ RTS
+*
+out PSHS D,X,Y,U,DP
+* Set direct page for faster i/o
+ LDB #$FF
+ TFR B,DP
+ SETDP $FF
+* Magic speed up for Microbox ][
+ sta $ffd9
+* Switch off cursor, if on
+ tst cflag
+ beq out9
+ jsr curs
+* Check if this is part of an escape sequence
+out9 TST ESCFLG
+ BEQ OUT3
+ JSR MX
+ BRA OUT1
+* Is this an control character?
+OUT3 CMPA #$20
+ LBLO CTLCHR
+* Strip any parity, and put character on screen
+ ANDA #$7F
+OUT2 BSR PUTCHAR
+* Update screen postition, do not allow movement off rh edge
+ LDA COL
+ INCA
+ CMPA #84 MAXCOL
+ BEQ OUT1
+ STA COL
+* End of routine, so slow down
+OUT1 sta $ffd7
+ sta $ffd8
+ tst >$0000
+ brn OUT1
+*
+ PULS D,X,Y,U,DP,PC
+* Invert cursor at current position
+curs PSHS D,X,Y,U,DP
+ LDB #$FF
+ TFR B,DP
+ TST CTYPE
+ BMI CUREND
+ LDA #1
+ JSR [SETPEN]
+ LDA CTYPE
+ ORA #$80
+ DECA
+ BSR PUTT1
+ COM cflag
+CUREND PULS D,X,Y,U,DP,PC
+*
+PUTCHAR PSHS D
+ CLRA
+ JSR [SETPEN]
+ PULS D
+PUTT1 PSHS D
+ JSR RCTOCR
+ SUBA #$20
+ LDX #$E408
+ LDB #11 CSPACE
+ MUL
+ LEAX D,X
+ pshs x
+*  THIS IS A FASTER VERSION OF SETPAT
+ LDA #$78
+ JSR [GCOM]
+ LDA 7,X
+ STA $FF14
+ LDA 6,X
+ STA $FF14
+ LDA 5,X
+ STA $FF14
+ LDA 4,X
+ STA $FF14
+ LDA 3,X
+ STA $FF14
+ LDA 2,X
+ STA $FF14
+ LDA 1,X
+ STA $FF14
+ LDA  ,X
+ STA $FF14
+* THIS IS A FASTER VERSION OF FILL
+ LDA #$4C
+ JSR [GCOM]
+ LDA #$16
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #$68
+ JSR [GCOM]
+*
+ PULS x
+ leax 8,x
+*
+ LDA #$7D
+ JSR [GCOM]
+ LDA 2,X
+ STA $FF14
+ LDA 1,X
+ STA $FF14
+ LDA  ,X
+ STA $FF14
+* THIS IS A FASTER VERSION OF FILL
+ LDA #$4C
+ JSR [GCOM]
+ LDA #$16
+ STA $FF14
+ LDA #2
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #$68
+ JSR [GCOM]
+*
+ PULS D,PC
+*
+RCTOCR PSHS D,X,Y
+ LDA ROW
+ LDB #12 BROW
+ MUL
+ ADDD TL2
+ TFR D,Y
+ CMPY #288
+ BLT RC1
+ LEAY -288,Y
+RC1 LEAY (576),Y CROW+OFFSET
+ LDA COL
+ LDB #9 BCOL
+ MUL
+ TFR D,X
+ LEAX 7+9,X BCOL+CCOL
+ JSR [SETCRG]
+ PULS D,X,Y,PC
+*
+CTLCHR PSHS D,X
+ LDX #CTLTAB
+ ASLA
+ JSR [A,X]
+ PULS D,X
+ jmp OUT1
+CTLTAB FDB NU,NU,NU,NU,NU,NU,NU,BL
+       FDB BS,HT,LF,VT,FF,CR,MX,HO
+       FDB SX,SF,CO,CF,C1,C2,NU,NU
+       FDB DE,DP,EL,NU,NU,NU,NU,NU
+*
+NU RTS
+*
+BL JMP [BEEP]
+*
+BS LDA COL
+ DECA
+ BMI BSE
+ STA COL
+BSE RTS
+*
+HT LDA COL
+ INCA 
+ CMPA #84 MAXCOL
+ BEQ HTE
+ STA COL
+HTE RTS
+*
+LF LDA ROW
+ INCA
+ CMPA #24
+ BNE LF1
+ JSR SU
+ JMP CLINE
+LF1 STA ROW
+ RTS
+*
+VT LDA ROW
+ DECA
+ BPL VT1
+ JSR SD 
+ JMP CLINE
+VT1 STA ROW
+ RTS
+*
+FF JMP [CLEART]
+*
+HO CLR ROW
+*
+CR CLR COL
+ RTS
+*
+SX JMP [ON]
+*
+SF JMP [OFF]
+*
+CF LDA CTYPE
+ ORA #$80
+ STA CTYPE
+ RTS
+*
+CO LDA CTYPE
+ ANDA #$7F
+ STA CTYPE
+ RTS
+*
+C1 LDA #1
+ STA CTYPE
+ RTS
+*
+C2 LDA #2
+ STA CTYPE
+ RTS
+*
+MX LDB ESCFLG
+ TSTB
+ BNE MX1
+ LDB #2
+ STB ESCFLG
+ RTS
+MX1 CMPB #2
+ BNE MX2
+ SUBA #$20
+ STA ROW
+ DEC ESCFLG
+ RTS
+MX2 SUBA #$20
+ STA COL
+ DEC ESCFLG
+ RTS
+*
+EL JMP CLINE
+*
+DP LDA ROW
+ PSHS A
+ BSR DE
+DPLOOP LDA ROW
+ INCA
+ CMPA #24
+ BEQ DPE
+ STA ROW
+ BSR EL
+ BRA DPLOOP
+DPE PULS A
+ STA ROW
+ RTS
+*
+DE CLRA
+ JSR [SETPEN]
+ LDX #$E408
+ JSR [SETPAT]
+ JSR RCTOCR
+ LDX XCOORD
+ LEAX -7,X
+ LDY YCOORD
+ JSR [SETCRG]
+ LDB XCOORD+1
+ ANDB #$0F
+ COMB
+ ADDB #1
+ LDY #16
+ LEAY B,Y
+ LDX #11
+ CLRA
+ JSR [FILL]
+ JSR RCTOCR
+ LDX XCOORD
+ LEAX -7,X
+ LDY YCOORD
+ JSR [SETCRG]
+ JSR [GETCRT]
+ LEAY 1,X
+ LDA COL
+ INCA
+ LDB #9
+ MUL
+ RPT 4
+ LSRD
+ INCB
+ COMB
+ INCB
+ LDX #48
+ LEAX B,X
+ CMPX #0
+ BEQ DEE
+ LDA #12
+ STA FRED
+DELOOP EXG Y,X
+ JSR [SETCRT]
+ EXG Y,X
+ LDA #2
+ JSR [CLEARX]
+ LEAY 48,Y
+ DEC FRED
+ BNE DELOOP
+DEE RTS
+FRED RMB 1
+*
+SU LDY TL1
+ LEAY -12,Y
+ BNE SU1
+ jmp txtpar
+SU1 LDD TS2
+ LDX TS1
+ LEAX (12*48),X
+ LDU TL2
+ LEAU 12,U
+SU2 jmp txtpr1
+*
+SD LDU TL2
+ BEQ SD1
+ LDX TS1
+ LEAX -(12*48),X
+ LDD TS2
+ LDY TL1
+ LEAY 12,Y
+ LDU TL2
+ LEAU -12,U
+ jmp txtpr1
+SD1 LDX #(48*12*23)+$CA00
+ LDD #$CA00
+ LDY #12
+ LDU #276
+SD2 jmp txtpr1
+*
+CLINE PSHS D,X,Y
+ LDD ROW
+ LDB #12
+ MUL
+ ADDD TL2
+ TFR D,Y
+ CMPY #288
+ BLT CL1
+ LEAY -288,Y
+CL1 LEAY 576,Y
+ LDX #0
+ JSR [SETCRG]
+ LDX #(12*48)
+ LDA #2
+ JSR [CLEARX]
+ PULS D,X,Y,PC
+*
+ end pretty

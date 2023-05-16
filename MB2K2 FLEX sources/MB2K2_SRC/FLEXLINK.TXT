@@ -1,0 +1,54 @@
+ NAM FLEXLINK
+*
+*********************************************
+* This file contains the subroutine and     *
+* storage location equates for FLEX. To     *
+* use this file insert the following lines  *
+* of code in your program :-                *
+*          OPT NOL                          *
+*          LIB FLEXLINK                     *
+*          OPT LIS                          *
+* For details of the routines and           *
+* parameters see the FLEX programmers guide *
+*********************************************
+*
+* Storage locations.
+LINBUF EQU $C080 Line buffer start.
+TTYBS EQU $CC00 TTYSET backspace character.
+SYSDRV EQU $CC0B System drive number.
+WRKDRV EQU $CC0C Working drive number.
+MONTH EQU $CC0E  FLEX system date.
+DAY EQU $CC0F
+YEAR EQU $CC10
+MEMEND EQU $CC2B Memory end pointer.
+*
+* User callable routines.
+FCOLD EQU $CD00 Cold start.
+FWARM EQU $CD03 Warm start.
+RENTER EQU $CD06 Main loop entry point.
+DOCMND EQU $CD4B Call dos as a subroutine.
+STAT EQU $CD4E Check terminal status.
+FINCH EQU $CD09 Input character.
+INCH2 EQU $CD0C Input character switched.
+FOUTCH EQU $CD0F Output character.
+OUTCH2 EQU $CD12 Output character switched.
+GETCHR EQU $CD15 Get a char (main routine).
+PUTCHR EQU $CD18 Put a char (main routine).
+INBUFF EQU $CD1B Input into line buffer.
+FPSTRNG EQU $CD1E Print a char string.
+CLASS EQU $CD21 Classify a char.
+FPCRLF EQU $CD24 Print a crlf.
+NXTCH EQU $CD27 Get next buffer char.
+RSTIO EQU $CD2A Restore i/o vectors.
+GETFIL EQU $CD2D Get file spec.
+LOAD EQU $CD30 File loader.
+SETEXT EQU $CD33 Set file extension.
+OUTDEC EQU $CD39 Output decimal number.
+OUTHEX EQU $CD3C Output hexadecimal number.
+OUTADR EQU $CD45 Output hex address.
+RPTERR EQU $CD3F Report error.
+GETHEX EQU $CD42 Get hexadecimal number.
+INDEC EQU $CD48 Input decimal number.
+*
+  LIB MONLINK
+*

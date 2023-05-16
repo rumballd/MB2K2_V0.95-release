@@ -1,0 +1,32 @@
+ nam blinky
+ ttl flash a LED
+
+ use defsfile
+
+* Data area
+ org 0
+stack rmb 200
+datsiz equ .
+
+* Module header
+type equ PRGRM+OBJCT
+revs equ REENT+1
+ mod length,name,type,revs,start,datsiz
+name fcs /blinky/
+*
+* blink green LED
+start lda SYSREG
+ ora #$02
+ sta SYSREG
+ ldx #2
+ os9 F$Sleep
+ lda SYSREG
+ anda #$FD
+ sta SYSREG
+ ldx #10
+ os9 F$Sleep
+ bra start
+*
+ emod
+
+length equ *

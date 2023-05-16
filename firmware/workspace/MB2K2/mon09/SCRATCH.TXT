@@ -1,0 +1,49 @@
+RTCFAIL RMB 1 RTC fail flag.
+CURDRV RMB 1 Active floppy drive.
+XCOORD RMB 2 Cursor X value.
+YCOORD RMB 2 Cursor Y Value.
+PART1 RMB 4 Display partition one.
+PART2 RMB 4 Display partition two.
+GPARAM RMB 8 Parameter ram contents.
+GMODE RMB 1 GDC mode register contents.
+GZOOM RMB 1 Display + write zoom values.
+GFIGS RMB 1 Figs 1st parameter value.
+DC RMB 2
+D0 RMB 2
+D2 RMB 2
+D1 RMB 2
+DM RMB 2
+CONST RMB 1
+ROW RMB 1
+COL RMB 1
+MAXCOL RMB 1
+MAXROW RMB 1
+CCOL RMB 1
+CROW RMB 1
+BCOL RMB 1
+BROW RMB 1
+ATTRI RMB 1
+CSPACE RMB 1
+CHARTAB RMB 2
+CURSOR RMB 2
+OFFSET RMB 2
+CZOOM RMB 1
+CTYPE RMB 1
+ESCFLG RMB 1
+TS1 RMB 2
+TS2 RMB 2
+TL1 RMB 2
+TL2 RMB 2
+DEN RMB 1 Drive density value.
+DEN1 RMB 1 Other drive density value.
+STEP RMB 1 Drive step rate.
+STEP0 RMB 1 Drive 0 step rate.
+FLASH RMB 2
+CFLAG RMB 1
+*
+* the following were not in the MB2 ROM.
+CHKSUM RMB 2             FlexNet driver checksum
+BRKPNT RMB 1             saved instruction byte from breakpoint
+PDWPRT RMB 1             promdisk write protect flag (0 = protected)
+TRIES RMB 1              RM command timeout try counter
+*

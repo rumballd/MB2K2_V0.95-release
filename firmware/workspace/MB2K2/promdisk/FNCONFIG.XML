@@ -1,0 +1,20 @@
+<?xml version = "1.0"?>
+    <Configuration>
+	    <Ports>
+          <Port num = "4">
+            <Rate>115200</Rate>
+            <CpuSpeed>F</CpuSpeed>
+            <Verbose>V</Verbose>
+            <AutoMount>T</AutoMount>
+            <ImageFiles>
+              <ImageFile></ImageFile>
+              <ImageFile></ImageFile>
+              <ImageFile></ImageFile>
+              <ImageFile></ImageFile>
+            </ImageFiles>
+          </Port>
+        </Ports>
+        
+        <Shutdown>F</Shutdown>
+        
+	</Configuration>

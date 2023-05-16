@@ -1,0 +1,27 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/src/xcore_c_lock.c">
+  <fCall global="true" name="_lock_alloc"/>
+  <fCall global="true" name="_lock_alloc.nstackwords"/>
+  <fCall global="true" name="_lock_alloc.maxcores"/>
+  <fCall global="true" name="_lock_alloc.maxtimers"/>
+  <fCall global="true" name="_lock_alloc.maxchanends"/>
+  <fCall global="true" name="lock_alloc"/>
+  <fCall global="true" name="lock_alloc.nstackwords"/>
+  <fCall global="true" name="lock_alloc.maxcores"/>
+  <fCall global="true" name="lock_alloc.maxtimers"/>
+  <fCall global="true" name="lock_alloc.maxchanends"/>
+  <fCall global="true" name="lock_free"/>
+  <fCall global="true" name="lock_free.nstackwords"/>
+  <fCall global="true" name="lock_free.maxcores"/>
+  <fCall global="true" name="lock_free.maxtimers"/>
+  <fCall global="true" name="lock_free.maxchanends"/>
+  <fCall global="true" name="lock_acquire"/>
+  <fCall global="true" name="lock_acquire.nstackwords"/>
+  <fCall global="true" name="lock_acquire.maxcores"/>
+  <fCall global="true" name="lock_acquire.maxtimers"/>
+  <fCall global="true" name="lock_acquire.maxchanends"/>
+  <fCall global="true" name="lock_release"/>
+  <fCall global="true" name="lock_release.nstackwords"/>
+  <fCall global="true" name="lock_release.maxcores"/>
+  <fCall global="true" name="lock_release.maxtimers"/>
+  <fCall global="true" name="lock_release.maxchanends"/>
+</preCompilationAnalysis>

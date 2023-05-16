@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 10 resources" deleteContents="false" description="Delete 10 resources" element1="/MB2K2/fp-546d41de" element10="/MB2K2/target-xn-v0-4770e3a0" element2="/MB2K2/fp-9e5c478f" element3="/MB2K2/s2l-n0-1d07dcdb" element4="/MB2K2/s2l-n0-5599f55c" element5="/MB2K2/spanning-xn-v0-9c4bc876" element6="/MB2K2/swstup-n0v0-68e744bf" element7="/MB2K2/swstup-n0v0-69fe54c1" element8="/MB2K2/swstup-n0v0-8942e54c" element9="/MB2K2/swstup-n0v0-ac9b2953" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="10" stamp="1595681171372"/>
+</session>

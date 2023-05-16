@@ -1,0 +1,202 @@
+                      (periph\ramdisk.tx):00001          nam ramdisk
+                      (periph\ramdisk.tx):00002          ttl Device Driver for the MB2K2 RAMdisk
+                      (periph\ramdisk.tx):00003         
+                      (periph\ramdisk.tx):00004          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (periph\ramdisk.tx):00005         
+     0001             (periph\ramdisk.tx):00006         Edition  equ 1 Current Edition
+     0001             (periph\ramdisk.tx):00007         Revision equ 1 Current Revision number
+                      (periph\ramdisk.tx):00008         
+     0001             (periph\ramdisk.tx):00009         NumDrvs  set 1 Number of drives
+                      (periph\ramdisk.tx):00010         
+                      (periph\ramdisk.tx):00011         
+                      (periph\ramdisk.tx):00012          org Drvbeg
+000F                  (periph\ramdisk.tx):00013          rmb NumDrvs*DrvMem
+0035                  (periph\ramdisk.tx):00014         LSNZERO  rmb 1
+     0036             (periph\ramdisk.tx):00015         RAMSTA equ .
+                      (periph\ramdisk.tx):00016         
+0000 87CD00C9000EE181 (periph\ramdisk.tx):00017          mod RAMEND,RAMNAM,Drivr+Objct,Reent+Revision,RAMENT,RAMSTA
+     1200160036
+000D FF               (periph\ramdisk.tx):00018          fcb $FF set all capabilities
+000E 72616D646973EB   (periph\ramdisk.tx):00019         RAMNAM fcs /ramdisk/
+0015 01               (periph\ramdisk.tx):00020          fcb Edition
+                      (periph\ramdisk.tx):00021         
+0016 16000F           (periph\ramdisk.tx):00022         RAMENT lbra INIT
+0019 160025           (periph\ramdisk.tx):00023          lbra READ
+001C 160048           (periph\ramdisk.tx):00024          lbra WRITE
+001F 160095           (periph\ramdisk.tx):00025          lbra GETSTA
+0022 160096           (periph\ramdisk.tx):00026          lbra PUTSTA
+0025 16009D           (periph\ramdisk.tx):00027          lbra TERM
+                      (periph\ramdisk.tx):00028         
+                      (periph\ramdisk.tx):00029         *****************************
+                      (periph\ramdisk.tx):00030         * INIT
+                      (periph\ramdisk.tx):00031         *  Set up the ramdisk
+                      (periph\ramdisk.tx):00032         *
+0028 6F45             (periph\ramdisk.tx):00033         INIT clr V.WAKE,U
+002A 8601             (periph\ramdisk.tx):00034          lda #1
+002C A746             (periph\ramdisk.tx):00035          sta V.NDRV,U
+002E 6FC835           (periph\ramdisk.tx):00036          clr LSNZERO,U
+0031 86FF             (periph\ramdisk.tx):00037          lda #$FF
+0033 304F             (periph\ramdisk.tx):00038          leax DrvBeg,U
+0035 A784             (periph\ramdisk.tx):00039          sta DD.Tot,X
+0037 A78815           (periph\ramdisk.tx):00040          sta V.Trak,X
+                      (periph\ramdisk.tx):00041         * set up mode register (TRK:SEC = LSN)
+003A C601             (periph\ramdisk.tx):00042          ldb #1
+003C F7FF24           (periph\ramdisk.tx):00043          stb RMODREG
+003F 5F               (periph\ramdisk.tx):00044          clrb
+0040 39               (periph\ramdisk.tx):00045         INITXIT rts
+                      (periph\ramdisk.tx):00046         
+                      (periph\ramdisk.tx):00047         *****************************
+                      (periph\ramdisk.tx):00048         * READ
+                      (periph\ramdisk.tx):00049         *  read a sector from disk
+                      (periph\ramdisk.tx):00050         *
+0041 6FC835           (periph\ramdisk.tx):00051         READ clr LSNZERO,U
+0044 8D29             (periph\ramdisk.tx):00052          bsr VALID
+0046 251E             (periph\ramdisk.tx):00053          bcs READ99
+0048 8D43             (periph\ramdisk.tx):00054          bsr READS
+004A 6DC835           (periph\ramdisk.tx):00055          tst LSNZERO,U
+004D 2716             (periph\ramdisk.tx):00056          beq READ90
+004F A6A821           (periph\ramdisk.tx):00057          lda PD.DRV,Y
+0052 C626             (periph\ramdisk.tx):00058          ldb #DRVMEM
+0054 3D               (periph\ramdisk.tx):00059          mul
+0055 304F             (periph\ramdisk.tx):00060          leax DRVBEG,U
+0057 308B             (periph\ramdisk.tx):00061          leax D,X
+0059 10AE28           (periph\ramdisk.tx):00062          ldy PD.BUF,Y
+005C C614             (periph\ramdisk.tx):00063          ldb #DD.SIZ-1
+005E A6A5             (periph\ramdisk.tx):00064         COPLSN0 lda B,Y
+0060 A785             (periph\ramdisk.tx):00065          sta B,X
+0062 5A               (periph\ramdisk.tx):00066          decb
+0063 2AF9             (periph\ramdisk.tx):00067          bpl COPLSN0
+                      (periph\ramdisk.tx):00068         
+0065 5F               (periph\ramdisk.tx):00069         READ90 clrb
+0066 39               (periph\ramdisk.tx):00070         READ99 rts
+                      (periph\ramdisk.tx):00071         
+                      (periph\ramdisk.tx):00072         *****************************
+                      (periph\ramdisk.tx):00073         * WRITE
+                      (periph\ramdisk.tx):00074         *  Write a sector to disk
+                      (periph\ramdisk.tx):00075         *
+0067 8D06             (periph\ramdisk.tx):00076         WRITE bsr VALID
+0069 2503             (periph\ramdisk.tx):00077          bcs WRIT99
+006B 8D35             (periph\ramdisk.tx):00078          bsr WRITS
+006D 5F               (periph\ramdisk.tx):00079          clrb
+006E 39               (periph\ramdisk.tx):00080         WRIT99 rts
+                      (periph\ramdisk.tx):00081         
+                      (periph\ramdisk.tx):00082         
+                      (periph\ramdisk.tx):00083         *****************************
+                      (periph\ramdisk.tx):00084         * VALID
+                      (periph\ramdisk.tx):00085         *  validate a sector
+                      (periph\ramdisk.tx):00086         *  and set up external registers
+                      (periph\ramdisk.tx):00087         *
+006F 5D               (periph\ramdisk.tx):00088         VALID           tstb                            can't have LSN > 65535 as TRK:SEC will roll over
+0070 2617             (periph\ramdisk.tx):00089                                 bne     SECTERR
+0072 8C0320           (periph\ramdisk.tx):00090                                 cmpx    #800            max size is 200KB
+0075 2C12             (periph\ramdisk.tx):00091                                 bge     SECTERR
+0077 8C0000           (periph\ramdisk.tx):00092                                 cmpx    #$0000          LSN 0?
+007A 2603             (periph\ramdisk.tx):00093                                 bne     NOTLSN0
+007C 6CC835           (periph\ramdisk.tx):00094                                 inc     LSNZERO,U
+007F 1F10             (periph\ramdisk.tx):00095         NOTLSN0         tfr     x,d
+0081 B7FF21           (periph\ramdisk.tx):00096                                 sta     RTRKREG
+0084 F7FF22           (periph\ramdisk.tx):00097                                 stb     RSECREG
+0087 5F               (periph\ramdisk.tx):00098                                 clrb                            no error
+0088 39               (periph\ramdisk.tx):00099                                 rts
+0089 53               (periph\ramdisk.tx):00100         SECTERR         comb
+008A C6F1             (periph\ramdisk.tx):00101                                 ldb     #241 sector error
+008C 39               (periph\ramdisk.tx):00102                                 rts
+                      (periph\ramdisk.tx):00103         *
+                      (periph\ramdisk.tx):00104         ************************
+                      (periph\ramdisk.tx):00105         * READS
+                      (periph\ramdisk.tx):00106         *  Y=Path Discr.
+                      (periph\ramdisk.tx):00107         *
+008D 3436             (periph\ramdisk.tx):00108         READS           pshs    X,Y,D
+008F 10AE28           (periph\ramdisk.tx):00109                                 ldy     PD.BUF,Y
+0092 8684             (periph\ramdisk.tx):00110                                 lda     #$84            RAMdisk read command
+0094 B7FF20           (periph\ramdisk.tx):00111                                 sta             RCOMREG
+0097 5F               (periph\ramdisk.tx):00112                                 clrb
+0098 B6FF23           (periph\ramdisk.tx):00113         READS10         lda     RDATREG
+009B A7A0             (periph\ramdisk.tx):00114                                 sta     ,y+
+009D 5A               (periph\ramdisk.tx):00115                                 decb
+009E 26F8             (periph\ramdisk.tx):00116                                 bne     READS10
+00A0 35B6             (periph\ramdisk.tx):00117                     puls    X,Y,D,PC
+                      (periph\ramdisk.tx):00118         
+                      (periph\ramdisk.tx):00119         ************************
+                      (periph\ramdisk.tx):00120         * WRITS
+                      (periph\ramdisk.tx):00121         *  Y=Path Discr.
+                      (periph\ramdisk.tx):00122         *
+00A2 3436             (periph\ramdisk.tx):00123         WRITS           pshs    X,Y,D
+00A4 10AE28           (periph\ramdisk.tx):00124                                 ldy     PD.BUF,Y
+00A7 86A4             (periph\ramdisk.tx):00125                                 lda     #$A4            RAMdisk write command
+00A9 B7FF20           (periph\ramdisk.tx):00126                                 sta             RCOMREG
+00AC 5F               (periph\ramdisk.tx):00127                                 clrb
+00AD A6A0             (periph\ramdisk.tx):00128         WRITS10         lda     ,y+
+00AF B7FF23           (periph\ramdisk.tx):00129                                 sta     RDATREG
+00B2 5A               (periph\ramdisk.tx):00130                                 decb
+00B3 26F8             (periph\ramdisk.tx):00131                                 bne     WRITS10
+00B5 35B6             (periph\ramdisk.tx):00132                                 puls    X,Y,D,PC
+                      (periph\ramdisk.tx):00133         
+                      (periph\ramdisk.tx):00134         
+                      (periph\ramdisk.tx):00135         
+                      (periph\ramdisk.tx):00136         **************************
+                      (periph\ramdisk.tx):00137         * GETSTA
+                      (periph\ramdisk.tx):00138         *  get device status
+                      (periph\ramdisk.tx):00139         *
+     00B7             (periph\ramdisk.tx):00140         GETSTA equ *
+                      (periph\ramdisk.tx):00141         
+00B7 53               (periph\ramdisk.tx):00142         Unknown comb
+00B8 C6D0             (periph\ramdisk.tx):00143          ldb #E$UnkSVC
+00BA 39               (periph\ramdisk.tx):00144          rts
+                      (periph\ramdisk.tx):00145         
+                      (periph\ramdisk.tx):00146         **************************
+                      (periph\ramdisk.tx):00147         * PUTSTA
+                      (periph\ramdisk.tx):00148         *  Set device Status
+                      (periph\ramdisk.tx):00149         *
+00BB C103             (periph\ramdisk.tx):00150         PUTSTA cmpb #SS.Reset
+00BD 2704             (periph\ramdisk.tx):00151          beq PUTSTA90
+00BF C104             (periph\ramdisk.tx):00152          cmpb #SS.WTrk
+00C1 26F4             (periph\ramdisk.tx):00153          bne Unknown
+                      (periph\ramdisk.tx):00154         
+00C3 5F               (periph\ramdisk.tx):00155         PUTSTA90 clrb
+00C4 39               (periph\ramdisk.tx):00156          rts
+                      (periph\ramdisk.tx):00157         
+                      (periph\ramdisk.tx):00158         *****************************
+                      (periph\ramdisk.tx):00159         * TERM
+                      (periph\ramdisk.tx):00160         *  terminate Driver
+                      (periph\ramdisk.tx):00161         *
+00C5 39               (periph\ramdisk.tx):00162         TERM rts
+                      (periph\ramdisk.tx):00163         
+00C6 C21D25           (periph\ramdisk.tx):00164          emod
+     00C9             (periph\ramdisk.tx):00165         RAMEND equ *
+                      (periph\ramdisk.tx):00166         
+                      (periph\ramdisk.tx):00167         ******************************************
+                      (periph\ramdisk.tx):00168         * RAMdisk Discriptor module
+                      (periph\ramdisk.tx):00169         *
+                      (periph\ramdisk.tx):00170         
+                      (periph\ramdisk.tx):00171          nam R0
+                      (periph\ramdisk.tx):00172          ttl Drive Descriptor module
+                      (periph\ramdisk.tx):00173         
+0000 87CD00300021F181 (periph\ramdisk.tx):00174          mod DEnd,DNam,DEVIC+OBJCT,REENT+1,DMgr,DDrv
+     D400230026
+                      (periph\ramdisk.tx):00175         
+000D FF               (periph\ramdisk.tx):00176          fcb $FF mode byte (DIR.+SHARE.+PREAD.+PWRIT.+UPDAT.+EXEC.+PEXEC.)
+000E FF               (periph\ramdisk.tx):00177          fcb $FF IOBlock address bits 23:16 (unused)
+000F FF34             (periph\ramdisk.tx):00178          fdb $FF34 hardware address
+0011 0F               (periph\ramdisk.tx):00179          fcb DNam-*-1 option byte count
+0012 01               (periph\ramdisk.tx):00180          fcb $1 Rbf device
+0013 00               (periph\ramdisk.tx):00181          fcb 0 Drive number
+0014 03               (periph\ramdisk.tx):00182          fcb 03 6ms Step rate
+0015 80               (periph\ramdisk.tx):00183          fcb $80 Standard OS9 Winchester drive
+0016 00               (periph\ramdisk.tx):00184          fcb 0 Single density
+0017 0028             (periph\ramdisk.tx):00185          fdb 40 number of tracks
+0019 01               (periph\ramdisk.tx):00186          fcb 1 number of sides
+001A 01               (periph\ramdisk.tx):00187          fcb 1 don't verify any writes
+001B 0014             (periph\ramdisk.tx):00188          fdb 20 sectors per track
+001D 0014             (periph\ramdisk.tx):00189          fdb 20 sectors on track 0, side 0
+001F 01               (periph\ramdisk.tx):00190          fcb 1 sector interleave factor
+0020 01               (periph\ramdisk.tx):00191          fcb 1 sector allocation size
+0021 52B0             (periph\ramdisk.tx):00192         DNam fcs "R0"
+0023 5242C6           (periph\ramdisk.tx):00193         DMgr fcs "RBF"
+0026 72616D646973EB   (periph\ramdisk.tx):00194         DDrv fcs "ramdisk"
+002D 1D97E6           (periph\ramdisk.tx):00195          emod
+     0030             (periph\ramdisk.tx):00196         DEnd equ *
+                      (periph\ramdisk.tx):00197          end

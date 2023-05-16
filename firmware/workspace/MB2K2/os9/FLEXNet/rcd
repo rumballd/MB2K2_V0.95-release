@@ -1,0 +1,187 @@
+*   File name:  RCD.TXT
+*
+*   This utility will Change to a new Directory (hence CD)
+*   on a remote host computer, that is running NETPC.
+*   netdrv must already be running on the FLEX computer.
+*
+*   Syntax: RCD <path>
+*
+*   Note: <path> may contain the whole directory path,
+*         including the disk name, for example "C:\dir1\dir2\.."
+*         In order to achieve this, the FLEX EOL character is
+*         temporarily cleared. Thus, multiple commands on one
+*         line can be used with this utility, only if RMOUNT
+*         is the last command on the line.
+*
+*   Adapted from Bjarne Backstrom's source code for RMOUNT
+*   by Joel Setton
+*
+*       02.01   2002-08-31 js Use signature string
+*       02.02   2002-09-19 js New vectors
+* ---------------------------------------------------------------
+****************************************************************************************
+*   This version is modified for the MB2K system and it's internal drivers for FlexNet. *
+*   D.A.Rumball 29-3-2005                                                               *
+*************************************************************************************** *
+*   FLEX equates.
+*
+warms   equ     $cd03           FLEX warm start
+PUTCHR  equ     $cd18           print one character
+pstrng  equ     $cd1e           write string to display
+pcrlf   equ     $cd24           write cr/lf to display
+nxtch   equ     $cd27           get next buffer character
+*
+ttylbp  equ     $cc14           line buffer pointer location
+ttyeol  equ     $cc02           end of line character location
+*
+* ---------------------------------------------------------------
+*
+ack     equ     $06             acknowledge character
+cr      equ     $0d             carriage return character
+*
+SCHAR    EQU  $F0A0     FlexNet driver send char
+RCHAR    EQU  $F0A2     FlexNet driver recieve char
+
+*
+* ***************************************************************
+*
+        org     $c100
+
+
+rcd EQU *
+        bra     start
+
+versn   fcb     1,0             version number
+PTR     rmb     2                Pointer in buffer
+eoltmp  rmb     1               temp storage for EOL character
+chrcnt  rmb     1               character counter
+temp    rmb     1                temp pointer for letter
+*
+
+*
+start   jsr     pcrlf
+
+        lda     ttyeol          save EOL character
+        sta     eoltmp
+
+        clr     chrcnt          check file name length
+        ldx     ttylbp
+
+chec04  lda     ,x+             get character
+        cmpa    #$20            skip leading spaces
+        beq     chec04
+
+chec08  cmpa    #cr             carriage return?
+        beq     chec12
+        inc     chrcnt          no, inc character count
+        lda     ,x+             check next character
+        bra     chec08
+
+chec12  lda     chrcnt          check character count
+        cmpa    #1              less than 2 characters?
+        lblo    where           yes, do a "Where am I" command
+*
+* ---------------------------------------------------------------
+*
+        clr     ttyeol          disable TTYEOL
+
+        lda     #'P             send P (Point) command to remote host
+        jsr    [SCHAR]
+        lbcc    nwrkng          time out, communication not working
+*
+main04  jsr     nxtch           skip leading spaces
+        cmpa    #$20
+        beq     main04
+
+main08  jsr    [SCHAR]           send one character to remote host
+        lbcc    nwrkng          time out, communication not working
+        cmpa    #cr             last character in line?
+        beq     main12
+        jsr     nxtch           get next character
+        bra     main08
+*
+main12  jsr    [RCHAR]           get response
+        lbcc    nwrkng          time out, communication not working
+        cmpa    #ack            got an ack?
+        lbne    badfnm          no, report bad file name
+        ldx     #succst         report success
+        bra     finish
+* ---------------------------------------------------------------
+*
+* No parameters were typed, do a "Where am I" command
+*
+where equ *
+
+* SEND THE "WHERE" COMMAND
+        LDA     #'?
+
+        JSR     [SCHAR]
+        BCC     nwrkng
+
+* RECEIVE ONE LINE
+        LDX     #BUFFER INITIALIZE POINTER
+        STX     PTR
+LP1     JSR     [RCHAR] GET CHAR
+        BCC     nwrkng
+        CMPA    #cr FINISHED?
+        BEQ     DISP
+* STORE THE CHARACTER
+        JSR     PUTIT
+        BRA     LP1
+
+DISP    EQU     *
+* LINE FEED RECEIVED, DISPLAY LINE ON CRT
+        CLRA    ADD TERMINATOR
+        JSR     PUTIT
+        LDX     #CURDIR
+        JSR     pstrng
+
+        LDX     #BUFFER
+        JSR     PDATA
+
+* WAIT FOR ACK
+WTACK   JSR     [RCHAR]
+        BCC     nwrkng
+        CMPA    #ack
+        BNE     WTACK
+        BRA     exit2
+
+* LOW-LEVEL ROUTINES
+* PRINT A STRING
+PDATA2  JSR     PUTCHR
+PDATA   LDA     0,X+
+        BNE     PDATA2
+        RTS
+
+* PUT A CHARACTER IN BUFFER
+PUTIT   LDX     PTR
+        STA     0,X+
+        STX     PTR
+        RTS
+*
+* ---------------------------------------------------------------
+*
+badfnm  ldx     #badfst         bad name
+        bra     finish
+
+nwrkng  ldx     #nwrkst         communication is not working
+        bra     finish
+
+finish  lda     eoltmp          restore EOL character
+        sta     ttyeol
+finis2 jsr     pstrng          print string pointed to by XREG
+exit2  jmp     warms           back to FLEX
+*
+* ---------------------------------------------------------------
+*
+nwrkst  fcc     /Communication is not working!/,8,4
+CURDIR  FCC     /The current directory is  /,4
+succst  fcc     /Command executed OK./,4
+badfst  fcc     /Bad directory name!/,8,4
+*
+* BUFFER AREA
+BUFFER RMB 256
+
+ end rcd
+
+                                                                                                                                                                                                                   

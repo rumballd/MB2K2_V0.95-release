@@ -1,0 +1,160 @@
+#include <platform.h>
+#include <quadflashlib.h>
+#include <xclib.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stdio.h>
+
+fl_PortHolderStruct portHolder_0 =
+{
+  PORT_SQI_CS,
+  PORT_SQI_SCLK,
+  PORT_SQI_SIO,
+  on tile[0]: XS1_CLKBLK_5
+};
+
+fl_QuadDeviceSpec deviceSpecs[] =
+{
+  FL_QUADDEVICE_SPANSION_S25FL116K,
+  FL_QUADDEVICE_SPANSION_S25FL132K,
+  FL_QUADDEVICE_SPANSION_S25FL164K,
+  FL_QUADDEVICE_ISSI_IS25LQ080B,
+  FL_QUADDEVICE_ISSI_IS25LQ016B,
+  FL_QUADDEVICE_ISSI_IS25LQ032B,
+  FL_QUADDEVICE_ISSI_IS25LP080D,
+  FL_QUADDEVICE_ISSI_IS25LP016D,
+  FL_QUADDEVICE_ISSI_IS25LP032,
+  FL_QUADDEVICE_ISSI_IS25LP064,
+  FL_QUADDEVICE_ISSI_IS25LP128,
+  FL_QUADDEVICE_WINBOND_W25Q16JV,
+  FL_QUADDEVICE_WINBOND_W25Q32JV,
+  FL_QUADDEVICE_WINBOND_W25Q64JV,
+  FL_QUADDEVICE_WINBOND_W25Q128JV,
+};//fl_QuadDeviceSpec
+
+int GetSQIInfo(const char tile_name[],
+               fl_PortHolderStruct & phs,
+               const char result_file_name[],
+               char * error_str)
+{
+  //Connect to the SQI device
+  if(fl_connectToDevice(phs, deviceSpecs, sizeof(deviceSpecs)/sizeof(fl_QuadDeviceSpec)) != 0)
+  {
+    sprintf(error_str,"Error on %s: failed to connect to flash device. Please verify that SQI type is supported and that the correct SQI ports are defined within your xn file.\n", tile_name);
+    return 1;
+  }
+
+  //Get the page size of the SQI device
+  unsigned int pageSize = fl_getPageSize();
+  if(pageSize > 256)
+  {
+    fprintf(stderr, "Error on %s: page sizes greater than 256 bytes are unsupported (found %d bytes).\n", tile_name, pageSize);
+    return 1;
+  }
+
+  //Get the sector layout type of the SPI device
+  fl_ProtectionType layoutType = fl_getSectorLayoutType();
+  //Get the sector size of the SQI device
+  unsigned int firstSectorSize = fl_getSectorSize(0);
+
+  //Get the flash size of the SQI device
+  unsigned int flashSize = fl_getFlashSize();
+
+  //Get the SQI divider and protection type of the SQI device
+  unsigned int spiDiv = 3;
+  fl_ProtectionType protType = PROT_TYPE_NONE;
+  for(int i = 0; i < sizeof(deviceSpecs); i++)
+  {
+    if(deviceSpecs[i].flashId == fl_getFlashType())
+    {
+      spiDiv = deviceSpecs[i].clockDiv;
+      protType = deviceSpecs[i].protectionType;
+      break;
+    }
+  }
+
+  //Output the SQI info to the result file
+  FILE * movable result_file = fopen(result_file_name, "wb");
+  if(result_file == NULL)
+  {
+    fprintf(stderr, "Error on %s: failed to open result file (\"%s\").\n", tile_name, result_file_name);
+    return 1;
+  }
+
+  fprintf(result_file, "%d\n%d\n%d\n%d\n", pageSize, firstSectorSize, flashSize, spiDiv);
+  fprintf(result_file, "%c\n", (protType == PROT_TYPE_SECS) ? 'P' : '-');
+  fprintf(result_file, "%c\n", (layoutType == SECTOR_LAYOUT_REGULAR) ? 'R' : 'I');
+  fprintf(result_file, "%d\n", fl_getNumSectors());
+
+  for(int i = 0; i < fl_getNumSectors(); i++)
+  {
+    fprintf(result_file, "%d\n", fl_getSectorAddress(i));
+  }
+
+  fclose(move(result_file));
+
+  //Disconnect from the SQI device
+  fl_disconnect();
+
+  return 0 ;
+}
+
+int main()
+{
+  chan backFrom0;
+
+  par
+  {
+    on tile[0]:
+    {
+      unsigned int isOkay = 1;
+      unsigned int respCount = 0;
+      unsigned int resCode;
+
+      while( respCount < 1 )
+      {
+        select
+        {
+        case backFrom0 :> resCode:
+          isOkay &= (resCode==0);
+          respCount++;
+          break;
+        }
+      }
+
+      backFrom0 <: 0;
+      backFrom0 :> resCode;
+
+      if( !isOkay )
+      {
+        exit(1);
+      }
+      exit(0);
+    }
+
+    on tile[1]:
+    {
+      while(1) {}
+    }
+
+    on tile[0]:
+    {
+      unsigned int input;
+      char error_str[512];
+      int res = GetSQIInfo("tile[0]",
+                           portHolder_0, 
+                           "spi-n0-1b15ef01",
+                           error_str);
+      backFrom0 <: res;
+      backFrom0 :> input;
+      if (res != 0)
+      {
+        printf(error_str);
+      }
+      backFrom0 <: input;
+    }
+  }
+
+  return(0);
+}
+

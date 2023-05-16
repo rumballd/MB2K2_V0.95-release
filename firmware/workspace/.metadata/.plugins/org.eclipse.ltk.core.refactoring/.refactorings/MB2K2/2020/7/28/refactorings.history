@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">&#x0A;<refactoring comment="Rename resource &apos;MB2K2/os9/dir&apos; to &apos;dir.bin&apos;" description="Rename resource &apos;dir&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="os9/dir" name="dir.bin" stamp="1593971400382" updateReferences="true"/>&#x0A;<refactoring comment="Rename resource &apos;MB2K2/promdisk/MB2K2PD_old.dsk&apos; to &apos;MB2K2PD.dsk&apos;" description="Rename resource &apos;MB2K2PD_old.dsk&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="promdisk/MB2K2PD_old.dsk" name="MB2K2PD.dsk" stamp="1594050662489" updateReferences="true"/>
+</session>

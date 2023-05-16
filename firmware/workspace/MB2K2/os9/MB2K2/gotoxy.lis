@@ -1,0 +1,47 @@
+                      ( mb2k2\gotoxy.txt):00001          nam gotoxy
+                      ( mb2k2\gotoxy.txt):00002          ttl paramater module for FranK Hogg apps
+                      ( mb2k2\gotoxy.txt):00003         *
+                      ( mb2k2\gotoxy.txt):00004          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      ( mb2k2\gotoxy.txt):00005         *
+                      ( mb2k2\gotoxy.txt):00006         * Module header
+     0021             ( mb2k2\gotoxy.txt):00007         type equ SBRTN+OBJCT
+     0081             ( mb2k2\gotoxy.txt):00008         revs equ REENT+1
+0000 87CD003D000D2181 ( mb2k2\gotoxy.txt):00009                         mod     length,name,type,revs,start,0
+     2500130000
+000D 676F746F78F9     ( mb2k2\gotoxy.txt):00010         name fcs /gotoxy/
+                      ( mb2k2\gotoxy.txt):00011         *
+                      ( mb2k2\gotoxy.txt):00012         *
+0013 2007             ( mb2k2\gotoxy.txt):00013         start   bra             curxy
+                      ( mb2k2\gotoxy.txt):00014         *
+0015 18               ( mb2k2\gotoxy.txt):00015                         fcb     24      number of lines on terminal
+0016 50               ( mb2k2\gotoxy.txt):00016                         fcb     80      number of characters per line
+0017 01               ( mb2k2\gotoxy.txt):00017                         fcb     1       This terminal scrolls
+0018 01               ( mb2k2\gotoxy.txt):00018                         fcb     1       length of clear-line message
+0019 18               ( mb2k2\gotoxy.txt):00019                         fcb     $18     MB2K2 erase to EOL
+001A 00               ( mb2k2\gotoxy.txt):00020                         fcb     0       no initialization sequence
+001B 00               ( mb2k2\gotoxy.txt):00021                         fcb     0
+                      ( mb2k2\gotoxy.txt):00022         *
+001C 327D             ( mb2k2\gotoxy.txt):00023         curxy   leas    -3,s    allocate space on stack
+001E 860E             ( mb2k2\gotoxy.txt):00024                         lda             #$0E    MB2K2 move cursor control char
+0020 A7E4             ( mb2k2\gotoxy.txt):00025                         sta             ,s
+                      ( mb2k2\gotoxy.txt):00026         * (X) = col, (B) = row, home = 1,1
+                      ( mb2k2\gotoxy.txt):00027         * MB2K2 needs #$20 added to each parameter and home = 0,0
+0022 CB1F             ( mb2k2\gotoxy.txt):00028                         addb    #$1F
+0024 E761             ( mb2k2\gotoxy.txt):00029                         stb     1,s
+0026 1F10             ( mb2k2\gotoxy.txt):00030                         tfr             x,d
+0028 CB1F             ( mb2k2\gotoxy.txt):00031                         addb    #$1F
+002A E762             ( mb2k2\gotoxy.txt):00032                         stb     2,s
+                      ( mb2k2\gotoxy.txt):00033         * output cursor move string
+002C 8601             ( mb2k2\gotoxy.txt):00034                         lda             #1                      
+002E 30E4             ( mb2k2\gotoxy.txt):00035                         leax    ,s
+0030 108E0003         ( mb2k2\gotoxy.txt):00036                         ldy     #3
+0034 103F8A           ( mb2k2\gotoxy.txt):00037                         os9     I$Write
+0037 3263             ( mb2k2\gotoxy.txt):00038                         leas    3,s
+0039 39               ( mb2k2\gotoxy.txt):00039                         rts
+                      ( mb2k2\gotoxy.txt):00040         *
+003A 02636D           ( mb2k2\gotoxy.txt):00041          emod
+                      ( mb2k2\gotoxy.txt):00042         *
+     003D             ( mb2k2\gotoxy.txt):00043         length equ *

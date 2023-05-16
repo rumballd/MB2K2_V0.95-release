@@ -1,0 +1,93 @@
+                      (FLEXNet\resync.tx):00001         *************************************************************************************
+                      (FLEXNet\resync.tx):00002         *   This utility will try to re-synchronize the communication
+                      (FLEXNet\resync.tx):00003         *   to the remote host.
+                      (FLEXNet\resync.tx):00004         *
+                      (FLEXNet\resync.tx):00005         *   Syntax: RESYNC 
+                      (FLEXNet\resync.tx):00006         *
+                      (FLEXNet\resync.tx):00007         *   History
+                      (FLEXNet\resync.tx):00008         *   1.0 (2020-07-09) - Initial version derived from the MB2K codebase                                                               *
+                      (FLEXNet\resync.tx):00009         *****************************************************************************************
+                      (FLEXNet\resync.tx):00010         *
+                      (FLEXNet\resync.tx):00011         *
+                      (FLEXNet\resync.tx):00012          nam resync
+                      (FLEXNet\resync.tx):00013          ttl restablish connection to remote host
+                      (FLEXNet\resync.tx):00014         *
+                      (FLEXNet\resync.tx):00015          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (FLEXNet\resync.tx):00016         *
+     F0A0             (FLEXNet\resync.tx):00017         SCHAR   equ     $F0A0           FLEXNet driver send char
+     F0A2             (FLEXNet\resync.tx):00018         RCHAR   equ     $F0A2           FLEXNet driver receive charck
+     0006             (FLEXNet\resync.tx):00019         ACK     equ     $06             acknowledge character
+     000D             (FLEXNet\resync.tx):00020         CR      equ     $0D             carriage return character
+                      (FLEXNet\resync.tx):00021         *
+                      (FLEXNet\resync.tx):00022         * Data area
+                      (FLEXNet\resync.tx):00023                     org         0
+0000                  (FLEXNet\resync.tx):00024         tries   rmb     1               tries counter for resync
+0001                  (FLEXNet\resync.tx):00025         tmp             rmb     1
+                      (FLEXNet\resync.tx):00026         *
+0002                  (FLEXNet\resync.tx):00027         stack   rmb     200
+     00CA             (FLEXNet\resync.tx):00028         datsiz  equ     .
+                      (FLEXNet\resync.tx):00029         *
+                      (FLEXNet\resync.tx):00030         * Module header
+     0011             (FLEXNet\resync.tx):00031         type    equ     PRGRM+OBJCT
+     0081             (FLEXNet\resync.tx):00032         revs    equ     REENT+1
+0000 87CD0093000D1181 (FLEXNet\resync.tx):00033                 mod     length,name,type,revs,start,datsiz
+     BB001300CA
+000D 726573796EE3     (FLEXNet\resync.tx):00034         name    fcs     /resync/
+                      (FLEXNet\resync.tx):00035         *
+                      (FLEXNet\resync.tx):00036         * main code 
+                      (FLEXNet\resync.tx):00037         *
+0013 8605             (FLEXNet\resync.tx):00038         start   lda     #5              number of tries
+0015 A7C4             (FLEXNet\resync.tx):00039                 sta     tries,u
+0017 8655             (FLEXNet\resync.tx):00040                 lda     #$55            1st sync char
+0019 A741             (FLEXNet\resync.tx):00041         sync04  sta     tmp,u
+                      (FLEXNet\resync.tx):00042         *
+001B AD9FF0A0         (FLEXNet\resync.tx):00043         sync08  jsr    [SCHAR]          send char
+001F 241E             (FLEXNet\resync.tx):00044                 bcc     sync16          time out, report error
+                      (FLEXNet\resync.tx):00045         *
+0021 AD9FF0A2         (FLEXNet\resync.tx):00046                 jsr    [RCHAR]          get answer from receiver
+0025 2418             (FLEXNet\resync.tx):00047                 bcc     sync16
+0027 A141             (FLEXNet\resync.tx):00048                 cmpa    tmp,u           same as sent?
+0029 270C             (FLEXNet\resync.tx):00049                 beq     sync12          yes
+                      (FLEXNet\resync.tx):00050         *
+002B A641             (FLEXNet\resync.tx):00051                 lda     tmp,u
+002D 8155             (FLEXNet\resync.tx):00052                 cmpa    #$55            1st sync char?
+002F 260E             (FLEXNet\resync.tx):00053                 bne     sync16          nope, something is wrong
+                      (FLEXNet\resync.tx):00054         *
+0031 6AC4             (FLEXNet\resync.tx):00055                 dec     tries,u         decrease try count
+0033 26E6             (FLEXNet\resync.tx):00056                 bne     sync08          try again if not 0
+0035 2008             (FLEXNet\resync.tx):00057                 bra     sync16          report sync error
+                      (FLEXNet\resync.tx):00058         *
+0037 81AA             (FLEXNet\resync.tx):00059         sync12  cmpa    #$aa            2nd sync char?
+0039 270A             (FLEXNet\resync.tx):00060                 beq     sync20          yes, continue
+                      (FLEXNet\resync.tx):00061         *
+003B 86AA             (FLEXNet\resync.tx):00062                 lda     #$aa            send 2nd sync char
+003D 20DA             (FLEXNet\resync.tx):00063                 bra     sync04
+                      (FLEXNet\resync.tx):00064         *
+003F 308D0013         (FLEXNet\resync.tx):00065         sync16  leax    synstr,pcr      "Can't sync..."
+0043 2004             (FLEXNet\resync.tx):00066         sync17  bra     sync21
+                      (FLEXNet\resync.tx):00067         *
+0045 308D0029         (FLEXNet\resync.tx):00068         sync20  leax    scnest,pcr       "Serial connection established"
+0049 108E0050         (FLEXNet\resync.tx):00069         sync21  ldy     #80
+004D 8601             (FLEXNet\resync.tx):00070                 lda     #1
+004F 103F8C           (FLEXNet\resync.tx):00071                 os9     i$writln
+0052 5F               (FLEXNet\resync.tx):00072         alldone clrb
+0053 103F06           (FLEXNet\resync.tx):00073                 os9     f$exit
+                      (FLEXNet\resync.tx):00074         *                    
+0056 43616E2774207379 (FLEXNet\resync.tx):00075         synstr  fcc     /Can't sync serial transfer!/
+     6E63207365726961
+     6C207472616E7366
+     657221
+0071 0D               (FLEXNet\resync.tx):00076                 fcb     CR
+0072 53657269616C2063 (FLEXNet\resync.tx):00077         scnest  fcc     /Serial connection established/
+     6F6E6E656374696F
+     6E2065737461626C
+     6973686564
+008F 0D               (FLEXNet\resync.tx):00078                 fcb     CR
+                      (FLEXNet\resync.tx):00079         *
+0090 E40F3C           (FLEXNet\resync.tx):00080          emod
+     0093             (FLEXNet\resync.tx):00081         length equ *
+                      (FLEXNet\resync.tx):00082         
+                      (FLEXNet\resync.tx):00083                                                                                                                                                                                                                                                                                                                                                                               

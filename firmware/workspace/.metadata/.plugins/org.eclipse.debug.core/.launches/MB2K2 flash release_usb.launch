@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="com.xmos.cdt.core.XFlashLaunch">
+<stringAttribute key="com.xmos.cdt.device_id" value="wUV2MIlY"/>
+<booleanAttribute key="com.xmos.cdt.display_command_in_console" value="false"/>
+<stringAttribute key="com.xmos.cdt.target_name" value="XMOS XTAG-3 connected to O[0] [wUV2MIlY]"/>
+<booleanAttribute key="com.xmos.cdt.xflash_dump_image" value="false"/>
+<stringAttribute key="com.xmos.cdt.xflash_dump_image_text" value=""/>
+<booleanAttribute key="com.xmos.cdt.xflash_key_file" value="false"/>
+<stringAttribute key="com.xmos.cdt.xflash_key_file_text" value=""/>
+<stringAttribute key="com.xmos.cdt.xflash_other_text" value="--verbose --no-compression --data promdisk/mb2k2pd.dsk"/>
+<booleanAttribute key="com.xmos.cdt.xflash_search_limit" value="true"/>
+<stringAttribute key="com.xmos.cdt.xflash_search_limit_text" value="0x100000"/>
+<booleanAttribute key="com.xmos.cdt.xflash_spi_spec_file" value="false"/>
+<stringAttribute key="com.xmos.cdt.xflash_spi_spec_file_text" value=""/>
+<stringAttribute key="org.eclipse.cdt.launch.COREFILE_PATH" value=""/>
+<stringAttribute key="org.eclipse.cdt.launch.PROGRAM_NAME" value="bin/release_usb/mb2k2_release_usb.xe"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_ATTR" value="MB2K2"/>
+<booleanAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_AUTO_ATTR" value="true"/>
+<stringAttribute key="org.eclipse.cdt.launch.PROJECT_BUILD_CONFIG_ID_ATTR" value=""/>
+<booleanAttribute key="org.eclipse.cdt.launch.use_terminal" value="true"/>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+<listEntry value="/MB2K2"/>
+</listAttribute>
+<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+<listEntry value="4"/>
+</listAttribute>
+</launchConfiguration>

@@ -1,0 +1,255 @@
+ nam Clock Module
+
+* Copyright 1980 by Microware Systems Corp.,
+
+*
+* This source code is the proprietary confidential property of
+* Microware Systems Corporation, and is provided to licensee
+* solely  for documentation and educational purposes. Reproduction,
+* publication, or distribution in any form to any party other than 
+* the licensee is strictly prohibited!
+*
+
+ use defsfile
+
+CLOCK set $FFE0
+ opt c
+ ttl Definitions
+ page
+*****
+*
+*  Clock Module
+*
+* Initializes MB2K2 TMR for 20ms Intervals and handle RTC
+* Sets Irq Polling Routine
+*
+*****
+*
+*  Module Header
+*
+Type set SYSTM+OBJCT
+Revs set REENT+1
+ClkMod mod ClkEnd,ClkNam,Type,Revs,ClkEnt,0
+ClkNam fcs /Clock/
+ fcb 3 Edition number
+*********************
+* Edition history
+*
+* Ed.  1 - prehistoric times                           12/08/82 WGP
+*
+* Ed.  2 - file set up for LI V1.2                     12/08/82 WGP
+*
+* Ed.  3 - conditionals added for 6840 time fix of     12/15/82 WGP
+*          IRQ mask problem
+*          set up to use defsfile in assembly directory
+*
+*
+* Clock Data Definitions
+*
+TIMSVC fcb F$TIME
+ fdb TIME-*-2
+ fcb $80
+
+*
+*  Days In Months Table
+*
+MONTHS fcb 0 Uninitialized month
+ 			fcb 	31 		January
+ 			fcb 	28 		February
+ 			fcb 	31 		March
+ 			fcb 	30 		April
+ 			fcb 	31 		May
+ 			fcb 	30 		June
+ 			fcb 	31 		July
+ 			fcb 	31 		August
+ 			fcb 	30 		September
+ 			fcb 	31 		October
+ 			fcb 	30 		November
+ 			fcb 	31 		December
+*
+Clockas 	equ    	RTCADD	clock IO ports
+Clockds 	equ    	RTCDAT
+second  	equ    	$0		time registers
+minute  	equ    	$2
+hour    	equ		$4
+day			equ		$6
+date		equ		$7
+month		equ 	$8
+year    	equ    	$9
+ page
+*****
+*
+*  Clock Interrupt Service Routine
+*
+NOTCLK jmp [D.SvcIRQ] Go to interrupt service
+*
+CLKSRV  	lda 	TMRREG
+			bita 	#$80 	Is it the TMR?
+ 			beq 	NOTCLK 	Branch if not
+*
+* Update Current Time
+			clra 	SET 	Direct page
+ 			tfr 	A,DP
+*
+ 			dec 	D.Tick 	Count tick
+ 			bne 	TICK50 	Branch if not end of second
+*
+ 			lda 	SYSREG invert the red LED state every second
+ 			eora 	#$01
+ 			sta		SYSREG
+*
+ 			ldd 	D.MIN 	Get minute & second
+ 			incb			Second
+ 			cmpb 	#60 	End of minute?
+ 			bcs 	TICK35 	Branch if not
+ 			inca			Minute
+ 			cmpa 	#60 	End of hour?
+ 			bcs 	TICK30 	Branch if not
+*
+ 			ldd 	D.DAY 	Get day & hour
+ 			incb			Hour
+ 			cmpb 	#24 	End of day?
+ 			bcs 	TICK25 	Branch if not
+ 			inca 	COUNT 	Day
+ 			leax 	MONTHS,PCR Get days/month table
+ 			ldb 	D.Month Get month
+ 			cmpb 	#2 		Is it february?
+ 			bne 	TICK10 	Branch if not
+*
+ 			ldb 	D.YEAR 	Get year
+ 			beq 	TICK10 	Branch if even hundred
+ 			andb 	#3 		Is it leap year?
+ 			bne 	TICK10 	Branch if not
+ 			deca 			Feb 29
+TICK10 		ldb 	D.Month Get month
+ 			cmpa 	B,X End of month?
+ 			bls 	TICK20 	Branch if not
+ 			ldd 	D.YEAR 	Get year & month
+ 			incb			Month
+ 			cmpb 	#13 	End of year?
+ 			bcs 	TICK15 	Branch if not
+ 			inca			Year
+ 			ldb 	#1 		New month
+ *
+TICK15 		std 	D.YEAR 	Update year & month
+ 			lda 	#1 		New day
+TICK20 		clrb			Hour
+TICK25 		std 	D.DAY 	Update day & hour
+ 			clra			Minute
+TICK30 		clrb			Second
+TICK35		std 	D.MIN 	Update minute & second
+*
+ 			lda 	D.TSEC 	Get ticks/second
+ 			sta 	D.Tick
+*
+TICK50  	sta 	TMRREG 	restart TMR
+ 			jmp 	[CLOCK] Go to system clock routine ($FFE0)
+*
+*****
+*
+*  Clock Initialization Entry (pull time & date from RTC)
+*
+ClkEnt 		pshs 	DP 		save direct page
+ 			clra 			clear Dp
+ 			tfr 	A,DP
+ 			pshs 	CC 		save interrupt masks
+ 			orcc 	#IRQMask+FIRQMask disable interrupts
+*
+ 			lda 	#10 	Set ticks/second
+ 			sta 	D.TSEC
+ 			sta 	D.Tick
+ 			lda 	#1 		Set ticks / time-slice
+ 			sta 	D.TSlice
+ 			sta 	D.Slice
+*
+ 			leax 	CLKSRV,PCR Get service routine
+ 			stx 	D.IRQ 	Set interrupt vector
+ 			lda 	TMRREG 	clear TMR flag
+*
+* Get inital time/date from RTC
+       		lda 	#year	read year
+       		sta 	clockas	write RTC address
+       		ldb 	clockds	read RTC data
+       		stb 	D.YEAR	into DP0 variable
+       		lda 	#month	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.MONTH	
+       		lda 	#date	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.DAY	
+       		lda 	#hour	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.HOUR	
+       		lda 	#minute	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.MIN	
+       		lda 	#second	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.SEC
+*	
+ 			sta 	TMRREG 	start TMR
+ 			puls 	CC 		retrieve masks
+ 			leay 	TIMSVC,PCR
+ 			OS9 	F$SSVC 	Set time sevice routine
+ 			puls 	DP,PC
+*
+ page
+*****
+*
+*  Subroutine Time
+*
+* Return Time Of Day
+*
+TIME 		equ 	*
+ 			pshs 	CC 	Save masks
+ 			orcc 	#IRQMask+FIRQMask Set interrupt masks
+*
+* Get current time/date from RTC
+       		lda 	#year	read year
+       		sta 	clockas	write RTC address
+       		ldb 	clockds	read RTC data
+       		stb 	D.YEAR	into DP0 variable
+       		lda 	#month	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.MONTH	
+       		lda 	#date	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.DAY	
+       		lda 	#hour	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.HOUR	
+       		lda 	#minute	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.MIN	
+       		lda 	#second	
+       		sta 	clockas
+       		ldb 	clockds
+       		stb 	D.SEC
+*
+ 			puls 	CC 	Retrieve interrupt masks
+*
+ 			ldx 	R$X,U Get specified location
+ 			ldd 	D.YEAR Get year & month
+ 			std 	0,X
+ 			ldd 	D.DAY 	Get day & hour
+ 			std 	2,X
+ 			ldd 	D.MIN 	Get minute & second
+ 			std 	4,X
+ 			clrb 			Clear Carry
+ 			rts
+*
+ 			emod
+*
+ClkEnd 		equ 	*
+*
+ opt c
+ end

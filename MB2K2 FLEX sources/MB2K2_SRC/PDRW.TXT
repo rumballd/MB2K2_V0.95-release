@@ -1,0 +1,15 @@
+ NAM PDRW
+ OPT NOL
+ LIB FLEXLINK
+ OPT LIS
+ ORG $C100
+*
+FLAG RMB 1
+*
+PDRW LDA #$FF
+ STA PDWPRT promdisk write protect flag (0 = protect)
+ JMP FWARM  
+ JMP FWARM
+*
+ END PDRW
+*

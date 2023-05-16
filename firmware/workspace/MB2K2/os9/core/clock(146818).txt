@@ -1,0 +1,162 @@
+************************************************
+* For real time clock chip 146818
+*
+* Usage: include in OS9 Boot file
+*
+* (c) J.Bird May 1993
+*
+* 1. First Issue  - May 1993 JB
+*
+***********************************************
+        nam     Clock
+        ttl     OS9 Real Time Clock Module
+
+        ifp1
+        use     /d0/defs/os9defs
+        use     /d0/defs/sysdefs.2
+        endc
+
+* Equates
+Clockas equ    $FF18     clock IO ports
+Clockds equ    $FF19
+rega    equ    $A        clock registers (A-D)
+regb    equ    $B
+regc    equ    $C
+regd    equ    $D
+second  equ    $0        time registers
+minute  equ    $2
+hour    equ    $4
+year    equ    $9
+initb   equ    134       initialise B for time
+setb    equ    6         set b for normal run
+inita   equ    96        initialise A for time
+seta    equ    32        set a for normal run
+
+* Data Area
+        org     0
+stack   rmb   200 stack
+datsiz  equ     .
+
+* Module header
+type    set     SYSTM+OBJCT
+revs    set     REENT+1
+        mod     size,name,type,revs,start,datsiz
+name    fcs     /Clock/
+        fcb     1 Edition
+
+* SVC table
+svtable fcb    $15            rerouted ssv table
+        fdb    getime-codset  for get time & set
+codset  fcb    $16            time service calls
+        fdb    setime-endtab
+endtab  fcb    $80
+
+
+* main program - setup OS requirements
+start pshs cc,dp
+      clra
+      tfr a,dp
+      lda #$32
+      sta D.TSec  ticks per second
+      sta D.Tick
+      lda #$05
+      sta D.TSlice ticks per time slice
+      sta D.Slice
+      orcc #$50
+      leax clctic,pcr  install the IRQ service
+      stx D.AltIRQ     routine
+      leay svtable,pcr
+      os9 F$SSVC       install Setime/Getime
+      puls cc,dp,pc    OS9 calls
+
+*clock tick routine
+clctic clra
+      tfr a,dp
+      dec D.Tick   
+      bne exit
+      lda D.TSec
+      sta D.Tick
+exit  jmp [D.Clock]    clock tick routine
+
+*get time request
+getime ldx 4,u       point to packet
+       orcc #$50     interrupts off!
+clcknr lda #rega     load register A addr
+       sta clockas
+       lda clockds   load register a
+       lsla          test for UIP
+       bcs clcknr    clock in update, wait?
+       lda #year     read year
+       sta clockas
+       ldb clockds
+       stb ,x        into packet
+       deca          month
+       sta clockas
+       ldb clockds
+       stb 1,x
+       deca          day/month
+       sta clockas
+       ldb clockds
+       stb 2,x
+       lda #hour     hour
+       sta clockas
+       lda clockds
+       sta 3,x
+       lda #minute   minutes
+       sta clockas
+       lda clockds
+       sta 4,x
+       lda #second   second
+       sta clockas
+       lda clockds
+       sta 5,x
+       andcc #^$50   IRQs on again
+       clrb          return OK
+       rts
+
+*setime request
+setime ldx 4,u       point to packet
+       lda #regb     address for register B
+       sta clockas
+       lda #initb    hold B for time setting
+       sta clockds
+       lda #rega     address for register A
+       sta clockas
+       lda #inita    hold A for time setting
+       sta clockds
+       lda #year     chip now ready for time
+       sta clockas   entry, so load time from
+       ldb ,x        packet
+       stb clockds
+       deca          month
+       sta clockas
+       ldb 1,x
+       stb clockds
+       deca          day of month
+       sta clockas
+       ldb 2,x
+       stb clockds
+       lda #hour     hour
+       sta clockas
+       lda 3,x
+       sta clockds
+       lda #minute   minute
+       sta clockas
+       lda 4,x
+       sta clockds
+       lda #second   second
+       sta clockas
+       lda 5,x
+       sta clockds
+       lda #regb     now setup registers A & B
+       sta clockas   to start clock at required
+       lda #setb     time
+       sta clockds
+       lda #rega
+       sta clockas
+       lda #seta
+       sta clockds
+       clrb          all ok
+       rts
+        emod
+size    equ     *               finito.

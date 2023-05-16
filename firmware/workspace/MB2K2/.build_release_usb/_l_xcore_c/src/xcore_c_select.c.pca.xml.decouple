@@ -1,0 +1,7 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/src/xcore_c_select.c">
+  <fCall global="true" name="select_disable_trigger_all"/>
+  <fCall global="true" name="select_disable_trigger_all.nstackwords"/>
+  <fCall global="true" name="select_disable_trigger_all.maxcores"/>
+  <fCall global="true" name="select_disable_trigger_all.maxtimers"/>
+  <fCall global="true" name="select_disable_trigger_all.maxchanends"/>
+</preCompilationAnalysis>

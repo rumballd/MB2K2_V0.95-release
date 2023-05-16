@@ -1,0 +1,197 @@
+*************************************************************************************
+*   This utility will "MOUNT" a .DSK file
+*   on a remote host computer, that is running FLEXNet.
+*
+*   Syntax: RMOUNT </hn> [<file_name>]
+*
+*   Note: <file_name> may contain the whole directory path,
+*         including the disk name, for example "C:\dir1\dir2\.."
+*
+*   
+*   History
+*   1.0 (2020-07-09) - Initial version derived from the MB2K codebase                                                               *
+*****************************************************************************************
+*
+*
+ nam rmount
+ ttl mount remote FLEXNet volume
+*
+ use defsfile
+*
+SCHAR   equ     $F0A0           FLEXNet driver send char
+RCHAR   equ     $F0A2           FLEXNet driver receive charck
+ACK     equ     $06             acknowledge character
+CR      equ     $0D             carriage return character
+*
+* Data area
+ 	    org 	0
+tries   rmb     1               tries counter for resync
+drv     rmb     1		        FLEXNet drive number (0-3)
+param   rmb     2               parameter pointer
+tmp     rmb     1
+xtemp   rmb     2
+*
+stack   rmb     200
+datsiz  equ     .
+*
+* Module header
+type    equ     PRGRM+OBJCT
+revs    equ     REENT+1
+        mod     length,name,type,revs,start,datsiz
+name    fcs     /rmount/
+*
+* main code 
+*   Check if host is ready with 'Q', if not, then resync and report on connection
+*
+start   stx     param,u
+        lda     #'Q             quick check that communication is working
+        jsr     [SCHAR]
+        bcc     timeout         time out, communication not working
+*
+        jsr     [RCHAR]         get response
+        bcc     timeout         time out, communication not working
+        cmpa    #ack            got an ack?
+        bne     timeout         communication not working
+        bra     check           carry on with MOUNT
+*
+* sync and report on connection
+timeout lda     #5              number of tries
+        sta     tries,u
+        lda     #$55            1st sync char
+sync04  sta 	tmp,u
+*
+sync08  jsr    [SCHAR]          send char
+        bcc     sync16          time out, report error
+*
+        jsr    [RCHAR]          get answer from receiver
+        bcc     sync16
+        cmpa    tmp,u           same as sent?
+        beq     sync12          yes
+*
+        lda     tmp,u
+        cmpa    #$55            1st sync char?
+        bne     sync16          nope, something is wrong
+*
+        dec     tries,u         decrease try count
+        bne     sync08          try again if not 0
+        bra     sync16          report sync error
+*
+sync12  cmpa    #$aa            2nd sync char?
+        beq     sync20          yes, continue
+*
+        lda     #$aa            send 2nd sync char
+        bra     sync04
+*
+sync16  leax    synstr,pcr      "Can't sync..."
+sync17  ldy     #80
+        lda     #1
+        os9     i$writln
+        clrb
+        os9     f$exit
+*
+sync20  leax    scnest,pcr       "Serial connection established"
+        ldy     #80
+        lda     #1
+        os9     i$writln
+*
+* ---------------------------------------------------------------
+*
+*  get the drive numer and filename
+*
+check   ldx     param,u         point to command line buffer
+        lda		,x				 
+		cmpa	#CR			    empty command line?
+		lbeq	what	
+    	cmpa	#'/ 			check for path
+		beq		chk1
+		clra					if no path, assume /h0
+    	bra		chk3
+chk1	leax	2,x				skip the drive letter
+		lda		,x+				pick up drive number
+		anda	#3				force range to 0-3
+chk3    sta		drv,u
+    	lda 	,x+
+		cmpa	#$20 			skip spaces
+		beq		chk3
+		leax 	-1,x		
+*		
+* ---------------------------------------------------------------
+*
+main    lda     #'m             send m(ount) command to remote host
+        jsr     [SCHAR]
+        lbcc    nwrkng          time out, communication not working
+*
+		lda		drv,u			send drive number first
+*
+main08  jsr     [SCHAR]         send one character to remote host
+        lbcc    nwrkng          
+        cmpa    #CR             last character in line?
+        beq     main12
+        lda		,x+             get next character
+        cmpa    #'.             substitute cr for dot
+        bne     main08
+        lda     #CR
+        bra     main08
+*
+main12  jsr     [RCHAR]         get response
+        lbcc    nwrkng          time out, communication not working
+        cmpa    #ack            got an ack?
+        lbne    badfnm          no, report bad file name
+*
+* Check for "R" or "W" after the ack
+        jsr     [RCHAR]           get character
+        lbcc    nwrkng          time out, not working
+        cmpa    #'R             Read only?
+        beq     read
+        cmpa    #'W             Write only?
+        beq     write
+        bra     badfnm          otherwise, report error
+
+*
+* ---------------------------------------------------------------
+badex   leax    exten,pcr          Bad extension
+        bra     finish
+
+read    leax    readst,pcr         Read-only message
+        bra     finish
+
+write   leax    writest,pcr        Full access message
+        bra     finish
+
+nwrkng  leax    nwrkst,pcr         communication is not working
+        bra     finish
+*
+badfnm  leax    badfst,pcr          bad file name
+*
+finish  ldy     #80
+        lda     #1
+        os9     i$writln         print string pointed to by X
+alldone clrb
+        os9     f$exit
+*
+what    bra		alldone          if no parameters, show drive mapping
+*                    
+synstr  fcc     /Can't sync serial transfer!/
+        fcb     CR
+scnest  fcc     /Serial connection established/
+        fcb     CR
+exten   fcc     /Illegal file extension/
+        fcb     CR
+nwrkst  fcc     /Comms time-out error!/
+        fcb     CR
+badfst  fcc     /Could not open file/
+        fcb     CR
+readst  fcc     /File open in read-only mode/
+        fcb     CR
+writest fcc     'File opened with full access (read/write)'
+        fcb     CR
+succst  fcc     /Command executed OK./
+        fcb     CR
+*
+* Extension string
+ext fcc /DSK/
+*
+ emod
+length equ *
+
+                                                                            

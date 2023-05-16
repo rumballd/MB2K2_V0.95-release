@@ -1,0 +1,10 @@
+Copyright D.A.Rumball 2020. 
+This source describes Open Hardware and is licensed under the CERN-OHL-P v2 
+You may redistribute and modify this documentation and make products using it under the terms of the CERN-OHL-P v2 (https:/cern.ch/cern-ohl). This documentation is distributed WITHOUT ANY EXPRESS OR IMPLIED WARRANTY, INCLUDING OF MERCHANTABILITY, SATISFACTORY QUALITY AND FITNESS FOR A PARTICULAR PURPOSE. Please see the CERN-OHL-P v2 for applicable conditions 
+
+
+Changes
+-------
+30th Apr 2020 - First release (0.90)
+30th Jul 2020 - release 0.91 - Add OS-9 level1 OS and PROMdisk image 
+10th May 2023 - release 0.95 - PCB converted to KiCAD, add F-RAM based RAMdisk

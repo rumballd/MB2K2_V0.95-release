@@ -1,0 +1,36 @@
+                      ( mb2k2\blinky.txt):00001          nam blinky
+                      ( mb2k2\blinky.txt):00002          ttl flash a LED
+                      ( mb2k2\blinky.txt):00003         
+                      ( mb2k2\blinky.txt):00004          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      ( mb2k2\blinky.txt):00005         
+                      ( mb2k2\blinky.txt):00006         * Data area
+                      ( mb2k2\blinky.txt):00007          org 0
+0000                  ( mb2k2\blinky.txt):00008         stack rmb 200
+     00C8             ( mb2k2\blinky.txt):00009         datsiz equ .
+                      ( mb2k2\blinky.txt):00010         
+                      ( mb2k2\blinky.txt):00011         * Module header
+     0011             ( mb2k2\blinky.txt):00012         type equ PRGRM+OBJCT
+     0081             ( mb2k2\blinky.txt):00013         revs equ REENT+1
+0000 87CD0034000D1181 ( mb2k2\blinky.txt):00014          mod length,name,type,revs,start,datsiz
+     1C001300C8
+000D 626C696E6BF9     ( mb2k2\blinky.txt):00015         name fcs /blinky/
+                      ( mb2k2\blinky.txt):00016         *
+                      ( mb2k2\blinky.txt):00017         * blink green LED
+0013 B6FF02           ( mb2k2\blinky.txt):00018         start lda SYSREG
+0016 8A02             ( mb2k2\blinky.txt):00019          ora #$02
+0018 B7FF02           ( mb2k2\blinky.txt):00020          sta SYSREG
+001B 8E0002           ( mb2k2\blinky.txt):00021          ldx #2
+001E 103F0A           ( mb2k2\blinky.txt):00022          os9 F$Sleep
+0021 B6FF02           ( mb2k2\blinky.txt):00023          lda SYSREG
+0024 84FD             ( mb2k2\blinky.txt):00024          anda #$FD
+0026 B7FF02           ( mb2k2\blinky.txt):00025          sta SYSREG
+0029 8E000A           ( mb2k2\blinky.txt):00026          ldx #10
+002C 103F0A           ( mb2k2\blinky.txt):00027          os9 F$Sleep
+002F 20E2             ( mb2k2\blinky.txt):00028          bra start
+                      ( mb2k2\blinky.txt):00029         *
+0031 B8D1FF           ( mb2k2\blinky.txt):00030          emod
+                      ( mb2k2\blinky.txt):00031         
+     0034             ( mb2k2\blinky.txt):00032         length equ *

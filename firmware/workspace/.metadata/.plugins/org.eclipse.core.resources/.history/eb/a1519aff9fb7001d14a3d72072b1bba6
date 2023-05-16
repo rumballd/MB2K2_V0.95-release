@@ -1,0 +1,2926 @@
+#undef _XSCOPE_PROBES_INCLUDE_FILE
+
+#define __XC__ 1
+#define __llvm__ 1
+#define __ATOMIC_RELAXED 0
+#define __ATOMIC_CONSUME 1
+#define __ATOMIC_ACQUIRE 2
+#define __ATOMIC_RELEASE 3
+#define __ATOMIC_ACQ_REL 4
+#define __ATOMIC_SEQ_CST 5
+#define __PRAGMA_REDEFINE_EXTNAME 1
+#define __VERSION__ "4.2.1 Compatible XMOS-235-acbb966-Dec-01-2019 Clang 3.6.0 "
+#define __CONSTANT_CFSTRINGS__ 1
+#define __ORDER_LITTLE_ENDIAN__ 1234
+#define __ORDER_BIG_ENDIAN__ 4321
+#define __ORDER_PDP_ENDIAN__ 3412
+#define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
+#define __LITTLE_ENDIAN__ 1
+#define _ILP32 1
+#define __ILP32__ 1
+#define __CHAR_BIT__ 8
+#define __SCHAR_MAX__ 127
+#define __SHRT_MAX__ 32767
+#define __INT_MAX__ 2147483647
+#define __LONG_MAX__ 2147483647L
+#define __LONG_LONG_MAX__ 9223372036854775807LL
+#define __WCHAR_MAX__ 255
+#define __INTMAX_MAX__ 9223372036854775807LL
+#define __SIZE_MAX__ 4294967295U
+#define __SIZEOF_DOUBLE__ 8
+#define __SIZEOF_FLOAT__ 4
+#define __SIZEOF_INT__ 4
+#define __SIZEOF_LONG__ 4
+#define __SIZEOF_LONG_DOUBLE__ 8
+#define __SIZEOF_LONG_LONG__ 8
+#define __SIZEOF_POINTER__ 4
+#define __SIZEOF_SHORT__ 2
+#define __SIZEOF_PTRDIFF_T__ 4
+#define __SIZEOF_SIZE_T__ 4
+#define __SIZEOF_WCHAR_T__ 1
+#define __SIZEOF_WINT_T__ 4
+#define __INTMAX_TYPE__ long long int
+#define __INTMAX_FMTd__ "lld"
+#define __INTMAX_FMTi__ "lli"
+#define __INTMAX_C_SUFFIX__ LL
+#define __UINTMAX_TYPE__ long long unsigned int
+#define __UINTMAX_FMTo__ "llo"
+#define __UINTMAX_FMTu__ "llu"
+#define __UINTMAX_FMTx__ "llx"
+#define __UINTMAX_FMTX__ "llX"
+#define __UINTMAX_C_SUFFIX__ ULL
+#define __INTMAX_WIDTH__ 64
+#define __PTRDIFF_TYPE__ int
+#define __PTRDIFF_FMTd__ "d"
+#define __PTRDIFF_FMTi__ "i"
+#define __PTRDIFF_WIDTH__ 32
+#define __INTPTR_TYPE__ int
+#define __INTPTR_FMTd__ "d"
+#define __INTPTR_FMTi__ "i"
+#define __INTPTR_WIDTH__ 32
+#define __SIZE_TYPE__ unsigned int
+#define __SIZE_FMTo__ "o"
+#define __SIZE_FMTu__ "u"
+#define __SIZE_FMTx__ "x"
+#define __SIZE_FMTX__ "X"
+#define __SIZE_WIDTH__ 32
+#define __WCHAR_TYPE__ unsigned char
+#define __WCHAR_WIDTH__ 8
+#define __WINT_TYPE__ unsigned int
+#define __WINT_WIDTH__ 32
+#define __SIG_ATOMIC_WIDTH__ 32
+#define __SIG_ATOMIC_MAX__ 2147483647
+#define __CHAR16_TYPE__ unsigned short
+#define __CHAR32_TYPE__ unsigned int
+#define __FLT_DENORM_MIN__ 1.40129846e-45F
+#define __FLT_HAS_DENORM__ 1
+#define __FLT_DIG__ 6
+#define __FLT_EPSILON__ 1.19209290e-7F
+#define __FLT_HAS_INFINITY__ 1
+#define __FLT_HAS_QUIET_NAN__ 1
+#define __FLT_MANT_DIG__ 24
+#define __FLT_MAX_10_EXP__ 38
+#define __FLT_MAX_EXP__ 128
+#define __FLT_MAX__ 3.40282347e+38F
+#define __FLT_MIN_10_EXP__ (-37)
+#define __FLT_MIN_EXP__ (-125)
+#define __FLT_MIN__ 1.17549435e-38F
+#define __DBL_DENORM_MIN__ 4.9406564584124654e-324
+#define __DBL_HAS_DENORM__ 1
+#define __DBL_DIG__ 15
+#define __DBL_EPSILON__ 2.2204460492503131e-16
+#define __DBL_HAS_INFINITY__ 1
+#define __DBL_HAS_QUIET_NAN__ 1
+#define __DBL_MANT_DIG__ 53
+#define __DBL_MAX_10_EXP__ 308
+#define __DBL_MAX_EXP__ 1024
+#define __DBL_MAX__ 1.7976931348623157e+308
+#define __DBL_MIN_10_EXP__ (-307)
+#define __DBL_MIN_EXP__ (-1021)
+#define __DBL_MIN__ 2.2250738585072014e-308
+#define __LDBL_DENORM_MIN__ 4.9406564584124654e-324L
+#define __LDBL_HAS_DENORM__ 1
+#define __LDBL_DIG__ 15
+#define __LDBL_EPSILON__ 2.2204460492503131e-16L
+#define __LDBL_HAS_INFINITY__ 1
+#define __LDBL_HAS_QUIET_NAN__ 1
+#define __LDBL_MANT_DIG__ 53
+#define __LDBL_MAX_10_EXP__ 308
+#define __LDBL_MAX_EXP__ 1024
+#define __LDBL_MAX__ 1.7976931348623157e+308L
+#define __LDBL_MIN_10_EXP__ (-307)
+#define __LDBL_MIN_EXP__ (-1021)
+#define __LDBL_MIN__ 2.2250738585072014e-308L
+#define __POINTER_WIDTH__ 32
+#define __CHAR_UNSIGNED__ 1
+#define __WCHAR_UNSIGNED__ 1
+#define __WINT_UNSIGNED__ 1
+#define __INT8_TYPE__ signed char
+#define __INT8_FMTd__ "hhd"
+#define __INT8_FMTi__ "hhi"
+#define __INT8_C_SUFFIX__ 
+#define __INT16_TYPE__ short
+#define __INT16_FMTd__ "hd"
+#define __INT16_FMTi__ "hi"
+#define __INT16_C_SUFFIX__ 
+#define __INT32_TYPE__ int
+#define __INT32_FMTd__ "d"
+#define __INT32_FMTi__ "i"
+#define __INT32_C_SUFFIX__ 
+#define __INT64_TYPE__ long long int
+#define __INT64_FMTd__ "lld"
+#define __INT64_FMTi__ "lli"
+#define __INT64_C_SUFFIX__ LL
+#define __USER_LABEL_PREFIX__ _
+#define __FINITE_MATH_ONLY__ 0
+#define __FLT_EVAL_METHOD__ 0
+#define __FLT_RADIX__ 2
+#define __DECIMAL_DIG__ 17
+#define __xcore__ 1
+#define __XS2A__ 1
+#define __STDC_HOSTED__ 1
+#define __STDC_UTF_16__ 1
+#define __STDC_UTF_32__ 1
+
+#define __xcore__ 1
+#define __XS2A__ 1
+#define XCC_VERSION_YEAR 14
+#define XCC_VERSION_MONTH 4
+#define XCC_VERSION_MAJOR 1404
+#define XCC_VERSION_MINOR 1
+#define __XCC_HAVE_FLOAT__ 1
+#define _XSCOPE_PROBES_INCLUDE_FILE "c:\\Users\\swnb\\Temp\\ccgLcbaa.h"
+
+#define _Stage2Loader_h_ 
+
+
+
+#define _Stage2Loader_SharedDefs_H_ 
+
+
+#define IMAGE_TAG_12 0x1a551e5
+#define IMAGE_HEADER_SIZE_12 28
+#define IMAGE_HEADER_CRC_EXTRA_SKIP_12 4
+
+#define IMAGE_TAG_OFFSET_12 0
+#define PAGE_CRC_OFFSET_12 1
+#define IMAGE_CRC_OFFSET_12 2
+#define IMAGE_SIZE_OFFSET_12 3
+#define IMAGE_VERSION_OFFSET_12 4
+#define IMAGE_LENGTH_OFFSET_12 5
+#define NUM_CORES_OFFSET_12 6
+
+
+#define IMAGE_TAG_13 0x0FF51DE
+#define IMAGE_HEADER_SIZE_13 44
+
+#define IMAGE_TAG_OFFSET_13 0
+#define PAGE_CRC_OFFSET_13 1
+#define IMAGE_CRC_OFFSET_13 2
+#define IMAGE_FEATURES_OFFSET_13 3
+#define IMAGE_SIZE_OFFSET_13 4
+#define IMAGE_VERSION_OFFSET_13 5
+#define IMAGE_LENGTH_OFFSET_13 6
+#define NUM_CORES_OFFSET_13 7
+#define BOOT_IMAGE_ADDRESS_OFFSET_13 8
+#define OVERLAY_ADDRESS_OFFSET_13 9
+#define OVERLAY_OFFSET_OFFSET_13 10
+
+
+#define IMAGE_HEADER_SIZE_13_2 52
+#define SWITCH_SETUP_HEADER_OFFSET_13_2 11
+#define CORE_ENTRY_HEADER_OFFSET_13_2 12
+
+#define IFB_INVALID_MASK 0xFFFFFF87
+#define IFB_BOOT_IMAGE_ADDRESS 3
+#define IFB_OVERLAY_ADDRESS 4
+#define IFB_OVERLAY_OFFSET 5
+#define IFB_SWITCH_SETUP 6
+
+
+#define SWITCH_SETUP_TABLE_DATA_ADDR_OFFSET 0
+#define SWITCH_SETUP_TABLE_DATA_SIZE_OFFSET 1
+#define SWITCH_SETUP_TABLE_CMAC_OFFSET 2
+
+
+#define CORE_TABLE_APP_ADDR_OFFSET 0
+#define CORE_TABLE_CHNEND_OFFSET 1
+#define CORE_TABLE_SIZE_OFFSET 2
+#define CORE_TABLE_CMAC_OFFSET 3
+
+
+#define SWITCH_SETUP_HEADER_SIZE 8
+#define CORE_HEADER_SIZE 12
+#define CMAC_HEADER_SIZE 16
+#define SECURE_INIT_VEC_SIZE 16
+#define IMAGE_HEADER_CRCCMAC_SKIP 12
+#define APPLICATION_DECRYPTER_CRC 4
+
+
+#define XS1L_DECOMPRESSION_TIME_DEBUG_ADDRESS 0x1FFD0
+#define XS1L_RAMJUMP_TIME_DEBUG_ADDRESS 0x1FFD4
+#define XS1L_GETBOOTIMG_TIME_DEBUG_ADDRESS 0x1FFD8
+#define XS1L_SWSETUP_TIME_DEBUG_ADDRESS 0x1FFDC
+#define XS1L_LOADAPPS_TIME_DEBUG_ADDRESS 0x1FFE0
+#define XS1L_S2L_TIME_DEBUG_ADDRESS 0x1FFE4
+
+#define XS2A_DECOMPRESSION_TIME_DEBUG_ADDRESS 0x7FFD0
+#define XS2A_RAMJUMP_TIME_DEBUG_ADDRESS 0x7FFD4
+#define XS2A_GETBOOTIMG_TIME_DEBUG_ADDRESS 0x7FFD8
+#define XS2A_SWSETUP_TIME_DEBUG_ADDRESS 0x7FFDC
+#define XS2A_LOADAPPS_TIME_DEBUG_ADDRESS 0x7FFE0
+#define XS2A_S2L_TIME_DEBUG_ADDRESS 0x7FFE4
+
+
+
+#define IMAGE_TAG IMAGE_TAG_13
+#define IMAGE_HEADER_WORD_SIZE (IMAGE_HEADER_SIZE_13_2 >> 2)
+#define SWITCH_SETUP_HEADER_WORD_SIZE (SWITCH_SETUP_HEADER_SIZE >> 2)
+#define CORE_HEADER_WORD_SIZE (CORE_HEADER_SIZE >> 2)
+#define CMAC_HEADER_WORD_SIZE (CMAC_HEADER_SIZE >> 2)
+#define SECURE_INIT_VEC_WORD_SIZE (SECURE_INIT_VEC_SIZE >> 2)
+#define IMAGE_HEADER_CRCCMAC_WORD_SKIP (IMAGE_HEADER_CRCCMAC_SKIP >> 2)
+#define IMAGE_TAG_OFFSET IMAGE_TAG_OFFSET_13
+#define PAGE_CRC_OFFSET PAGE_CRC_OFFSET_13
+#define IMAGE_CRC_OFFSET IMAGE_CRC_OFFSET_13
+#define IMAGE_FEATURES_OFFSET IMAGE_FEATURES_OFFSET_13
+#define IMAGE_SIZE_OFFSET IMAGE_SIZE_OFFSET_13
+#define IMAGE_VERSION_OFFSET IMAGE_VERSION_OFFSET_13
+#define IMAGE_LENGTH_OFFSET IMAGE_LENGTH_OFFSET_13
+#define NUM_CORES_OFFSET NUM_CORES_OFFSET_13
+#define BOOT_IMAGE_ADDRESS_OFFSET BOOT_IMAGE_ADDRESS_OFFSET_13
+#define OVERLAY_ADDRESS_OFFSET OVERLAY_ADDRESS_OFFSET_13
+#define OVERLAY_OFFSET_OFFSET OVERLAY_OFFSET_OFFSET_13
+#define DECOMPRESSION_TIME_DEBUG_ADDRESS XS2A_DECOMPRESSION_TIME_DEBUG_ADDRESS
+#define RAMJUMP_TIME_DEBUG_ADDRESS XS2A_RAMJUMP_TIME_DEBUG_ADDRESS
+#define GETBOOTIMG_TIME_DEBUG_ADDRESS XS2A_GETBOOTIMG_TIME_DEBUG_ADDRESS
+#define SWSETUP_TIME_DEBUG_ADDRESS XS2A_SWSETUP_TIME_DEBUG_ADDRESS
+#define LOADAPPS_TIME_DEBUG_ADDRESS XS2A_LOADAPPS_TIME_DEBUG_ADDRESS
+#define S2L_TIME_DEBUG_ADDRESS XS2A_S2L_TIME_DEBUG_ADDRESS
+
+
+
+
+void Stage2Loader_GetChanEndZero(void);
+void Stage2Loader_RamJump(void);
+void Stage2Loader_DoBoot(unsigned int disable_otp);
+void Stage2Loader_DoSecureBootee(void);
+
+void Stage2Loader_ProgramPLL(unsigned int s2l_pll, unsigned int s2l_ref);
+unsigned int Stage2Loader_GetCycleCount(void);
+void Stage2Loader_WriteTimeToDebugMem(unsigned value, unsigned address);
+unsigned int Stage2Loader_ReadTimeFromDebugMem(unsigned address);
+
+#define _SwitchSetup_h_ 
+
+
+
+
+
+typedef struct
+{
+  unsigned int prev_routing_id;
+  unsigned int prev_link_id;
+  unsigned int prev_link_config;
+  unsigned int prev_link_direction;
+  unsigned int prev_direction_bits_0;
+  unsigned int prev_direction_bits_1;
+  unsigned int next_boot_mode;
+  unsigned int next_routing_id;
+  unsigned int next_link_id;
+  unsigned int next_link_config;
+  unsigned int next_link_direction;
+  unsigned int next_direction_bits_0;
+  unsigned int next_direction_bits_1;
+  unsigned int pll_type;
+  unsigned int pll_value;
+  unsigned int refdiv_val;
+  unsigned int switchdiv_val;
+  unsigned int tile0div_val;
+  unsigned int tile1div_val;
+  unsigned int reset_delay;
+  unsigned int link_speed_slow;
+  unsigned int link_latency_delay;
+  unsigned int link_latency_delay_slow;
+} Spanning_Table_T;
+
+typedef struct
+{
+  unsigned int routing_id;
+  unsigned int dimension0;
+  unsigned int dimension1;
+  unsigned int link_latency_delay;
+  unsigned int link_latency_delay_slow;
+} Spanning_Routing_Table_T;
+
+typedef struct
+{
+  unsigned int target_link_num;
+  unsigned int target_link_config;
+  unsigned int target_link_direction;
+} Link_Info_T;
+
+typedef struct
+{
+  unsigned int target_routing_id;
+  unsigned int new_routing_id;
+  unsigned int target_num_links;
+  unsigned int target_link_info_index;
+  unsigned int target_direction_bits_0;
+  unsigned int target_direction_bits_1;
+  unsigned int target_unused_link_mask;
+  unsigned int link_latency_delay;
+} Links_Table_T;
+
+typedef struct
+{
+  unsigned int target_routing_id;
+  unsigned int target_galaxian_config;
+  unsigned int target_galaxian_freq;
+} Galaxian_Table_T;
+
+
+
+
+
+
+void SwitchSetup_SetMasterPLL(unsigned int pll, unsigned int ref_div);
+
+void SwitchSetup_DoSingleTileConfig(void);
+
+
+
+
+
+
+void SwitchSetup_SetMasterPLL_RGMII(unsigned int pll,
+                                    unsigned int ref_div,
+                                    unsigned int switch_div,
+                                    unsigned int tile0_div,
+                                    unsigned int tile1_div);
+  void SwitchSetup_DoMultiTileConfig(Spanning_Table_T spanning_table [num_spanning_tables],
+                                     unsigned int num_spanning_tables,
+                                     Spanning_Routing_Table_T routing_table [num_routing_tables],
+                                     unsigned int num_routing_tables);
+
+  void SwitchSetup_DoLinkConfig(Links_Table_T links_table [num_link_tables],
+                                Link_Info_T link_info [],
+                                unsigned int num_link_tables);
+
+  void SwitchSetup_DoGalaxianConfig(Galaxian_Table_T galaxian_table [num_galaxian_tables],
+                                    unsigned int num_galaxian_tables);
+
+#define _DeviceAccess_ARM_h_ 
+
+
+
+#define _xaboot_h_ 
+
+
+
+
+#define _xaboot_xcore_h_ 
+
+
+#define _xs1_h_ 
+
+
+
+
+
+
+#define _timer_h_ 
+
+#define XS1_TIMER_MHZ 100U
+#define XS1_TIMER_KHZ ((XS1_TIMER_MHZ) * 1000U)
+#define XS1_TIMER_HZ ((XS1_TIMER_MHZ) * 1000000U)
+void delay_ticks(unsigned ticks);
+
+
+
+
+
+
+void delay_ticks_longlong(unsigned long long ticks);
+
+
+
+
+
+inline void delay_seconds(unsigned int delay) {
+  delay_ticks_longlong(100U * 1000000 * (unsigned long long)delay);
+}
+
+
+
+
+
+inline void delay_milliseconds(unsigned delay) {
+  delay_ticks_longlong(100U * 1000 * (unsigned long long)delay);
+}
+
+
+
+
+
+inline void delay_microseconds(unsigned delay) {
+  delay_ticks_longlong(100U * (unsigned long long)delay);
+}
+#define _XS1_G4000B_512_H_ 
+
+
+#define XS1_PORT_32A 0x200000
+
+#define XS1_PORT_16A 0x100000
+#define XS1_PORT_16B 0x100100
+
+#define XS1_PORT_8A 0x80000
+#define XS1_PORT_8B 0x80100
+#define XS1_PORT_8C 0x80200
+#define XS1_PORT_8D 0x80300
+
+#define XS1_PORT_4A 0x40000
+#define XS1_PORT_4B 0x40100
+#define XS1_PORT_4C 0x40200
+#define XS1_PORT_4D 0x40300
+#define XS1_PORT_4E 0x40400
+#define XS1_PORT_4F 0x40500
+
+#define XS1_PORT_1A 0x10200
+#define XS1_PORT_1B 0x10000
+#define XS1_PORT_1C 0x10100
+#define XS1_PORT_1D 0x10300
+#define XS1_PORT_1E 0x10600
+#define XS1_PORT_1F 0x10400
+#define XS1_PORT_1G 0x10500
+#define XS1_PORT_1H 0x10700
+#define XS1_PORT_1I 0x10a00
+#define XS1_PORT_1J 0x10800
+#define XS1_PORT_1K 0x10900
+#define XS1_PORT_1L 0x10b00
+#define XS1_PORT_1M 0x10c00
+#define XS1_PORT_1N 0x10d00
+#define XS1_PORT_1O 0x10e00
+#define XS1_PORT_1P 0x10f00
+
+
+#define XS1_PORT_32B 0x200100
+#define XS1_PORT_16C 0x100200
+#define XS1_PORT_16D 0x100300
+
+#define _xs1_user_h_ 
+
+
+
+#define _xs2a_user_h_ 
+#define XS1_SETC_MODE_SHIFT 0x0
+#define XS1_SETC_MODE_SIZE 0x3
+#define XS1_SETC_MODE_MASK (((1 << XS1_SETC_MODE_SIZE) - 1) << XS1_SETC_MODE_SHIFT)
+#define XS1_SETC_MODE(x) (((x) & XS1_SETC_MODE_MASK) >> XS1_SETC_MODE_SHIFT)
+#define XS1_SETC_MODE_SET(x,v) (((x) & ~XS1_SETC_MODE_MASK) | (((v) << XS1_SETC_MODE_SHIFT) & XS1_SETC_MODE_MASK))
+#define XS1_SETC_VALUE_SHIFT 0x3
+#define XS1_SETC_VALUE_SIZE 0x9
+#define XS1_SETC_VALUE_MASK (((1 << XS1_SETC_VALUE_SIZE) - 1) << XS1_SETC_VALUE_SHIFT)
+#define XS1_SETC_VALUE(x) (((x) & XS1_SETC_VALUE_MASK) >> XS1_SETC_VALUE_SHIFT)
+#define XS1_SETC_VALUE_SET(x,v) (((x) & ~XS1_SETC_VALUE_MASK) | (((v) << XS1_SETC_VALUE_SHIFT) & XS1_SETC_VALUE_MASK))
+#define XS1_SETC_LMODE_SHIFT 0xc
+#define XS1_SETC_LMODE_SIZE 0x4
+#define XS1_SETC_LMODE_MASK (((1 << XS1_SETC_LMODE_SIZE) - 1) << XS1_SETC_LMODE_SHIFT)
+#define XS1_SETC_LMODE(x) (((x) & XS1_SETC_LMODE_MASK) >> XS1_SETC_LMODE_SHIFT)
+#define XS1_SETC_LMODE_SET(x,v) (((x) & ~XS1_SETC_LMODE_MASK) | (((v) << XS1_SETC_LMODE_SHIFT) & XS1_SETC_LMODE_MASK))
+#define XS1_SETC_MMAP_MODE_SHIFT 0x0
+#define XS1_SETC_MMAP_MODE_SIZE 0x8
+#define XS1_SETC_MMAP_MODE_MASK (((1 << XS1_SETC_MMAP_MODE_SIZE) - 1) << XS1_SETC_MMAP_MODE_SHIFT)
+#define XS1_SETC_MMAP_MODE(x) (((x) & XS1_SETC_MMAP_MODE_MASK) >> XS1_SETC_MMAP_MODE_SHIFT)
+#define XS1_SETC_MMAP_MODE_SET(x,v) (((x) & ~XS1_SETC_MMAP_MODE_MASK) | (((v) << XS1_SETC_MMAP_MODE_SHIFT) & XS1_SETC_MMAP_MODE_MASK))
+#define XS1_SETC_MMAP_VALUE_SHIFT 0x8
+#define XS1_SETC_MMAP_VALUE_SIZE 0x18
+#define XS1_SETC_MMAP_VALUE_MASK (((1 << XS1_SETC_MMAP_VALUE_SIZE) - 1) << XS1_SETC_MMAP_VALUE_SHIFT)
+#define XS1_SETC_MMAP_VALUE(x) (((x) & XS1_SETC_MMAP_VALUE_MASK) >> XS1_SETC_MMAP_VALUE_SHIFT)
+#define XS1_SETC_MMAP_VALUE_SET(x,v) (((x) & ~XS1_SETC_MMAP_VALUE_MASK) | (((v) << XS1_SETC_MMAP_VALUE_SHIFT) & XS1_SETC_MMAP_VALUE_MASK))
+#define XS1_NUM_NETWORKS 0x4
+#define XS1_RES_TYPE_PORT 0x0
+#define XS1_RES_TYPE_TIMER 0x1
+#define XS1_RES_TYPE_CHANEND 0x2
+#define XS1_RES_TYPE_SYNC 0x3
+#define XS1_RES_TYPE_THREAD 0x4
+#define XS1_RES_TYPE_LOCK 0x5
+#define XS1_RES_TYPE_CLKBLK 0x6
+#define XS1_RES_TYPE_COPROC 0x7
+#define XS1_RES_TYPE_PS 0xb
+#define XS1_RES_TYPE_CONFIG 0xc
+#define XS1_RES_TYPE_INSTRUCTION 0xd
+#define XS1_NUM_RES_TYPES 0x8
+#define XS1_CLK_REF 0x1
+#define XS1_CLK_XCORE 0x101
+#define XS1_CLKBLK_REF 0x6
+#define XS1_CLKBLK_1 0x106
+#define XS1_CLKBLK_2 0x206
+#define XS1_CLKBLK_3 0x306
+#define XS1_CLKBLK_4 0x406
+#define XS1_CLKBLK_5 0x506
+#define XS1_ET_LINK_ERROR 0x1
+#define XS1_ET_ILLEGAL_PC 0x2
+#define XS1_ET_ILLEGAL_INSTRUCTION 0x3
+#define XS1_ET_ILLEGAL_RESOURCE 0x4
+#define XS1_ET_LOAD_STORE 0x5
+#define XS1_ET_ILLEGAL_PS 0x6
+#define XS1_ET_ARITHMETIC 0x7
+#define XS1_ET_ECALL 0x8
+#define XS1_ET_RESOURCE_DEP 0x9
+#define XS1_ET_KCALL 0xf
+#define XS1_ET_NONE 0x0
+#define XS1_RES_ID_INVALID 0x0
+#define XS1_NUM_LOCKS 0x4
+#define XS1_NUM_SYNCS 0x7
+#define XS1_NUM_TIMERS 0xa
+#define XS1_NUM_THREADS 0x8
+#define XS1_NUM_CHANENDS 0x20
+#define XS1_NUM_CLKBLKS 0x6
+#define XS1_NUM_MMAPS 0x10
+#define XS1_CT_START_TRANSACTION 0x0
+#define XS1_CT_END 0x1
+#define XS1_CT_PAUSE 0x2
+#define XS1_CT_ACK 0x3
+#define XS1_CT_NACK 0x4
+#define XS1_CT_READN 0x10
+#define XS1_CT_READ1 0x11
+#define XS1_CT_READ2 0x12
+#define XS1_CT_READ4 0x13
+#define XS1_CT_READ8 0x14
+#define XS1_CT_WRITEN 0x15
+#define XS1_CT_WRITE1 0x16
+#define XS1_CT_WRITE2 0x17
+#define XS1_CT_WRITE4 0x18
+#define XS1_CT_WRITE8 0x19
+#define XS1_CT_CALL 0x1a
+#define XS1_CT_WRITEC 0xc0
+#define XS1_CT_READC 0xc1
+#define XS1_CT_PSCTRL 0xc2
+#define XS1_CT_SSCTRL 0xc3
+#define XS1_SETC_MMAP_MODE_LOCK 0x0
+#define XS1_SETC_MMAP_MODE_RO 0x1
+#define XS1_SETC_MMAP_MODE_TH_DIS 0x2
+#define XS1_SETC_MMAP_MODE_TH_EN 0x3
+#define XS1_SETC_MMAP_MODE_ASID 0x4
+#define XS1_SETC_MMAP_MODE_GLOBAL 0x5
+#define XS1_SETC_MMAP_MODE_LENGTH 0x6
+#define XS1_SETC_MMAP_MODE_VIRT_ADDR 0x7
+#define XS1_SETC_MMAP_MODE_PHY_ADDR 0x8
+#define XS1_SETC_INUSE_OFF 0x0
+#define XS1_SETC_INUSE_ON 0x8
+#define XS1_SETC_COND_NONE 0x1
+#define XS1_SETC_COND_FULL 0x1
+#define XS1_SETC_COND_AFTER 0x9
+#define XS1_SETC_COND_EQ 0x11
+#define XS1_SETC_COND_NEQ 0x19
+#define XS1_SETC_IE_MODE_EVENT 0x2
+#define XS1_SETC_IE_MODE_INTERRUPT 0xa
+#define XS1_SETC_DRIVE_DRIVE 0x3
+#define XS1_SETC_DRIVE_PULL_DOWN 0xb
+#define XS1_SETC_DRIVE_PULL_UP 0x13
+#define XS1_SETC_RUN_STOPR 0x7
+#define XS1_SETC_RUN_STARTR 0xf
+#define XS1_SETC_RUN_CLRBUF 0x17
+#define XS1_SETC_MS_MASTER 0x1007
+#define XS1_SETC_MS_SLAVE 0x100f
+#define XS1_SETC_BUF_NOBUFFERS 0x2007
+#define XS1_SETC_BUF_BUFFERS 0x200f
+#define XS1_SETC_RDY_NOREADY 0x3007
+#define XS1_SETC_RDY_STROBED 0x300f
+#define XS1_SETC_RDY_HANDSHAKE 0x3017
+#define XS1_SETC_SDELAY_NOSDELAY 0x4007
+#define XS1_SETC_SDELAY_SDELAY 0x400f
+#define XS1_SETC_PORT_DATAPORT 0x5007
+#define XS1_SETC_PORT_CLOCKPORT 0x500f
+#define XS1_SETC_PORT_READYPORT 0x5017
+#define XS1_SETC_INV_NOINVERT 0x6007
+#define XS1_SETC_INV_INVERT 0x600f
+#define XS1_NUM_1BIT_GPIO_PORTS 0x10
+#define XS1_NUM_4BIT_GPIO_PORTS 0x6
+#define XS1_NUM_8BIT_GPIO_PORTS 0x4
+#define XS1_NUM_16BIT_GPIO_PORTS 0x2
+#define XS1_NUM_32BIT_GPIO_PORTS 0x1
+#define XS1_NUM_1BIT_PORTS 0x10
+#define XS1_NUM_4BIT_PORTS 0x6
+#define XS1_NUM_8BIT_PORTS 0x4
+#define XS1_NUM_16BIT_PORTS 0x4
+#define XS1_NUM_32BIT_PORTS 0x2
+#define _xs1_kernel_h_ 
+
+
+
+#define _xs2a_kernel_h_ 
+#define XS1_SR_EEBLE_SHIFT 0x0
+#define XS1_SR_EEBLE_SIZE 0x1
+#define XS1_SR_EEBLE_MASK (((1 << XS1_SR_EEBLE_SIZE) - 1) << XS1_SR_EEBLE_SHIFT)
+#define XS1_SR_EEBLE(x) (((x) & XS1_SR_EEBLE_MASK) >> XS1_SR_EEBLE_SHIFT)
+#define XS1_SR_EEBLE_SET(x,v) (((x) & ~XS1_SR_EEBLE_MASK) | (((v) << XS1_SR_EEBLE_SHIFT) & XS1_SR_EEBLE_MASK))
+#define XS1_SR_IEBLE_SHIFT 0x1
+#define XS1_SR_IEBLE_SIZE 0x1
+#define XS1_SR_IEBLE_MASK (((1 << XS1_SR_IEBLE_SIZE) - 1) << XS1_SR_IEBLE_SHIFT)
+#define XS1_SR_IEBLE(x) (((x) & XS1_SR_IEBLE_MASK) >> XS1_SR_IEBLE_SHIFT)
+#define XS1_SR_IEBLE_SET(x,v) (((x) & ~XS1_SR_IEBLE_MASK) | (((v) << XS1_SR_IEBLE_SHIFT) & XS1_SR_IEBLE_MASK))
+#define XS1_SR_INENB_SHIFT 0x2
+#define XS1_SR_INENB_SIZE 0x1
+#define XS1_SR_INENB_MASK (((1 << XS1_SR_INENB_SIZE) - 1) << XS1_SR_INENB_SHIFT)
+#define XS1_SR_INENB(x) (((x) & XS1_SR_INENB_MASK) >> XS1_SR_INENB_SHIFT)
+#define XS1_SR_INENB_SET(x,v) (((x) & ~XS1_SR_INENB_MASK) | (((v) << XS1_SR_INENB_SHIFT) & XS1_SR_INENB_MASK))
+#define XS1_SR_ININT_SHIFT 0x3
+#define XS1_SR_ININT_SIZE 0x1
+#define XS1_SR_ININT_MASK (((1 << XS1_SR_ININT_SIZE) - 1) << XS1_SR_ININT_SHIFT)
+#define XS1_SR_ININT(x) (((x) & XS1_SR_ININT_MASK) >> XS1_SR_ININT_SHIFT)
+#define XS1_SR_ININT_SET(x,v) (((x) & ~XS1_SR_ININT_MASK) | (((v) << XS1_SR_ININT_SHIFT) & XS1_SR_ININT_MASK))
+#define XS1_SR_INK_SHIFT 0x4
+#define XS1_SR_INK_SIZE 0x1
+#define XS1_SR_INK_MASK (((1 << XS1_SR_INK_SIZE) - 1) << XS1_SR_INK_SHIFT)
+#define XS1_SR_INK(x) (((x) & XS1_SR_INK_MASK) >> XS1_SR_INK_SHIFT)
+#define XS1_SR_INK_SET(x,v) (((x) & ~XS1_SR_INK_MASK) | (((v) << XS1_SR_INK_SHIFT) & XS1_SR_INK_MASK))
+#define XS1_SR_SINK_SHIFT 0x5
+#define XS1_SR_SINK_SIZE 0x1
+#define XS1_SR_SINK_MASK (((1 << XS1_SR_SINK_SIZE) - 1) << XS1_SR_SINK_SHIFT)
+#define XS1_SR_SINK(x) (((x) & XS1_SR_SINK_MASK) >> XS1_SR_SINK_SHIFT)
+#define XS1_SR_SINK_SET(x,v) (((x) & ~XS1_SR_SINK_MASK) | (((v) << XS1_SR_SINK_SHIFT) & XS1_SR_SINK_MASK))
+#define XS1_SR_WAITING_SHIFT 0x6
+#define XS1_SR_WAITING_SIZE 0x1
+#define XS1_SR_WAITING_MASK (((1 << XS1_SR_WAITING_SIZE) - 1) << XS1_SR_WAITING_SHIFT)
+#define XS1_SR_WAITING(x) (((x) & XS1_SR_WAITING_MASK) >> XS1_SR_WAITING_SHIFT)
+#define XS1_SR_WAITING_SET(x,v) (((x) & ~XS1_SR_WAITING_MASK) | (((v) << XS1_SR_WAITING_SHIFT) & XS1_SR_WAITING_MASK))
+#define XS1_SR_FAST_SHIFT 0x7
+#define XS1_SR_FAST_SIZE 0x1
+#define XS1_SR_FAST_MASK (((1 << XS1_SR_FAST_SIZE) - 1) << XS1_SR_FAST_SHIFT)
+#define XS1_SR_FAST(x) (((x) & XS1_SR_FAST_MASK) >> XS1_SR_FAST_SHIFT)
+#define XS1_SR_FAST_SET(x,v) (((x) & ~XS1_SR_FAST_MASK) | (((v) << XS1_SR_FAST_SHIFT) & XS1_SR_FAST_MASK))
+#define XS1_SR_DI_SHIFT 0x8
+#define XS1_SR_DI_SIZE 0x1
+#define XS1_SR_DI_MASK (((1 << XS1_SR_DI_SIZE) - 1) << XS1_SR_DI_SHIFT)
+#define XS1_SR_DI(x) (((x) & XS1_SR_DI_MASK) >> XS1_SR_DI_SHIFT)
+#define XS1_SR_DI_SET(x,v) (((x) & ~XS1_SR_DI_MASK) | (((v) << XS1_SR_DI_SHIFT) & XS1_SR_DI_MASK))
+#define XS1_SR_KEDI_SHIFT 0x9
+#define XS1_SR_KEDI_SIZE 0x1
+#define XS1_SR_KEDI_MASK (((1 << XS1_SR_KEDI_SIZE) - 1) << XS1_SR_KEDI_SHIFT)
+#define XS1_SR_KEDI(x) (((x) & XS1_SR_KEDI_MASK) >> XS1_SR_KEDI_SHIFT)
+#define XS1_SR_KEDI_SET(x,v) (((x) & ~XS1_SR_KEDI_MASK) | (((v) << XS1_SR_KEDI_SHIFT) & XS1_SR_KEDI_MASK))
+#define XS1_SR_QUEUE_SHIFT 0xa
+#define XS1_SR_QUEUE_SIZE 0x1
+#define XS1_SR_QUEUE_MASK (((1 << XS1_SR_QUEUE_SIZE) - 1) << XS1_SR_QUEUE_SHIFT)
+#define XS1_SR_QUEUE(x) (((x) & XS1_SR_QUEUE_MASK) >> XS1_SR_QUEUE_SHIFT)
+#define XS1_SR_QUEUE_SET(x,v) (((x) & ~XS1_SR_QUEUE_MASK) | (((v) << XS1_SR_QUEUE_SHIFT) & XS1_SR_QUEUE_MASK))
+#define XS1_RES_ID_TYPE_SHIFT 0x0
+#define XS1_RES_ID_TYPE_SIZE 0x4
+#define XS1_RES_ID_TYPE_MASK (((1 << XS1_RES_ID_TYPE_SIZE) - 1) << XS1_RES_ID_TYPE_SHIFT)
+#define XS1_RES_ID_TYPE(x) (((x) & XS1_RES_ID_TYPE_MASK) >> XS1_RES_ID_TYPE_SHIFT)
+#define XS1_RES_ID_TYPE_SET(x,v) (((x) & ~XS1_RES_ID_TYPE_MASK) | (((v) << XS1_RES_ID_TYPE_SHIFT) & XS1_RES_ID_TYPE_MASK))
+#define XS1_RES_ID_REGID_SHIFT 0x4
+#define XS1_RES_ID_REGID_SIZE 0x4
+#define XS1_RES_ID_REGID_MASK (((1 << XS1_RES_ID_REGID_SIZE) - 1) << XS1_RES_ID_REGID_SHIFT)
+#define XS1_RES_ID_REGID(x) (((x) & XS1_RES_ID_REGID_MASK) >> XS1_RES_ID_REGID_SHIFT)
+#define XS1_RES_ID_REGID_SET(x,v) (((x) & ~XS1_RES_ID_REGID_MASK) | (((v) << XS1_RES_ID_REGID_SHIFT) & XS1_RES_ID_REGID_MASK))
+#define XS1_RES_ID_RESNUM_SHIFT 0x8
+#define XS1_RES_ID_RESNUM_SIZE 0x8
+#define XS1_RES_ID_RESNUM_MASK (((1 << XS1_RES_ID_RESNUM_SIZE) - 1) << XS1_RES_ID_RESNUM_SHIFT)
+#define XS1_RES_ID_RESNUM(x) (((x) & XS1_RES_ID_RESNUM_MASK) >> XS1_RES_ID_RESNUM_SHIFT)
+#define XS1_RES_ID_RESNUM_SET(x,v) (((x) & ~XS1_RES_ID_RESNUM_MASK) | (((v) << XS1_RES_ID_RESNUM_SHIFT) & XS1_RES_ID_RESNUM_MASK))
+#define XS1_RES_ID_PORTWIDTH_SHIFT 0x10
+#define XS1_RES_ID_PORTWIDTH_SIZE 0x6
+#define XS1_RES_ID_PORTWIDTH_MASK (((1 << XS1_RES_ID_PORTWIDTH_SIZE) - 1) << XS1_RES_ID_PORTWIDTH_SHIFT)
+#define XS1_RES_ID_PORTWIDTH(x) (((x) & XS1_RES_ID_PORTWIDTH_MASK) >> XS1_RES_ID_PORTWIDTH_SHIFT)
+#define XS1_RES_ID_PORTWIDTH_SET(x,v) (((x) & ~XS1_RES_ID_PORTWIDTH_MASK) | (((v) << XS1_RES_ID_PORTWIDTH_SHIFT) & XS1_RES_ID_PORTWIDTH_MASK))
+#define XS1_CHAN_ID_CHANNUM_SHIFT 0x8
+#define XS1_CHAN_ID_CHANNUM_SIZE 0x8
+#define XS1_CHAN_ID_CHANNUM_MASK (((1 << XS1_CHAN_ID_CHANNUM_SIZE) - 1) << XS1_CHAN_ID_CHANNUM_SHIFT)
+#define XS1_CHAN_ID_CHANNUM(x) (((x) & XS1_CHAN_ID_CHANNUM_MASK) >> XS1_CHAN_ID_CHANNUM_SHIFT)
+#define XS1_CHAN_ID_CHANNUM_SET(x,v) (((x) & ~XS1_CHAN_ID_CHANNUM_MASK) | (((v) << XS1_CHAN_ID_CHANNUM_SHIFT) & XS1_CHAN_ID_CHANNUM_MASK))
+#define XS1_CHAN_ID_PROCESSOR_SHIFT 0x10
+#define XS1_CHAN_ID_PROCESSOR_SIZE 0x8
+#define XS1_CHAN_ID_PROCESSOR_MASK (((1 << XS1_CHAN_ID_PROCESSOR_SIZE) - 1) << XS1_CHAN_ID_PROCESSOR_SHIFT)
+#define XS1_CHAN_ID_PROCESSOR(x) (((x) & XS1_CHAN_ID_PROCESSOR_MASK) >> XS1_CHAN_ID_PROCESSOR_SHIFT)
+#define XS1_CHAN_ID_PROCESSOR_SET(x,v) (((x) & ~XS1_CHAN_ID_PROCESSOR_MASK) | (((v) << XS1_CHAN_ID_PROCESSOR_SHIFT) & XS1_CHAN_ID_PROCESSOR_MASK))
+#define XS1_CHAN_ID_NODE_SHIFT 0x18
+#define XS1_CHAN_ID_NODE_SIZE 0x8
+#define XS1_CHAN_ID_NODE_MASK (((1 << XS1_CHAN_ID_NODE_SIZE) - 1) << XS1_CHAN_ID_NODE_SHIFT)
+#define XS1_CHAN_ID_NODE(x) (((x) & XS1_CHAN_ID_NODE_MASK) >> XS1_CHAN_ID_NODE_SHIFT)
+#define XS1_CHAN_ID_NODE_SET(x,v) (((x) & ~XS1_CHAN_ID_NODE_MASK) | (((v) << XS1_CHAN_ID_NODE_SHIFT) & XS1_CHAN_ID_NODE_MASK))
+#define XS1_HEADER_3BYTE_CHANNUM_SHIFT 0x0
+#define XS1_HEADER_3BYTE_CHANNUM_SIZE 0x8
+#define XS1_HEADER_3BYTE_CHANNUM_MASK (((1 << XS1_HEADER_3BYTE_CHANNUM_SIZE) - 1) << XS1_HEADER_3BYTE_CHANNUM_SHIFT)
+#define XS1_HEADER_3BYTE_CHANNUM(x) (((x) & XS1_HEADER_3BYTE_CHANNUM_MASK) >> XS1_HEADER_3BYTE_CHANNUM_SHIFT)
+#define XS1_HEADER_3BYTE_CHANNUM_SET(x,v) (((x) & ~XS1_HEADER_3BYTE_CHANNUM_MASK) | (((v) << XS1_HEADER_3BYTE_CHANNUM_SHIFT) & XS1_HEADER_3BYTE_CHANNUM_MASK))
+#define XS1_HEADER_3BYTE_PROCESSOR_SHIFT 0x8
+#define XS1_HEADER_3BYTE_PROCESSOR_SIZE 0x8
+#define XS1_HEADER_3BYTE_PROCESSOR_MASK (((1 << XS1_HEADER_3BYTE_PROCESSOR_SIZE) - 1) << XS1_HEADER_3BYTE_PROCESSOR_SHIFT)
+#define XS1_HEADER_3BYTE_PROCESSOR(x) (((x) & XS1_HEADER_3BYTE_PROCESSOR_MASK) >> XS1_HEADER_3BYTE_PROCESSOR_SHIFT)
+#define XS1_HEADER_3BYTE_PROCESSOR_SET(x,v) (((x) & ~XS1_HEADER_3BYTE_PROCESSOR_MASK) | (((v) << XS1_HEADER_3BYTE_PROCESSOR_SHIFT) & XS1_HEADER_3BYTE_PROCESSOR_MASK))
+#define XS1_HEADER_3BYTE_NODE_SHIFT 0x10
+#define XS1_HEADER_3BYTE_NODE_SIZE 0x8
+#define XS1_HEADER_3BYTE_NODE_MASK (((1 << XS1_HEADER_3BYTE_NODE_SIZE) - 1) << XS1_HEADER_3BYTE_NODE_SHIFT)
+#define XS1_HEADER_3BYTE_NODE(x) (((x) & XS1_HEADER_3BYTE_NODE_MASK) >> XS1_HEADER_3BYTE_NODE_SHIFT)
+#define XS1_HEADER_3BYTE_NODE_SET(x,v) (((x) & ~XS1_HEADER_3BYTE_NODE_MASK) | (((v) << XS1_HEADER_3BYTE_NODE_SHIFT) & XS1_HEADER_3BYTE_NODE_MASK))
+#define XS1_KEP_ALIGNMENT 0x80
+#define XS1_KCALL_ALIGNMENT 0x40
+#define XS1_TRAP_KCALL_OFFSET 0x40
+#define XS1_ARG0_REG r0
+#define XS1_ARG1_REG r1
+#define XS1_ARG2_REG r2
+#define XS1_ARG3_REG r3
+#define XS1_RET0_REG r0
+#define XS1_RET1_REG r1
+#define XS1_RET2_REG r2
+#define XS1_RET3_REG r3
+#define XS1_DBG_T_REG_CP_NUM 0xc
+#define XS1_DBG_T_REG_DP_NUM 0xd
+#define XS1_DBG_T_REG_SP_NUM 0xe
+#define XS1_DBG_T_REG_LR_NUM 0xf
+#define XS1_DBG_T_REG_PC_NUM 0x10
+#define XS1_DBG_T_REG_SR_NUM 0x11
+#define XS1_DBG_T_REG_SPC_NUM 0x12
+#define XS1_DBG_T_REG_SSR_NUM 0x13
+#define XS1_DBG_T_REG_ET_NUM 0x14
+#define XS1_DBG_T_REG_ED_NUM 0x15
+#define XS1_DBG_T_REG_SED_NUM 0x16
+#define XS1_DBG_T_REG_KEP_NUM 0x17
+#define XS1_DBG_T_REG_KSP_NUM 0x18
+#define XS1_DBG_T_REG_ID_NUM 0x19
+#define XS1_STACK_OFFSET_SPC 0x1
+#define XS1_STACK_OFFSET_SSR 0x2
+#define XS1_STACK_OFFSET_SED 0x3
+#define XS1_STACK_OFFSET_ET 0x4
+#define XS1_DBG_BUFFER_WORDS 0x20
+#define XS1_DBG_CAUSE_NONE 0x0
+#define XS1_DBG_CAUSE_HOST 0x1
+#define XS1_DBG_CAUSE_DCALL 0x2
+#define XS1_DBG_CAUSE_IBREAK 0x3
+#define XS1_DBG_CAUSE_DWATCH 0x4
+#define XS1_DBG_CAUSE_RWATCH 0x5
+#define XS1_DBG_CMD_ACK 0x0
+#define XS1_DBG_CMD_NACK 0x1
+#define XS1_DBG_CMD_READ 0x2
+#define XS1_DBG_CMD_WRITE 0x3
+#define XS1_DBG_CMD_GETPS 0x4
+#define XS1_DBG_CMD_SETPS 0x5
+#define XS1_DBG_CMD_GETSTATE 0x6
+#define XS1_DBG_CMD_SETSTATE 0x7
+#define XS1_DBG_CMD_CALL 0x8
+#define XS1_DBG_CMD_RFDBG 0x9
+#define XS1_DBG_CMD_READ4PI 0xa
+#define XS1_DBG_CMD_WRITE4PI 0xb
+#define XS1_NUM_DBG_IBREAK 0x4
+#define XS1_NUM_DBG_RWATCH 0x4
+#define XS1_NUM_DBG_DWATCH 0x4
+#define XS1_RAM_BASE 0x40000
+#define XS1_RAM_SIZE 0x40000
+#define XS1_RAM_ADDR_WIDTH 0x10
+#define XS1_ROM_BASE 0xfff00000
+#define XS1_ROM_SIZE 0x2000
+#define XS1_ROM_ADDR_WIDTH 0xb
+#define XS1_DEBUG_VECTOR 0xfff00004
+#define XS1_RES_PS_CTRL0 0x0
+#define XS1_RES_PS_CTRL1 0x1
+#define XS1_RES_PS_CTRL2 0x2
+#define XS1_RES_PS_VECTOR 0x3
+#define XS1_RES_PS_EV 0x4
+#define XS1_RES_PS_DATA 0x5
+#define XS1_RES_PS_CLKSRC 0x6
+#define XS1_RES_PS_RDYSRC 0x7
+#define XS1_RES_PS_TBV0 0x8
+#define XS1_SETC_MODE_INUSE 0x0
+#define XS1_SETC_MODE_COND 0x1
+#define XS1_SETC_MODE_IE_MODE 0x2
+#define XS1_SETC_MODE_DRIVE 0x3
+#define XS1_SETC_MODE_LONG 0x7
+#define XS1_SETC_LMODE_RUN 0x0
+#define XS1_SETC_LMODE_MS 0x1
+#define XS1_SETC_LMODE_BUF 0x2
+#define XS1_SETC_LMODE_RDY 0x3
+#define XS1_SETC_LMODE_SDELAY 0x4
+#define XS1_SETC_LMODE_PORT 0x5
+#define XS1_SETC_LMODE_INV 0x6
+#define XS1_SETC_LMODE_PIN_DELAY 0x7
+#define XS1_SETC_LMODE_FALL_DELAY 0x8
+#define XS1_SETC_LMODE_RISE_DELAY 0x9
+#define _xs1_registers_h_ 
+
+
+
+#define _xs2a_registers_h_ 
+#define XS1_PS_RAM_BASE 0xb
+#define XS1_PS_VECTOR_BASE 0x10b
+#define XS1_PS_XCORE_CTRL0 0x20b
+#define XS1_PS_BOOT_CONFIG 0x30b
+#define XS1_PS_BOOT_STATUS 0x40b
+#define XS1_PS_SECURITY_CONFIG 0x50b
+#define XS1_PS_RING_OSC_CTRL 0x60b
+#define XS1_PS_RING_OSC_DATA0 0x70b
+#define XS1_PS_RING_OSC_DATA1 0x80b
+#define XS1_PS_RING_OSC_DATA2 0x90b
+#define XS1_PS_RING_OSC_DATA3 0xa0b
+#define XS1_PS_UNAVAILABLE_RESOURCE 0xb0b
+#define XS1_PS_RAM_SIZE 0xc0b
+#define XS1_PS_RAM_RMA 0xe0b
+#define XS1_PS_ROM_RMA 0xf0b
+#define XS1_PS_DBG_SSR 0x100b
+#define XS1_PS_DBG_SPC 0x110b
+#define XS1_PS_DBG_SSP 0x120b
+#define XS1_PS_DBG_T_NUM_NUM 0x13
+#define XS1_PS_DBG_T_NUM 0x130b
+#define XS1_PS_DBG_T_REG 0x140b
+#define XS1_PS_DBG_TYPE 0x150b
+#define XS1_PS_DBG_DATA 0x160b
+#define XS1_PS_DBG_RUN_CTRL 0x180b
+#define XS1_PS_DBG_SCRATCH_0 0x200b
+#define XS1_PS_DBG_SCRATCH_1 0x210b
+#define XS1_PS_DBG_SCRATCH_2 0x220b
+#define XS1_PS_DBG_SCRATCH_3 0x230b
+#define XS1_PS_DBG_SCRATCH_4 0x240b
+#define XS1_PS_DBG_SCRATCH_5 0x250b
+#define XS1_PS_DBG_SCRATCH_6 0x260b
+#define XS1_PS_DBG_SCRATCH_7 0x270b
+#define XS1_PS_DBG_IBREAK_ADDR_0 0x300b
+#define XS1_NUM_PS_DBG_IBREAK_ADDR 0x4
+#define XS1_PS_DBG_IBREAK_ADDR_1 0x310b
+#define XS1_PS_DBG_IBREAK_ADDR_2 0x320b
+#define XS1_PS_DBG_IBREAK_ADDR_3 0x330b
+#define XS1_PS_DBG_IBREAK_CTRL_0 0x400b
+#define XS1_NUM_PS_DBG_IBREAK_CTRL 0x4
+#define XS1_PS_DBG_IBREAK_CTRL_1 0x410b
+#define XS1_PS_DBG_IBREAK_CTRL_2 0x420b
+#define XS1_PS_DBG_IBREAK_CTRL_3 0x430b
+#define XS1_PS_DBG_DWATCH_ADDR1_0 0x500b
+#define XS1_NUM_PS_DBG_DWATCH_ADDR1 0x4
+#define XS1_PS_DBG_DWATCH_ADDR1_1 0x510b
+#define XS1_PS_DBG_DWATCH_ADDR1_2 0x520b
+#define XS1_PS_DBG_DWATCH_ADDR1_3 0x530b
+#define XS1_PS_DBG_DWATCH_ADDR2_0 0x600b
+#define XS1_NUM_PS_DBG_DWATCH_ADDR2 0x4
+#define XS1_PS_DBG_DWATCH_ADDR2_1 0x610b
+#define XS1_PS_DBG_DWATCH_ADDR2_2 0x620b
+#define XS1_PS_DBG_DWATCH_ADDR2_3 0x630b
+#define XS1_PS_DBG_DWATCH_CTRL_0 0x700b
+#define XS1_NUM_PS_DBG_DWATCH_CTRL 0x4
+#define XS1_PS_DBG_DWATCH_CTRL_1 0x710b
+#define XS1_PS_DBG_DWATCH_CTRL_2 0x720b
+#define XS1_PS_DBG_DWATCH_CTRL_3 0x730b
+#define XS1_PS_DBG_RWATCH_ADDR1_0 0x800b
+#define XS1_NUM_PS_DBG_RWATCH_ADDR1 0x4
+#define XS1_PS_DBG_RWATCH_ADDR1_1 0x810b
+#define XS1_PS_DBG_RWATCH_ADDR1_2 0x820b
+#define XS1_PS_DBG_RWATCH_ADDR1_3 0x830b
+#define XS1_PS_DBG_RWATCH_ADDR2_0 0x900b
+#define XS1_NUM_PS_DBG_RWATCH_ADDR2 0x4
+#define XS1_PS_DBG_RWATCH_ADDR2_1 0x910b
+#define XS1_PS_DBG_RWATCH_ADDR2_2 0x920b
+#define XS1_PS_DBG_RWATCH_ADDR2_3 0x930b
+#define XS1_PS_DBG_RWATCH_CTRL_0 0x9c0b
+#define XS1_NUM_PS_DBG_RWATCH_CTRL 0x4
+#define XS1_PS_DBG_RWATCH_CTRL_1 0x9d0b
+#define XS1_PS_DBG_RWATCH_CTRL_2 0x9e0b
+#define XS1_PS_DBG_RWATCH_CTRL_3 0x9f0b
+#define XS1_SSWITCH_DEVICE_ID0_NUM 0x0
+#define XS1_SSWITCH_DEVICE_ID1_NUM 0x1
+#define XS1_SSWITCH_DEVICE_ID2_NUM 0x2
+#define XS1_SSWITCH_DEVICE_ID3_NUM 0x3
+#define XS1_SSWITCH_NODE_CONFIG_NUM 0x4
+#define XS1_SSWITCH_NODE_ID_NUM 0x5
+#define XS1_SSWITCH_PLL_CTL_NUM 0x6
+#define XS1_SSWITCH_CLK_DIVIDER_NUM 0x7
+#define XS1_SSWITCH_REF_CLK_DIVIDER_NUM 0x8
+#define XS1_SSWITCH_JTAG_DEVICE_ID_NUM 0x9
+#define XS1_SSWITCH_JTAG_USERCODE_NUM 0xa
+#define XS1_SSWITCH_DIMENSION_DIRECTION0_NUM 0xc
+#define XS1_SSWITCH_DIMENSION_DIRECTION1_NUM 0xd
+#define XS1_SSWITCH_XCORE0_GLOBAL_DEBUG_CONFIG_NUM 0x10
+#define XS1_SSWITCH_XCORE1_GLOBAL_DEBUG_CONFIG_NUM 0x11
+#define XS1_SSWITCH_GLOBAL_DEBUG_SOURCE_NUM 0x1f
+#define XS1_SSWITCH_SLINK_0_NUM 0x20
+#define XS1_NUM_SSWITCH_SLINK 0x9
+#define XS1_SSWITCH_SLINK_1_NUM 0x21
+#define XS1_SSWITCH_SLINK_2_NUM 0x22
+#define XS1_SSWITCH_SLINK_3_NUM 0x23
+#define XS1_SSWITCH_SLINK_4_NUM 0x24
+#define XS1_SSWITCH_SLINK_5_NUM 0x25
+#define XS1_SSWITCH_SLINK_6_NUM 0x26
+#define XS1_SSWITCH_SLINK_7_NUM 0x27
+#define XS1_SSWITCH_SLINK_8_NUM 0x28
+#define XS1_SSWITCH_PLINK_0_NUM 0x40
+#define XS1_NUM_SSWITCH_PLINK 0x8
+#define XS1_SSWITCH_PLINK_1_NUM 0x41
+#define XS1_SSWITCH_PLINK_2_NUM 0x42
+#define XS1_SSWITCH_PLINK_3_NUM 0x43
+#define XS1_SSWITCH_PLINK_4_NUM 0x44
+#define XS1_SSWITCH_PLINK_5_NUM 0x45
+#define XS1_SSWITCH_PLINK_6_NUM 0x46
+#define XS1_SSWITCH_PLINK_7_NUM 0x47
+#define XS1_SSWITCH_XLINK_0_NUM 0x80
+#define XS1_NUM_SSWITCH_XLINK 0x9
+#define XS1_SSWITCH_XLINK_1_NUM 0x81
+#define XS1_SSWITCH_XLINK_2_NUM 0x82
+#define XS1_SSWITCH_XLINK_3_NUM 0x83
+#define XS1_SSWITCH_XLINK_4_NUM 0x84
+#define XS1_SSWITCH_XLINK_5_NUM 0x85
+#define XS1_SSWITCH_XLINK_6_NUM 0x86
+#define XS1_SSWITCH_XLINK_7_NUM 0x87
+#define XS1_SSWITCH_XLINK_8_NUM 0x88
+#define XS1_SSWITCH_XSTATIC_0_NUM 0xa0
+#define XS1_NUM_SSWITCH_XSTATIC 0x8
+#define XS1_SSWITCH_XSTATIC_1_NUM 0xa1
+#define XS1_SSWITCH_XSTATIC_2_NUM 0xa2
+#define XS1_SSWITCH_XSTATIC_3_NUM 0xa3
+#define XS1_SSWITCH_XSTATIC_4_NUM 0xa4
+#define XS1_SSWITCH_XSTATIC_5_NUM 0xa5
+#define XS1_SSWITCH_XSTATIC_6_NUM 0xa6
+#define XS1_SSWITCH_XSTATIC_7_NUM 0xa7
+#define XS1_PSWITCH_DEVICE_ID0_NUM 0x0
+#define XS1_PSWITCH_DEVICE_ID1_NUM 0x1
+#define XS1_PSWITCH_DEVICE_ID2_NUM 0x2
+#define XS1_PSWITCH_DEVICE_ID3_NUM 0x3
+#define XS1_PSWITCH_DBG_CTRL_NUM 0x4
+#define XS1_PSWITCH_DBG_INT_NUM 0x5
+#define XS1_PSWITCH_PLL_CLK_DIVIDER_NUM 0x6
+#define XS1_PSWITCH_SECU_CONFIG_NUM 0x7
+#define XS1_PSWITCH_DBG_SCRATCH_0_NUM 0x20
+#define XS1_NUM_PSWITCH_DBG_SCRATCH 0x8
+#define XS1_PSWITCH_DBG_SCRATCH_1_NUM 0x21
+#define XS1_PSWITCH_DBG_SCRATCH_2_NUM 0x22
+#define XS1_PSWITCH_DBG_SCRATCH_3_NUM 0x23
+#define XS1_PSWITCH_DBG_SCRATCH_4_NUM 0x24
+#define XS1_PSWITCH_DBG_SCRATCH_5_NUM 0x25
+#define XS1_PSWITCH_DBG_SCRATCH_6_NUM 0x26
+#define XS1_PSWITCH_DBG_SCRATCH_7_NUM 0x27
+#define XS1_PSWITCH_T0_PC_NUM 0x40
+#define XS1_PSWITCH_T1_PC_NUM 0x41
+#define XS1_PSWITCH_T2_PC_NUM 0x42
+#define XS1_PSWITCH_T3_PC_NUM 0x43
+#define XS1_PSWITCH_T4_PC_NUM 0x44
+#define XS1_PSWITCH_T5_PC_NUM 0x45
+#define XS1_PSWITCH_T6_PC_NUM 0x46
+#define XS1_PSWITCH_T7_PC_NUM 0x47
+#define XS1_PSWITCH_T0_SR_NUM 0x60
+#define XS1_PSWITCH_T1_SR_NUM 0x61
+#define XS1_PSWITCH_T2_SR_NUM 0x62
+#define XS1_PSWITCH_T3_SR_NUM 0x63
+#define XS1_PSWITCH_T4_SR_NUM 0x64
+#define XS1_PSWITCH_T5_SR_NUM 0x65
+#define XS1_PSWITCH_T6_SR_NUM 0x66
+#define XS1_PSWITCH_T7_SR_NUM 0x67
+#define XS1_ID_ID_SHIFT 0x0
+#define XS1_ID_ID_SIZE 0x6
+#define XS1_ID_ID_MASK (((1 << XS1_ID_ID_SIZE) - 1) << XS1_ID_ID_SHIFT)
+#define XS1_ID_ID(x) (((x) & XS1_ID_ID_MASK) >> XS1_ID_ID_SHIFT)
+#define XS1_ID_ID_SET(x,v) (((x) & ~XS1_ID_ID_MASK) | (((v) << XS1_ID_ID_SHIFT) & XS1_ID_ID_MASK))
+#define XS1_EXCEPTION_TYPE_SHIFT 0x0
+#define XS1_EXCEPTION_TYPE_SIZE 0x5
+#define XS1_EXCEPTION_TYPE_MASK (((1 << XS1_EXCEPTION_TYPE_SIZE) - 1) << XS1_EXCEPTION_TYPE_SHIFT)
+#define XS1_EXCEPTION_TYPE(x) (((x) & XS1_EXCEPTION_TYPE_MASK) >> XS1_EXCEPTION_TYPE_SHIFT)
+#define XS1_EXCEPTION_TYPE_SET(x,v) (((x) & ~XS1_EXCEPTION_TYPE_MASK) | (((v) << XS1_EXCEPTION_TYPE_SHIFT) & XS1_EXCEPTION_TYPE_MASK))
+#define XS1_DBG_T_NUM_NUM_SHIFT 0x0
+#define XS1_DBG_T_NUM_NUM_SIZE 0x8
+#define XS1_DBG_T_NUM_NUM_MASK (((1 << XS1_DBG_T_NUM_NUM_SIZE) - 1) << XS1_DBG_T_NUM_NUM_SHIFT)
+#define XS1_DBG_T_NUM_NUM(x) (((x) & XS1_DBG_T_NUM_NUM_MASK) >> XS1_DBG_T_NUM_NUM_SHIFT)
+#define XS1_DBG_T_NUM_NUM_SET(x,v) (((x) & ~XS1_DBG_T_NUM_NUM_MASK) | (((v) << XS1_DBG_T_NUM_NUM_SHIFT) & XS1_DBG_T_NUM_NUM_MASK))
+#define XS1_DBG_T_REG_REG_SHIFT 0x0
+#define XS1_DBG_T_REG_REG_SIZE 0x5
+#define XS1_DBG_T_REG_REG_MASK (((1 << XS1_DBG_T_REG_REG_SIZE) - 1) << XS1_DBG_T_REG_REG_SHIFT)
+#define XS1_DBG_T_REG_REG(x) (((x) & XS1_DBG_T_REG_REG_MASK) >> XS1_DBG_T_REG_REG_SHIFT)
+#define XS1_DBG_T_REG_REG_SET(x,v) (((x) & ~XS1_DBG_T_REG_REG_MASK) | (((v) << XS1_DBG_T_REG_REG_SHIFT) & XS1_DBG_T_REG_REG_MASK))
+#define XS1_BRK_ENABLE_SHIFT 0x0
+#define XS1_BRK_ENABLE_SIZE 0x1
+#define XS1_BRK_ENABLE_MASK (((1 << XS1_BRK_ENABLE_SIZE) - 1) << XS1_BRK_ENABLE_SHIFT)
+#define XS1_BRK_ENABLE(x) (((x) & XS1_BRK_ENABLE_MASK) >> XS1_BRK_ENABLE_SHIFT)
+#define XS1_BRK_ENABLE_SET(x,v) (((x) & ~XS1_BRK_ENABLE_MASK) | (((v) << XS1_BRK_ENABLE_SHIFT) & XS1_BRK_ENABLE_MASK))
+#define XS1_ALL_BITS_SHIFT 0x0
+#define XS1_ALL_BITS_SIZE 0x20
+#define XS1_ALL_BITS_MASK (((1 << XS1_ALL_BITS_SIZE) - 1) << XS1_ALL_BITS_SHIFT)
+#define XS1_ALL_BITS(x) (((x) & XS1_ALL_BITS_MASK) >> XS1_ALL_BITS_SHIFT)
+#define XS1_ALL_BITS_SET(x,v) (((x) & ~XS1_ALL_BITS_MASK) | (((v) << XS1_ALL_BITS_SHIFT) & XS1_ALL_BITS_MASK))
+#define XS1_KEP_ADDRESS_BITS_SHIFT 0x7
+#define XS1_KEP_ADDRESS_BITS_SIZE 0x19
+#define XS1_KEP_ADDRESS_BITS_MASK (((1 << XS1_KEP_ADDRESS_BITS_SIZE) - 1) << XS1_KEP_ADDRESS_BITS_SHIFT)
+#define XS1_KEP_ADDRESS_BITS(x) (((x) & XS1_KEP_ADDRESS_BITS_MASK) >> XS1_KEP_ADDRESS_BITS_SHIFT)
+#define XS1_KEP_ADDRESS_BITS_SET(x,v) (((x) & ~XS1_KEP_ADDRESS_BITS_MASK) | (((v) << XS1_KEP_ADDRESS_BITS_SHIFT) & XS1_KEP_ADDRESS_BITS_MASK))
+#define XS1_WORD_ADDRESS_BITS_SHIFT 0x2
+#define XS1_WORD_ADDRESS_BITS_SIZE 0x1e
+#define XS1_WORD_ADDRESS_BITS_MASK (((1 << XS1_WORD_ADDRESS_BITS_SIZE) - 1) << XS1_WORD_ADDRESS_BITS_SHIFT)
+#define XS1_WORD_ADDRESS_BITS(x) (((x) & XS1_WORD_ADDRESS_BITS_MASK) >> XS1_WORD_ADDRESS_BITS_SHIFT)
+#define XS1_WORD_ADDRESS_BITS_SET(x,v) (((x) & ~XS1_WORD_ADDRESS_BITS_MASK) | (((v) << XS1_WORD_ADDRESS_BITS_SHIFT) & XS1_WORD_ADDRESS_BITS_MASK))
+#define XS1_VECTOR_BASE_SHIFT 0x12
+#define XS1_VECTOR_BASE_SIZE 0xe
+#define XS1_VECTOR_BASE_MASK (((1 << XS1_VECTOR_BASE_SIZE) - 1) << XS1_VECTOR_BASE_SHIFT)
+#define XS1_VECTOR_BASE(x) (((x) & XS1_VECTOR_BASE_MASK) >> XS1_VECTOR_BASE_SHIFT)
+#define XS1_VECTOR_BASE_SET(x,v) (((x) & ~XS1_VECTOR_BASE_MASK) | (((v) << XS1_VECTOR_BASE_SHIFT) & XS1_VECTOR_BASE_MASK))
+#define XS1_IBRK_CONDITION_SHIFT 0x1
+#define XS1_IBRK_CONDITION_SIZE 0x1
+#define XS1_IBRK_CONDITION_MASK (((1 << XS1_IBRK_CONDITION_SIZE) - 1) << XS1_IBRK_CONDITION_SHIFT)
+#define XS1_IBRK_CONDITION(x) (((x) & XS1_IBRK_CONDITION_MASK) >> XS1_IBRK_CONDITION_SHIFT)
+#define XS1_IBRK_CONDITION_SET(x,v) (((x) & ~XS1_IBRK_CONDITION_MASK) | (((v) << XS1_IBRK_CONDITION_SHIFT) & XS1_IBRK_CONDITION_MASK))
+#define XS1_DBRK_CONDITION_SHIFT 0x1
+#define XS1_DBRK_CONDITION_SIZE 0x1
+#define XS1_DBRK_CONDITION_MASK (((1 << XS1_DBRK_CONDITION_SIZE) - 1) << XS1_DBRK_CONDITION_SHIFT)
+#define XS1_DBRK_CONDITION(x) (((x) & XS1_DBRK_CONDITION_MASK) >> XS1_DBRK_CONDITION_SHIFT)
+#define XS1_DBRK_CONDITION_SET(x,v) (((x) & ~XS1_DBRK_CONDITION_MASK) | (((v) << XS1_DBRK_CONDITION_SHIFT) & XS1_DBRK_CONDITION_MASK))
+#define XS1_RBRK_CONDITION_SHIFT 0x1
+#define XS1_RBRK_CONDITION_SIZE 0x1
+#define XS1_RBRK_CONDITION_MASK (((1 << XS1_RBRK_CONDITION_SIZE) - 1) << XS1_RBRK_CONDITION_SHIFT)
+#define XS1_RBRK_CONDITION(x) (((x) & XS1_RBRK_CONDITION_MASK) >> XS1_RBRK_CONDITION_SHIFT)
+#define XS1_RBRK_CONDITION_SET(x,v) (((x) & ~XS1_RBRK_CONDITION_MASK) | (((v) << XS1_RBRK_CONDITION_SHIFT) & XS1_RBRK_CONDITION_MASK))
+#define XS1_BRK_LOAD_SHIFT 0x2
+#define XS1_BRK_LOAD_SIZE 0x1
+#define XS1_BRK_LOAD_MASK (((1 << XS1_BRK_LOAD_SIZE) - 1) << XS1_BRK_LOAD_SHIFT)
+#define XS1_BRK_LOAD(x) (((x) & XS1_BRK_LOAD_MASK) >> XS1_BRK_LOAD_SHIFT)
+#define XS1_BRK_LOAD_SET(x,v) (((x) & ~XS1_BRK_LOAD_MASK) | (((v) << XS1_BRK_LOAD_SHIFT) & XS1_BRK_LOAD_MASK))
+#define XS1_BRK_THREADS_SHIFT 0x10
+#define XS1_BRK_THREADS_SIZE 0x8
+#define XS1_BRK_THREADS_MASK (((1 << XS1_BRK_THREADS_SIZE) - 1) << XS1_BRK_THREADS_SHIFT)
+#define XS1_BRK_THREADS(x) (((x) & XS1_BRK_THREADS_MASK) >> XS1_BRK_THREADS_SHIFT)
+#define XS1_BRK_THREADS_SET(x,v) (((x) & ~XS1_BRK_THREADS_MASK) | (((v) << XS1_BRK_THREADS_SHIFT) & XS1_BRK_THREADS_MASK))
+#define XS1_DBG_TYPE_CAUSE_SHIFT 0x0
+#define XS1_DBG_TYPE_CAUSE_SIZE 0x3
+#define XS1_DBG_TYPE_CAUSE_MASK (((1 << XS1_DBG_TYPE_CAUSE_SIZE) - 1) << XS1_DBG_TYPE_CAUSE_SHIFT)
+#define XS1_DBG_TYPE_CAUSE(x) (((x) & XS1_DBG_TYPE_CAUSE_MASK) >> XS1_DBG_TYPE_CAUSE_SHIFT)
+#define XS1_DBG_TYPE_CAUSE_SET(x,v) (((x) & ~XS1_DBG_TYPE_CAUSE_MASK) | (((v) << XS1_DBG_TYPE_CAUSE_SHIFT) & XS1_DBG_TYPE_CAUSE_MASK))
+#define XS1_DBG_TYPE_T_NUM_SHIFT 0x8
+#define XS1_DBG_TYPE_T_NUM_SIZE 0x8
+#define XS1_DBG_TYPE_T_NUM_MASK (((1 << XS1_DBG_TYPE_T_NUM_SIZE) - 1) << XS1_DBG_TYPE_T_NUM_SHIFT)
+#define XS1_DBG_TYPE_T_NUM(x) (((x) & XS1_DBG_TYPE_T_NUM_MASK) >> XS1_DBG_TYPE_T_NUM_SHIFT)
+#define XS1_DBG_TYPE_T_NUM_SET(x,v) (((x) & ~XS1_DBG_TYPE_T_NUM_MASK) | (((v) << XS1_DBG_TYPE_T_NUM_SHIFT) & XS1_DBG_TYPE_T_NUM_MASK))
+#define XS1_DBG_TYPE_HW_NUM_SHIFT 0x10
+#define XS1_DBG_TYPE_HW_NUM_SIZE 0x2
+#define XS1_DBG_TYPE_HW_NUM_MASK (((1 << XS1_DBG_TYPE_HW_NUM_SIZE) - 1) << XS1_DBG_TYPE_HW_NUM_SHIFT)
+#define XS1_DBG_TYPE_HW_NUM(x) (((x) & XS1_DBG_TYPE_HW_NUM_MASK) >> XS1_DBG_TYPE_HW_NUM_SHIFT)
+#define XS1_DBG_TYPE_HW_NUM_SET(x,v) (((x) & ~XS1_DBG_TYPE_HW_NUM_MASK) | (((v) << XS1_DBG_TYPE_HW_NUM_SHIFT) & XS1_DBG_TYPE_HW_NUM_MASK))
+#define XS1_DBG_RUN_CTRL_STOP_SHIFT 0x0
+#define XS1_DBG_RUN_CTRL_STOP_SIZE 0x8
+#define XS1_DBG_RUN_CTRL_STOP_MASK (((1 << XS1_DBG_RUN_CTRL_STOP_SIZE) - 1) << XS1_DBG_RUN_CTRL_STOP_SHIFT)
+#define XS1_DBG_RUN_CTRL_STOP(x) (((x) & XS1_DBG_RUN_CTRL_STOP_MASK) >> XS1_DBG_RUN_CTRL_STOP_SHIFT)
+#define XS1_DBG_RUN_CTRL_STOP_SET(x,v) (((x) & ~XS1_DBG_RUN_CTRL_STOP_MASK) | (((v) << XS1_DBG_RUN_CTRL_STOP_SHIFT) & XS1_DBG_RUN_CTRL_STOP_MASK))
+#define XS1_XCORE_CTRL0_USB_ENABLE_SHIFT 0x1
+#define XS1_XCORE_CTRL0_USB_ENABLE_SIZE 0x1
+#define XS1_XCORE_CTRL0_USB_ENABLE_MASK (((1 << XS1_XCORE_CTRL0_USB_ENABLE_SIZE) - 1) << XS1_XCORE_CTRL0_USB_ENABLE_SHIFT)
+#define XS1_XCORE_CTRL0_USB_ENABLE(x) (((x) & XS1_XCORE_CTRL0_USB_ENABLE_MASK) >> XS1_XCORE_CTRL0_USB_ENABLE_SHIFT)
+#define XS1_XCORE_CTRL0_USB_ENABLE_SET(x,v) (((x) & ~XS1_XCORE_CTRL0_USB_ENABLE_MASK) | (((v) << XS1_XCORE_CTRL0_USB_ENABLE_SHIFT) & XS1_XCORE_CTRL0_USB_ENABLE_MASK))
+#define XS1_XCORE_CTRL0_USB_MODE_SHIFT 0x2
+#define XS1_XCORE_CTRL0_USB_MODE_SIZE 0x1
+#define XS1_XCORE_CTRL0_USB_MODE_MASK (((1 << XS1_XCORE_CTRL0_USB_MODE_SIZE) - 1) << XS1_XCORE_CTRL0_USB_MODE_SHIFT)
+#define XS1_XCORE_CTRL0_USB_MODE(x) (((x) & XS1_XCORE_CTRL0_USB_MODE_MASK) >> XS1_XCORE_CTRL0_USB_MODE_SHIFT)
+#define XS1_XCORE_CTRL0_USB_MODE_SET(x,v) (((x) & ~XS1_XCORE_CTRL0_USB_MODE_MASK) | (((v) << XS1_XCORE_CTRL0_USB_MODE_SHIFT) & XS1_XCORE_CTRL0_USB_MODE_MASK))
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_EN_SHIFT 0x4
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_EN_SIZE 0x1
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_EN_MASK (((1 << XS1_XCORE_CTRL0_CLK_DIVIDER_EN_SIZE) - 1) << XS1_XCORE_CTRL0_CLK_DIVIDER_EN_SHIFT)
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_EN(x) (((x) & XS1_XCORE_CTRL0_CLK_DIVIDER_EN_MASK) >> XS1_XCORE_CTRL0_CLK_DIVIDER_EN_SHIFT)
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_EN_SET(x,v) (((x) & ~XS1_XCORE_CTRL0_CLK_DIVIDER_EN_MASK) | (((v) << XS1_XCORE_CTRL0_CLK_DIVIDER_EN_SHIFT) & XS1_XCORE_CTRL0_CLK_DIVIDER_EN_MASK))
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_SHIFT 0x5
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_SIZE 0x1
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_MASK (((1 << XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_SIZE) - 1) << XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_SHIFT)
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_DYN(x) (((x) & XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_MASK) >> XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_SHIFT)
+#define XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_SET(x,v) (((x) & ~XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_MASK) | (((v) << XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_SHIFT) & XS1_XCORE_CTRL0_CLK_DIVIDER_DYN_MASK))
+#define XS1_XCORE_CTRL0_RGMII_ENABLE_SHIFT 0x8
+#define XS1_XCORE_CTRL0_RGMII_ENABLE_SIZE 0x1
+#define XS1_XCORE_CTRL0_RGMII_ENABLE_MASK (((1 << XS1_XCORE_CTRL0_RGMII_ENABLE_SIZE) - 1) << XS1_XCORE_CTRL0_RGMII_ENABLE_SHIFT)
+#define XS1_XCORE_CTRL0_RGMII_ENABLE(x) (((x) & XS1_XCORE_CTRL0_RGMII_ENABLE_MASK) >> XS1_XCORE_CTRL0_RGMII_ENABLE_SHIFT)
+#define XS1_XCORE_CTRL0_RGMII_ENABLE_SET(x,v) (((x) & ~XS1_XCORE_CTRL0_RGMII_ENABLE_MASK) | (((v) << XS1_XCORE_CTRL0_RGMII_ENABLE_SHIFT) & XS1_XCORE_CTRL0_RGMII_ENABLE_MASK))
+#define XS1_XCORE_CTRL0_RGMII_DIVIDE_SHIFT 0x9
+#define XS1_XCORE_CTRL0_RGMII_DIVIDE_SIZE 0x9
+#define XS1_XCORE_CTRL0_RGMII_DIVIDE_MASK (((1 << XS1_XCORE_CTRL0_RGMII_DIVIDE_SIZE) - 1) << XS1_XCORE_CTRL0_RGMII_DIVIDE_SHIFT)
+#define XS1_XCORE_CTRL0_RGMII_DIVIDE(x) (((x) & XS1_XCORE_CTRL0_RGMII_DIVIDE_MASK) >> XS1_XCORE_CTRL0_RGMII_DIVIDE_SHIFT)
+#define XS1_XCORE_CTRL0_RGMII_DIVIDE_SET(x,v) (((x) & ~XS1_XCORE_CTRL0_RGMII_DIVIDE_MASK) | (((v) << XS1_XCORE_CTRL0_RGMII_DIVIDE_SHIFT) & XS1_XCORE_CTRL0_RGMII_DIVIDE_MASK))
+#define XS1_XCORE_CTRL0_RGMII_DELAY_SHIFT 0x12
+#define XS1_XCORE_CTRL0_RGMII_DELAY_SIZE 0x8
+#define XS1_XCORE_CTRL0_RGMII_DELAY_MASK (((1 << XS1_XCORE_CTRL0_RGMII_DELAY_SIZE) - 1) << XS1_XCORE_CTRL0_RGMII_DELAY_SHIFT)
+#define XS1_XCORE_CTRL0_RGMII_DELAY(x) (((x) & XS1_XCORE_CTRL0_RGMII_DELAY_MASK) >> XS1_XCORE_CTRL0_RGMII_DELAY_SHIFT)
+#define XS1_XCORE_CTRL0_RGMII_DELAY_SET(x,v) (((x) & ~XS1_XCORE_CTRL0_RGMII_DELAY_MASK) | (((v) << XS1_XCORE_CTRL0_RGMII_DELAY_SHIFT) & XS1_XCORE_CTRL0_RGMII_DELAY_MASK))
+#define XS1_BOOT_CONFIG_SECURE_BOOT_SHIFT 0x8
+#define XS1_BOOT_CONFIG_SECURE_BOOT_SIZE 0x1
+#define XS1_BOOT_CONFIG_SECURE_BOOT_MASK (((1 << XS1_BOOT_CONFIG_SECURE_BOOT_SIZE) - 1) << XS1_BOOT_CONFIG_SECURE_BOOT_SHIFT)
+#define XS1_BOOT_CONFIG_SECURE_BOOT(x) (((x) & XS1_BOOT_CONFIG_SECURE_BOOT_MASK) >> XS1_BOOT_CONFIG_SECURE_BOOT_SHIFT)
+#define XS1_BOOT_CONFIG_SECURE_BOOT_SET(x,v) (((x) & ~XS1_BOOT_CONFIG_SECURE_BOOT_MASK) | (((v) << XS1_BOOT_CONFIG_SECURE_BOOT_SHIFT) & XS1_BOOT_CONFIG_SECURE_BOOT_MASK))
+#define XS1_BOOT_CONFIG_PROCESSOR_SHIFT 0x10
+#define XS1_BOOT_CONFIG_PROCESSOR_SIZE 0x8
+#define XS1_BOOT_CONFIG_PROCESSOR_MASK (((1 << XS1_BOOT_CONFIG_PROCESSOR_SIZE) - 1) << XS1_BOOT_CONFIG_PROCESSOR_SHIFT)
+#define XS1_BOOT_CONFIG_PROCESSOR(x) (((x) & XS1_BOOT_CONFIG_PROCESSOR_MASK) >> XS1_BOOT_CONFIG_PROCESSOR_SHIFT)
+#define XS1_BOOT_CONFIG_PROCESSOR_SET(x,v) (((x) & ~XS1_BOOT_CONFIG_PROCESSOR_MASK) | (((v) << XS1_BOOT_CONFIG_PROCESSOR_SHIFT) & XS1_BOOT_CONFIG_PROCESSOR_MASK))
+#define XS1_BOOT_STATUS_LEDS_SHIFT 0x0
+#define XS1_BOOT_STATUS_LEDS_SIZE 0x4
+#define XS1_BOOT_STATUS_LEDS_MASK (((1 << XS1_BOOT_STATUS_LEDS_SIZE) - 1) << XS1_BOOT_STATUS_LEDS_SHIFT)
+#define XS1_BOOT_STATUS_LEDS(x) (((x) & XS1_BOOT_STATUS_LEDS_MASK) >> XS1_BOOT_STATUS_LEDS_SHIFT)
+#define XS1_BOOT_STATUS_LEDS_SET(x,v) (((x) & ~XS1_BOOT_STATUS_LEDS_MASK) | (((v) << XS1_BOOT_STATUS_LEDS_SHIFT) & XS1_BOOT_STATUS_LEDS_MASK))
+#define XS1_BOOT_STATUS_BITS_SHIFT 0x4
+#define XS1_BOOT_STATUS_BITS_SIZE 0x1c
+#define XS1_BOOT_STATUS_BITS_MASK (((1 << XS1_BOOT_STATUS_BITS_SIZE) - 1) << XS1_BOOT_STATUS_BITS_SHIFT)
+#define XS1_BOOT_STATUS_BITS(x) (((x) & XS1_BOOT_STATUS_BITS_MASK) >> XS1_BOOT_STATUS_BITS_SHIFT)
+#define XS1_BOOT_STATUS_BITS_SET(x,v) (((x) & ~XS1_BOOT_STATUS_BITS_MASK) | (((v) << XS1_BOOT_STATUS_BITS_SHIFT) & XS1_BOOT_STATUS_BITS_MASK))
+#define XS1_RING_OSC_PERPH_ENABLE_SHIFT 0x0
+#define XS1_RING_OSC_PERPH_ENABLE_SIZE 0x1
+#define XS1_RING_OSC_PERPH_ENABLE_MASK (((1 << XS1_RING_OSC_PERPH_ENABLE_SIZE) - 1) << XS1_RING_OSC_PERPH_ENABLE_SHIFT)
+#define XS1_RING_OSC_PERPH_ENABLE(x) (((x) & XS1_RING_OSC_PERPH_ENABLE_MASK) >> XS1_RING_OSC_PERPH_ENABLE_SHIFT)
+#define XS1_RING_OSC_PERPH_ENABLE_SET(x,v) (((x) & ~XS1_RING_OSC_PERPH_ENABLE_MASK) | (((v) << XS1_RING_OSC_PERPH_ENABLE_SHIFT) & XS1_RING_OSC_PERPH_ENABLE_MASK))
+#define XS1_RING_OSC_CORE_ENABLE_SHIFT 0x1
+#define XS1_RING_OSC_CORE_ENABLE_SIZE 0x1
+#define XS1_RING_OSC_CORE_ENABLE_MASK (((1 << XS1_RING_OSC_CORE_ENABLE_SIZE) - 1) << XS1_RING_OSC_CORE_ENABLE_SHIFT)
+#define XS1_RING_OSC_CORE_ENABLE(x) (((x) & XS1_RING_OSC_CORE_ENABLE_MASK) >> XS1_RING_OSC_CORE_ENABLE_SHIFT)
+#define XS1_RING_OSC_CORE_ENABLE_SET(x,v) (((x) & ~XS1_RING_OSC_CORE_ENABLE_MASK) | (((v) << XS1_RING_OSC_CORE_ENABLE_SHIFT) & XS1_RING_OSC_CORE_ENABLE_MASK))
+#define XS1_RING_OSC_DATA_SHIFT 0x0
+#define XS1_RING_OSC_DATA_SIZE 0x10
+#define XS1_RING_OSC_DATA_MASK (((1 << XS1_RING_OSC_DATA_SIZE) - 1) << XS1_RING_OSC_DATA_SHIFT)
+#define XS1_RING_OSC_DATA(x) (((x) & XS1_RING_OSC_DATA_MASK) >> XS1_RING_OSC_DATA_SHIFT)
+#define XS1_RING_OSC_DATA_SET(x,v) (((x) & ~XS1_RING_OSC_DATA_MASK) | (((v) << XS1_RING_OSC_DATA_SHIFT) & XS1_RING_OSC_DATA_MASK))
+#define XS1_PLL_CLK_DIVIDER_SHIFT 0x0
+#define XS1_PLL_CLK_DIVIDER_SIZE 0x10
+#define XS1_PLL_CLK_DIVIDER_MASK (((1 << XS1_PLL_CLK_DIVIDER_SIZE) - 1) << XS1_PLL_CLK_DIVIDER_SHIFT)
+#define XS1_PLL_CLK_DIVIDER(x) (((x) & XS1_PLL_CLK_DIVIDER_MASK) >> XS1_PLL_CLK_DIVIDER_SHIFT)
+#define XS1_PLL_CLK_DIVIDER_SET(x,v) (((x) & ~XS1_PLL_CLK_DIVIDER_MASK) | (((v) << XS1_PLL_CLK_DIVIDER_SHIFT) & XS1_PLL_CLK_DIVIDER_MASK))
+#define XS1_PLL_CLK_DISABLE_SHIFT 0x1f
+#define XS1_PLL_CLK_DISABLE_SIZE 0x1
+#define XS1_PLL_CLK_DISABLE_MASK (((1 << XS1_PLL_CLK_DISABLE_SIZE) - 1) << XS1_PLL_CLK_DISABLE_SHIFT)
+#define XS1_PLL_CLK_DISABLE(x) (((x) & XS1_PLL_CLK_DISABLE_MASK) >> XS1_PLL_CLK_DISABLE_SHIFT)
+#define XS1_PLL_CLK_DISABLE_SET(x,v) (((x) & ~XS1_PLL_CLK_DISABLE_MASK) | (((v) << XS1_PLL_CLK_DISABLE_SHIFT) & XS1_PLL_CLK_DISABLE_MASK))
+#define XS1_THREAD_CTRL0_INUSE_SHIFT 0x0
+#define XS1_THREAD_CTRL0_INUSE_SIZE 0x1
+#define XS1_THREAD_CTRL0_INUSE_MASK (((1 << XS1_THREAD_CTRL0_INUSE_SIZE) - 1) << XS1_THREAD_CTRL0_INUSE_SHIFT)
+#define XS1_THREAD_CTRL0_INUSE(x) (((x) & XS1_THREAD_CTRL0_INUSE_MASK) >> XS1_THREAD_CTRL0_INUSE_SHIFT)
+#define XS1_THREAD_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_THREAD_CTRL0_INUSE_MASK) | (((v) << XS1_THREAD_CTRL0_INUSE_SHIFT) & XS1_THREAD_CTRL0_INUSE_MASK))
+#define XS1_THREAD_CTRL0_MSYNC_SHIFT 0x1
+#define XS1_THREAD_CTRL0_MSYNC_SIZE 0x1
+#define XS1_THREAD_CTRL0_MSYNC_MASK (((1 << XS1_THREAD_CTRL0_MSYNC_SIZE) - 1) << XS1_THREAD_CTRL0_MSYNC_SHIFT)
+#define XS1_THREAD_CTRL0_MSYNC(x) (((x) & XS1_THREAD_CTRL0_MSYNC_MASK) >> XS1_THREAD_CTRL0_MSYNC_SHIFT)
+#define XS1_THREAD_CTRL0_MSYNC_SET(x,v) (((x) & ~XS1_THREAD_CTRL0_MSYNC_MASK) | (((v) << XS1_THREAD_CTRL0_MSYNC_SHIFT) & XS1_THREAD_CTRL0_MSYNC_MASK))
+#define XS1_THREAD_CTRL0_SSYNC_SHIFT 0x2
+#define XS1_THREAD_CTRL0_SSYNC_SIZE 0x1
+#define XS1_THREAD_CTRL0_SSYNC_MASK (((1 << XS1_THREAD_CTRL0_SSYNC_SIZE) - 1) << XS1_THREAD_CTRL0_SSYNC_SHIFT)
+#define XS1_THREAD_CTRL0_SSYNC(x) (((x) & XS1_THREAD_CTRL0_SSYNC_MASK) >> XS1_THREAD_CTRL0_SSYNC_SHIFT)
+#define XS1_THREAD_CTRL0_SSYNC_SET(x,v) (((x) & ~XS1_THREAD_CTRL0_SSYNC_MASK) | (((v) << XS1_THREAD_CTRL0_SSYNC_SHIFT) & XS1_THREAD_CTRL0_SSYNC_MASK))
+#define XS1_THREAD_CTRL0_MASTER_SHIFT 0x8
+#define XS1_THREAD_CTRL0_MASTER_SIZE 0x8
+#define XS1_THREAD_CTRL0_MASTER_MASK (((1 << XS1_THREAD_CTRL0_MASTER_SIZE) - 1) << XS1_THREAD_CTRL0_MASTER_SHIFT)
+#define XS1_THREAD_CTRL0_MASTER(x) (((x) & XS1_THREAD_CTRL0_MASTER_MASK) >> XS1_THREAD_CTRL0_MASTER_SHIFT)
+#define XS1_THREAD_CTRL0_MASTER_SET(x,v) (((x) & ~XS1_THREAD_CTRL0_MASTER_MASK) | (((v) << XS1_THREAD_CTRL0_MASTER_SHIFT) & XS1_THREAD_CTRL0_MASTER_MASK))
+#define XS1_PORT_CTRL0_INUSE_SHIFT 0x0
+#define XS1_PORT_CTRL0_INUSE_SIZE 0x1
+#define XS1_PORT_CTRL0_INUSE_MASK (((1 << XS1_PORT_CTRL0_INUSE_SIZE) - 1) << XS1_PORT_CTRL0_INUSE_SHIFT)
+#define XS1_PORT_CTRL0_INUSE(x) (((x) & XS1_PORT_CTRL0_INUSE_MASK) >> XS1_PORT_CTRL0_INUSE_SHIFT)
+#define XS1_PORT_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_PORT_CTRL0_INUSE_MASK) | (((v) << XS1_PORT_CTRL0_INUSE_SHIFT) & XS1_PORT_CTRL0_INUSE_MASK))
+#define XS1_PORT_CTRL0_IE_MODE_SHIFT 0x1
+#define XS1_PORT_CTRL0_IE_MODE_SIZE 0x1
+#define XS1_PORT_CTRL0_IE_MODE_MASK (((1 << XS1_PORT_CTRL0_IE_MODE_SIZE) - 1) << XS1_PORT_CTRL0_IE_MODE_SHIFT)
+#define XS1_PORT_CTRL0_IE_MODE(x) (((x) & XS1_PORT_CTRL0_IE_MODE_MASK) >> XS1_PORT_CTRL0_IE_MODE_SHIFT)
+#define XS1_PORT_CTRL0_IE_MODE_SET(x,v) (((x) & ~XS1_PORT_CTRL0_IE_MODE_MASK) | (((v) << XS1_PORT_CTRL0_IE_MODE_SHIFT) & XS1_PORT_CTRL0_IE_MODE_MASK))
+#define XS1_PORT_CTRL0_IE_ENABLED_SHIFT 0x2
+#define XS1_PORT_CTRL0_IE_ENABLED_SIZE 0x1
+#define XS1_PORT_CTRL0_IE_ENABLED_MASK (((1 << XS1_PORT_CTRL0_IE_ENABLED_SIZE) - 1) << XS1_PORT_CTRL0_IE_ENABLED_SHIFT)
+#define XS1_PORT_CTRL0_IE_ENABLED(x) (((x) & XS1_PORT_CTRL0_IE_ENABLED_MASK) >> XS1_PORT_CTRL0_IE_ENABLED_SHIFT)
+#define XS1_PORT_CTRL0_IE_ENABLED_SET(x,v) (((x) & ~XS1_PORT_CTRL0_IE_ENABLED_MASK) | (((v) << XS1_PORT_CTRL0_IE_ENABLED_SHIFT) & XS1_PORT_CTRL0_IE_ENABLED_MASK))
+#define XS1_PORT_CTRL0_DIRECTION_SHIFT 0x3
+#define XS1_PORT_CTRL0_DIRECTION_SIZE 0x1
+#define XS1_PORT_CTRL0_DIRECTION_MASK (((1 << XS1_PORT_CTRL0_DIRECTION_SIZE) - 1) << XS1_PORT_CTRL0_DIRECTION_SHIFT)
+#define XS1_PORT_CTRL0_DIRECTION(x) (((x) & XS1_PORT_CTRL0_DIRECTION_MASK) >> XS1_PORT_CTRL0_DIRECTION_SHIFT)
+#define XS1_PORT_CTRL0_DIRECTION_SET(x,v) (((x) & ~XS1_PORT_CTRL0_DIRECTION_MASK) | (((v) << XS1_PORT_CTRL0_DIRECTION_SHIFT) & XS1_PORT_CTRL0_DIRECTION_MASK))
+#define XS1_PORT_CTRL0_COND_SHIFT 0x4
+#define XS1_PORT_CTRL0_COND_SIZE 0x4
+#define XS1_PORT_CTRL0_COND_MASK (((1 << XS1_PORT_CTRL0_COND_SIZE) - 1) << XS1_PORT_CTRL0_COND_SHIFT)
+#define XS1_PORT_CTRL0_COND(x) (((x) & XS1_PORT_CTRL0_COND_MASK) >> XS1_PORT_CTRL0_COND_SHIFT)
+#define XS1_PORT_CTRL0_COND_SET(x,v) (((x) & ~XS1_PORT_CTRL0_COND_MASK) | (((v) << XS1_PORT_CTRL0_COND_SHIFT) & XS1_PORT_CTRL0_COND_MASK))
+#define XS1_PORT_CTRL0_MASTER_SLAVE_SHIFT 0x8
+#define XS1_PORT_CTRL0_MASTER_SLAVE_SIZE 0x1
+#define XS1_PORT_CTRL0_MASTER_SLAVE_MASK (((1 << XS1_PORT_CTRL0_MASTER_SLAVE_SIZE) - 1) << XS1_PORT_CTRL0_MASTER_SLAVE_SHIFT)
+#define XS1_PORT_CTRL0_MASTER_SLAVE(x) (((x) & XS1_PORT_CTRL0_MASTER_SLAVE_MASK) >> XS1_PORT_CTRL0_MASTER_SLAVE_SHIFT)
+#define XS1_PORT_CTRL0_MASTER_SLAVE_SET(x,v) (((x) & ~XS1_PORT_CTRL0_MASTER_SLAVE_MASK) | (((v) << XS1_PORT_CTRL0_MASTER_SLAVE_SHIFT) & XS1_PORT_CTRL0_MASTER_SLAVE_MASK))
+#define XS1_PORT_CTRL0_BUFFERS_SHIFT 0x9
+#define XS1_PORT_CTRL0_BUFFERS_SIZE 0x1
+#define XS1_PORT_CTRL0_BUFFERS_MASK (((1 << XS1_PORT_CTRL0_BUFFERS_SIZE) - 1) << XS1_PORT_CTRL0_BUFFERS_SHIFT)
+#define XS1_PORT_CTRL0_BUFFERS(x) (((x) & XS1_PORT_CTRL0_BUFFERS_MASK) >> XS1_PORT_CTRL0_BUFFERS_SHIFT)
+#define XS1_PORT_CTRL0_BUFFERS_SET(x,v) (((x) & ~XS1_PORT_CTRL0_BUFFERS_MASK) | (((v) << XS1_PORT_CTRL0_BUFFERS_SHIFT) & XS1_PORT_CTRL0_BUFFERS_MASK))
+#define XS1_PORT_CTRL0_READY_MODE_SHIFT 0xa
+#define XS1_PORT_CTRL0_READY_MODE_SIZE 0x2
+#define XS1_PORT_CTRL0_READY_MODE_MASK (((1 << XS1_PORT_CTRL0_READY_MODE_SIZE) - 1) << XS1_PORT_CTRL0_READY_MODE_SHIFT)
+#define XS1_PORT_CTRL0_READY_MODE(x) (((x) & XS1_PORT_CTRL0_READY_MODE_MASK) >> XS1_PORT_CTRL0_READY_MODE_SHIFT)
+#define XS1_PORT_CTRL0_READY_MODE_SET(x,v) (((x) & ~XS1_PORT_CTRL0_READY_MODE_MASK) | (((v) << XS1_PORT_CTRL0_READY_MODE_SHIFT) & XS1_PORT_CTRL0_READY_MODE_MASK))
+#define XS1_PORT_CTRL0_PORT_TYPE_SHIFT 0xc
+#define XS1_PORT_CTRL0_PORT_TYPE_SIZE 0x2
+#define XS1_PORT_CTRL0_PORT_TYPE_MASK (((1 << XS1_PORT_CTRL0_PORT_TYPE_SIZE) - 1) << XS1_PORT_CTRL0_PORT_TYPE_SHIFT)
+#define XS1_PORT_CTRL0_PORT_TYPE(x) (((x) & XS1_PORT_CTRL0_PORT_TYPE_MASK) >> XS1_PORT_CTRL0_PORT_TYPE_SHIFT)
+#define XS1_PORT_CTRL0_PORT_TYPE_SET(x,v) (((x) & ~XS1_PORT_CTRL0_PORT_TYPE_MASK) | (((v) << XS1_PORT_CTRL0_PORT_TYPE_SHIFT) & XS1_PORT_CTRL0_PORT_TYPE_MASK))
+#define XS1_PORT_CTRL0_INVERT_SHIFT 0xe
+#define XS1_PORT_CTRL0_INVERT_SIZE 0x1
+#define XS1_PORT_CTRL0_INVERT_MASK (((1 << XS1_PORT_CTRL0_INVERT_SIZE) - 1) << XS1_PORT_CTRL0_INVERT_SHIFT)
+#define XS1_PORT_CTRL0_INVERT(x) (((x) & XS1_PORT_CTRL0_INVERT_MASK) >> XS1_PORT_CTRL0_INVERT_SHIFT)
+#define XS1_PORT_CTRL0_INVERT_SET(x,v) (((x) & ~XS1_PORT_CTRL0_INVERT_MASK) | (((v) << XS1_PORT_CTRL0_INVERT_SHIFT) & XS1_PORT_CTRL0_INVERT_MASK))
+#define XS1_PORT_CTRL0_SDELAY_SHIFT 0xf
+#define XS1_PORT_CTRL0_SDELAY_SIZE 0x1
+#define XS1_PORT_CTRL0_SDELAY_MASK (((1 << XS1_PORT_CTRL0_SDELAY_SIZE) - 1) << XS1_PORT_CTRL0_SDELAY_SHIFT)
+#define XS1_PORT_CTRL0_SDELAY(x) (((x) & XS1_PORT_CTRL0_SDELAY_MASK) >> XS1_PORT_CTRL0_SDELAY_SHIFT)
+#define XS1_PORT_CTRL0_SDELAY_SET(x,v) (((x) & ~XS1_PORT_CTRL0_SDELAY_MASK) | (((v) << XS1_PORT_CTRL0_SDELAY_SHIFT) & XS1_PORT_CTRL0_SDELAY_MASK))
+#define XS1_PORT_CTRL0_EV_VALID_SHIFT 0x16
+#define XS1_PORT_CTRL0_EV_VALID_SIZE 0x1
+#define XS1_PORT_CTRL0_EV_VALID_MASK (((1 << XS1_PORT_CTRL0_EV_VALID_SIZE) - 1) << XS1_PORT_CTRL0_EV_VALID_SHIFT)
+#define XS1_PORT_CTRL0_EV_VALID(x) (((x) & XS1_PORT_CTRL0_EV_VALID_MASK) >> XS1_PORT_CTRL0_EV_VALID_SHIFT)
+#define XS1_PORT_CTRL0_EV_VALID_SET(x,v) (((x) & ~XS1_PORT_CTRL0_EV_VALID_MASK) | (((v) << XS1_PORT_CTRL0_EV_VALID_SHIFT) & XS1_PORT_CTRL0_EV_VALID_MASK))
+#define XS1_PORT_CTRL0_T_WAITING_SHIFT 0x17
+#define XS1_PORT_CTRL0_T_WAITING_SIZE 0x1
+#define XS1_PORT_CTRL0_T_WAITING_MASK (((1 << XS1_PORT_CTRL0_T_WAITING_SIZE) - 1) << XS1_PORT_CTRL0_T_WAITING_SHIFT)
+#define XS1_PORT_CTRL0_T_WAITING(x) (((x) & XS1_PORT_CTRL0_T_WAITING_MASK) >> XS1_PORT_CTRL0_T_WAITING_SHIFT)
+#define XS1_PORT_CTRL0_T_WAITING_SET(x,v) (((x) & ~XS1_PORT_CTRL0_T_WAITING_MASK) | (((v) << XS1_PORT_CTRL0_T_WAITING_SHIFT) & XS1_PORT_CTRL0_T_WAITING_MASK))
+#define XS1_PORT_CTRL0_T_NUM_SHIFT 0x18
+#define XS1_PORT_CTRL0_T_NUM_SIZE 0x8
+#define XS1_PORT_CTRL0_T_NUM_MASK (((1 << XS1_PORT_CTRL0_T_NUM_SIZE) - 1) << XS1_PORT_CTRL0_T_NUM_SHIFT)
+#define XS1_PORT_CTRL0_T_NUM(x) (((x) & XS1_PORT_CTRL0_T_NUM_MASK) >> XS1_PORT_CTRL0_T_NUM_SHIFT)
+#define XS1_PORT_CTRL0_T_NUM_SET(x,v) (((x) & ~XS1_PORT_CTRL0_T_NUM_MASK) | (((v) << XS1_PORT_CTRL0_T_NUM_SHIFT) & XS1_PORT_CTRL0_T_NUM_MASK))
+#define XS1_PORT_CTRL1_DRIVE_SHIFT 0x0
+#define XS1_PORT_CTRL1_DRIVE_SIZE 0x8
+#define XS1_PORT_CTRL1_DRIVE_MASK (((1 << XS1_PORT_CTRL1_DRIVE_SIZE) - 1) << XS1_PORT_CTRL1_DRIVE_SHIFT)
+#define XS1_PORT_CTRL1_DRIVE(x) (((x) & XS1_PORT_CTRL1_DRIVE_MASK) >> XS1_PORT_CTRL1_DRIVE_SHIFT)
+#define XS1_PORT_CTRL1_DRIVE_SET(x,v) (((x) & ~XS1_PORT_CTRL1_DRIVE_MASK) | (((v) << XS1_PORT_CTRL1_DRIVE_SHIFT) & XS1_PORT_CTRL1_DRIVE_MASK))
+#define XS1_PORT_CTRL1_TWIDTH_SHIFT 0x8
+#define XS1_PORT_CTRL1_TWIDTH_SIZE 0x8
+#define XS1_PORT_CTRL1_TWIDTH_MASK (((1 << XS1_PORT_CTRL1_TWIDTH_SIZE) - 1) << XS1_PORT_CTRL1_TWIDTH_SHIFT)
+#define XS1_PORT_CTRL1_TWIDTH(x) (((x) & XS1_PORT_CTRL1_TWIDTH_MASK) >> XS1_PORT_CTRL1_TWIDTH_SHIFT)
+#define XS1_PORT_CTRL1_TWIDTH_SET(x,v) (((x) & ~XS1_PORT_CTRL1_TWIDTH_MASK) | (((v) << XS1_PORT_CTRL1_TWIDTH_SHIFT) & XS1_PORT_CTRL1_TWIDTH_MASK))
+#define XS1_PORT_CTRL1_SREG_COUNT_SHIFT 0x10
+#define XS1_PORT_CTRL1_SREG_COUNT_SIZE 0x8
+#define XS1_PORT_CTRL1_SREG_COUNT_MASK (((1 << XS1_PORT_CTRL1_SREG_COUNT_SIZE) - 1) << XS1_PORT_CTRL1_SREG_COUNT_SHIFT)
+#define XS1_PORT_CTRL1_SREG_COUNT(x) (((x) & XS1_PORT_CTRL1_SREG_COUNT_MASK) >> XS1_PORT_CTRL1_SREG_COUNT_SHIFT)
+#define XS1_PORT_CTRL1_SREG_COUNT_SET(x,v) (((x) & ~XS1_PORT_CTRL1_SREG_COUNT_MASK) | (((v) << XS1_PORT_CTRL1_SREG_COUNT_SHIFT) & XS1_PORT_CTRL1_SREG_COUNT_MASK))
+#define XS1_PORT_CTRL1_TREG_FULL_SHIFT 0x18
+#define XS1_PORT_CTRL1_TREG_FULL_SIZE 0x1
+#define XS1_PORT_CTRL1_TREG_FULL_MASK (((1 << XS1_PORT_CTRL1_TREG_FULL_SIZE) - 1) << XS1_PORT_CTRL1_TREG_FULL_SHIFT)
+#define XS1_PORT_CTRL1_TREG_FULL(x) (((x) & XS1_PORT_CTRL1_TREG_FULL_MASK) >> XS1_PORT_CTRL1_TREG_FULL_SHIFT)
+#define XS1_PORT_CTRL1_TREG_FULL_SET(x,v) (((x) & ~XS1_PORT_CTRL1_TREG_FULL_MASK) | (((v) << XS1_PORT_CTRL1_TREG_FULL_SHIFT) & XS1_PORT_CTRL1_TREG_FULL_MASK))
+#define XS1_PORT_CTRL1_CHANGE_DIR_SHIFT 0x19
+#define XS1_PORT_CTRL1_CHANGE_DIR_SIZE 0x1
+#define XS1_PORT_CTRL1_CHANGE_DIR_MASK (((1 << XS1_PORT_CTRL1_CHANGE_DIR_SIZE) - 1) << XS1_PORT_CTRL1_CHANGE_DIR_SHIFT)
+#define XS1_PORT_CTRL1_CHANGE_DIR(x) (((x) & XS1_PORT_CTRL1_CHANGE_DIR_MASK) >> XS1_PORT_CTRL1_CHANGE_DIR_SHIFT)
+#define XS1_PORT_CTRL1_CHANGE_DIR_SET(x,v) (((x) & ~XS1_PORT_CTRL1_CHANGE_DIR_MASK) | (((v) << XS1_PORT_CTRL1_CHANGE_DIR_SHIFT) & XS1_PORT_CTRL1_CHANGE_DIR_MASK))
+#define XS1_PORT_CTRL1_SYNCR_SHIFT 0x1a
+#define XS1_PORT_CTRL1_SYNCR_SIZE 0x1
+#define XS1_PORT_CTRL1_SYNCR_MASK (((1 << XS1_PORT_CTRL1_SYNCR_SIZE) - 1) << XS1_PORT_CTRL1_SYNCR_SHIFT)
+#define XS1_PORT_CTRL1_SYNCR(x) (((x) & XS1_PORT_CTRL1_SYNCR_MASK) >> XS1_PORT_CTRL1_SYNCR_SHIFT)
+#define XS1_PORT_CTRL1_SYNCR_SET(x,v) (((x) & ~XS1_PORT_CTRL1_SYNCR_MASK) | (((v) << XS1_PORT_CTRL1_SYNCR_SHIFT) & XS1_PORT_CTRL1_SYNCR_MASK))
+#define XS1_PORT_CTRL1_INST_COMMITTED_SHIFT 0x1b
+#define XS1_PORT_CTRL1_INST_COMMITTED_SIZE 0x1
+#define XS1_PORT_CTRL1_INST_COMMITTED_MASK (((1 << XS1_PORT_CTRL1_INST_COMMITTED_SIZE) - 1) << XS1_PORT_CTRL1_INST_COMMITTED_SHIFT)
+#define XS1_PORT_CTRL1_INST_COMMITTED(x) (((x) & XS1_PORT_CTRL1_INST_COMMITTED_MASK) >> XS1_PORT_CTRL1_INST_COMMITTED_SHIFT)
+#define XS1_PORT_CTRL1_INST_COMMITTED_SET(x,v) (((x) & ~XS1_PORT_CTRL1_INST_COMMITTED_MASK) | (((v) << XS1_PORT_CTRL1_INST_COMMITTED_SHIFT) & XS1_PORT_CTRL1_INST_COMMITTED_MASK))
+#define XS1_PORT_CTRL1_HOLD_DATA_SHIFT 0x1c
+#define XS1_PORT_CTRL1_HOLD_DATA_SIZE 0x1
+#define XS1_PORT_CTRL1_HOLD_DATA_MASK (((1 << XS1_PORT_CTRL1_HOLD_DATA_SIZE) - 1) << XS1_PORT_CTRL1_HOLD_DATA_SHIFT)
+#define XS1_PORT_CTRL1_HOLD_DATA(x) (((x) & XS1_PORT_CTRL1_HOLD_DATA_MASK) >> XS1_PORT_CTRL1_HOLD_DATA_SHIFT)
+#define XS1_PORT_CTRL1_HOLD_DATA_SET(x,v) (((x) & ~XS1_PORT_CTRL1_HOLD_DATA_MASK) | (((v) << XS1_PORT_CTRL1_HOLD_DATA_SHIFT) & XS1_PORT_CTRL1_HOLD_DATA_MASK))
+#define XS1_PORT_CTRL1_WAIT_FOR_TIME_SHIFT 0x1d
+#define XS1_PORT_CTRL1_WAIT_FOR_TIME_SIZE 0x1
+#define XS1_PORT_CTRL1_WAIT_FOR_TIME_MASK (((1 << XS1_PORT_CTRL1_WAIT_FOR_TIME_SIZE) - 1) << XS1_PORT_CTRL1_WAIT_FOR_TIME_SHIFT)
+#define XS1_PORT_CTRL1_WAIT_FOR_TIME(x) (((x) & XS1_PORT_CTRL1_WAIT_FOR_TIME_MASK) >> XS1_PORT_CTRL1_WAIT_FOR_TIME_SHIFT)
+#define XS1_PORT_CTRL1_WAIT_FOR_TIME_SET(x,v) (((x) & ~XS1_PORT_CTRL1_WAIT_FOR_TIME_MASK) | (((v) << XS1_PORT_CTRL1_WAIT_FOR_TIME_SHIFT) & XS1_PORT_CTRL1_WAIT_FOR_TIME_MASK))
+#define XS1_PORT_CTRL1_TIMEMET_SHIFT 0x1e
+#define XS1_PORT_CTRL1_TIMEMET_SIZE 0x1
+#define XS1_PORT_CTRL1_TIMEMET_MASK (((1 << XS1_PORT_CTRL1_TIMEMET_SIZE) - 1) << XS1_PORT_CTRL1_TIMEMET_SHIFT)
+#define XS1_PORT_CTRL1_TIMEMET(x) (((x) & XS1_PORT_CTRL1_TIMEMET_MASK) >> XS1_PORT_CTRL1_TIMEMET_SHIFT)
+#define XS1_PORT_CTRL1_TIMEMET_SET(x,v) (((x) & ~XS1_PORT_CTRL1_TIMEMET_MASK) | (((v) << XS1_PORT_CTRL1_TIMEMET_SHIFT) & XS1_PORT_CTRL1_TIMEMET_MASK))
+#define XS1_PORT_CTRL1_ENDIN_SHIFT 0x1f
+#define XS1_PORT_CTRL1_ENDIN_SIZE 0x1
+#define XS1_PORT_CTRL1_ENDIN_MASK (((1 << XS1_PORT_CTRL1_ENDIN_SIZE) - 1) << XS1_PORT_CTRL1_ENDIN_SHIFT)
+#define XS1_PORT_CTRL1_ENDIN(x) (((x) & XS1_PORT_CTRL1_ENDIN_MASK) >> XS1_PORT_CTRL1_ENDIN_SHIFT)
+#define XS1_PORT_CTRL1_ENDIN_SET(x,v) (((x) & ~XS1_PORT_CTRL1_ENDIN_MASK) | (((v) << XS1_PORT_CTRL1_ENDIN_SHIFT) & XS1_PORT_CTRL1_ENDIN_MASK))
+#define XS1_PORT_CTRL2_TIME_SHIFT 0x0
+#define XS1_PORT_CTRL2_TIME_SIZE 0x10
+#define XS1_PORT_CTRL2_TIME_MASK (((1 << XS1_PORT_CTRL2_TIME_SIZE) - 1) << XS1_PORT_CTRL2_TIME_SHIFT)
+#define XS1_PORT_CTRL2_TIME(x) (((x) & XS1_PORT_CTRL2_TIME_MASK) >> XS1_PORT_CTRL2_TIME_SHIFT)
+#define XS1_PORT_CTRL2_TIME_SET(x,v) (((x) & ~XS1_PORT_CTRL2_TIME_MASK) | (((v) << XS1_PORT_CTRL2_TIME_SHIFT) & XS1_PORT_CTRL2_TIME_MASK))
+#define XS1_PORT_CTRL2_PIN_DELAY_SHIFT 0x10
+#define XS1_PORT_CTRL2_PIN_DELAY_SIZE 0x3
+#define XS1_PORT_CTRL2_PIN_DELAY_MASK (((1 << XS1_PORT_CTRL2_PIN_DELAY_SIZE) - 1) << XS1_PORT_CTRL2_PIN_DELAY_SHIFT)
+#define XS1_PORT_CTRL2_PIN_DELAY(x) (((x) & XS1_PORT_CTRL2_PIN_DELAY_MASK) >> XS1_PORT_CTRL2_PIN_DELAY_SHIFT)
+#define XS1_PORT_CTRL2_PIN_DELAY_SET(x,v) (((x) & ~XS1_PORT_CTRL2_PIN_DELAY_MASK) | (((v) << XS1_PORT_CTRL2_PIN_DELAY_SHIFT) & XS1_PORT_CTRL2_PIN_DELAY_MASK))
+#define XS1_TIMER_CTRL0_INUSE_SHIFT 0x0
+#define XS1_TIMER_CTRL0_INUSE_SIZE 0x1
+#define XS1_TIMER_CTRL0_INUSE_MASK (((1 << XS1_TIMER_CTRL0_INUSE_SIZE) - 1) << XS1_TIMER_CTRL0_INUSE_SHIFT)
+#define XS1_TIMER_CTRL0_INUSE(x) (((x) & XS1_TIMER_CTRL0_INUSE_MASK) >> XS1_TIMER_CTRL0_INUSE_SHIFT)
+#define XS1_TIMER_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_TIMER_CTRL0_INUSE_MASK) | (((v) << XS1_TIMER_CTRL0_INUSE_SHIFT) & XS1_TIMER_CTRL0_INUSE_MASK))
+#define XS1_TIMER_CTRL0_IE_MODE_SHIFT 0x1
+#define XS1_TIMER_CTRL0_IE_MODE_SIZE 0x1
+#define XS1_TIMER_CTRL0_IE_MODE_MASK (((1 << XS1_TIMER_CTRL0_IE_MODE_SIZE) - 1) << XS1_TIMER_CTRL0_IE_MODE_SHIFT)
+#define XS1_TIMER_CTRL0_IE_MODE(x) (((x) & XS1_TIMER_CTRL0_IE_MODE_MASK) >> XS1_TIMER_CTRL0_IE_MODE_SHIFT)
+#define XS1_TIMER_CTRL0_IE_MODE_SET(x,v) (((x) & ~XS1_TIMER_CTRL0_IE_MODE_MASK) | (((v) << XS1_TIMER_CTRL0_IE_MODE_SHIFT) & XS1_TIMER_CTRL0_IE_MODE_MASK))
+#define XS1_TIMER_CTRL0_IE_ENABLED_SHIFT 0x2
+#define XS1_TIMER_CTRL0_IE_ENABLED_SIZE 0x1
+#define XS1_TIMER_CTRL0_IE_ENABLED_MASK (((1 << XS1_TIMER_CTRL0_IE_ENABLED_SIZE) - 1) << XS1_TIMER_CTRL0_IE_ENABLED_SHIFT)
+#define XS1_TIMER_CTRL0_IE_ENABLED(x) (((x) & XS1_TIMER_CTRL0_IE_ENABLED_MASK) >> XS1_TIMER_CTRL0_IE_ENABLED_SHIFT)
+#define XS1_TIMER_CTRL0_IE_ENABLED_SET(x,v) (((x) & ~XS1_TIMER_CTRL0_IE_ENABLED_MASK) | (((v) << XS1_TIMER_CTRL0_IE_ENABLED_SHIFT) & XS1_TIMER_CTRL0_IE_ENABLED_MASK))
+#define XS1_TIMER_CTRL0_READY_SHIFT 0x3
+#define XS1_TIMER_CTRL0_READY_SIZE 0x1
+#define XS1_TIMER_CTRL0_READY_MASK (((1 << XS1_TIMER_CTRL0_READY_SIZE) - 1) << XS1_TIMER_CTRL0_READY_SHIFT)
+#define XS1_TIMER_CTRL0_READY(x) (((x) & XS1_TIMER_CTRL0_READY_MASK) >> XS1_TIMER_CTRL0_READY_SHIFT)
+#define XS1_TIMER_CTRL0_READY_SET(x,v) (((x) & ~XS1_TIMER_CTRL0_READY_MASK) | (((v) << XS1_TIMER_CTRL0_READY_SHIFT) & XS1_TIMER_CTRL0_READY_MASK))
+#define XS1_TIMER_CTRL0_COND_SHIFT 0x4
+#define XS1_TIMER_CTRL0_COND_SIZE 0x1
+#define XS1_TIMER_CTRL0_COND_MASK (((1 << XS1_TIMER_CTRL0_COND_SIZE) - 1) << XS1_TIMER_CTRL0_COND_SHIFT)
+#define XS1_TIMER_CTRL0_COND(x) (((x) & XS1_TIMER_CTRL0_COND_MASK) >> XS1_TIMER_CTRL0_COND_SHIFT)
+#define XS1_TIMER_CTRL0_COND_SET(x,v) (((x) & ~XS1_TIMER_CTRL0_COND_MASK) | (((v) << XS1_TIMER_CTRL0_COND_SHIFT) & XS1_TIMER_CTRL0_COND_MASK))
+#define XS1_TIMER_CTRL0_EV_VALID_SHIFT 0x8
+#define XS1_TIMER_CTRL0_EV_VALID_SIZE 0x1
+#define XS1_TIMER_CTRL0_EV_VALID_MASK (((1 << XS1_TIMER_CTRL0_EV_VALID_SIZE) - 1) << XS1_TIMER_CTRL0_EV_VALID_SHIFT)
+#define XS1_TIMER_CTRL0_EV_VALID(x) (((x) & XS1_TIMER_CTRL0_EV_VALID_MASK) >> XS1_TIMER_CTRL0_EV_VALID_SHIFT)
+#define XS1_TIMER_CTRL0_EV_VALID_SET(x,v) (((x) & ~XS1_TIMER_CTRL0_EV_VALID_MASK) | (((v) << XS1_TIMER_CTRL0_EV_VALID_SHIFT) & XS1_TIMER_CTRL0_EV_VALID_MASK))
+#define XS1_TIMER_CTRL0_T_WAITING_SHIFT 0x17
+#define XS1_TIMER_CTRL0_T_WAITING_SIZE 0x1
+#define XS1_TIMER_CTRL0_T_WAITING_MASK (((1 << XS1_TIMER_CTRL0_T_WAITING_SIZE) - 1) << XS1_TIMER_CTRL0_T_WAITING_SHIFT)
+#define XS1_TIMER_CTRL0_T_WAITING(x) (((x) & XS1_TIMER_CTRL0_T_WAITING_MASK) >> XS1_TIMER_CTRL0_T_WAITING_SHIFT)
+#define XS1_TIMER_CTRL0_T_WAITING_SET(x,v) (((x) & ~XS1_TIMER_CTRL0_T_WAITING_MASK) | (((v) << XS1_TIMER_CTRL0_T_WAITING_SHIFT) & XS1_TIMER_CTRL0_T_WAITING_MASK))
+#define XS1_TIMER_CTRL0_T_NUM_SHIFT 0x18
+#define XS1_TIMER_CTRL0_T_NUM_SIZE 0x8
+#define XS1_TIMER_CTRL0_T_NUM_MASK (((1 << XS1_TIMER_CTRL0_T_NUM_SIZE) - 1) << XS1_TIMER_CTRL0_T_NUM_SHIFT)
+#define XS1_TIMER_CTRL0_T_NUM(x) (((x) & XS1_TIMER_CTRL0_T_NUM_MASK) >> XS1_TIMER_CTRL0_T_NUM_SHIFT)
+#define XS1_TIMER_CTRL0_T_NUM_SET(x,v) (((x) & ~XS1_TIMER_CTRL0_T_NUM_MASK) | (((v) << XS1_TIMER_CTRL0_T_NUM_SHIFT) & XS1_TIMER_CTRL0_T_NUM_MASK))
+#define XS1_SYNC_CTRL0_INUSE_SHIFT 0x0
+#define XS1_SYNC_CTRL0_INUSE_SIZE 0x1
+#define XS1_SYNC_CTRL0_INUSE_MASK (((1 << XS1_SYNC_CTRL0_INUSE_SIZE) - 1) << XS1_SYNC_CTRL0_INUSE_SHIFT)
+#define XS1_SYNC_CTRL0_INUSE(x) (((x) & XS1_SYNC_CTRL0_INUSE_MASK) >> XS1_SYNC_CTRL0_INUSE_SHIFT)
+#define XS1_SYNC_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_SYNC_CTRL0_INUSE_MASK) | (((v) << XS1_SYNC_CTRL0_INUSE_SHIFT) & XS1_SYNC_CTRL0_INUSE_MASK))
+#define XS1_SYNC_CTRL0_MSYNCED_SHIFT 0x1
+#define XS1_SYNC_CTRL0_MSYNCED_SIZE 0x1
+#define XS1_SYNC_CTRL0_MSYNCED_MASK (((1 << XS1_SYNC_CTRL0_MSYNCED_SIZE) - 1) << XS1_SYNC_CTRL0_MSYNCED_SHIFT)
+#define XS1_SYNC_CTRL0_MSYNCED(x) (((x) & XS1_SYNC_CTRL0_MSYNCED_MASK) >> XS1_SYNC_CTRL0_MSYNCED_SHIFT)
+#define XS1_SYNC_CTRL0_MSYNCED_SET(x,v) (((x) & ~XS1_SYNC_CTRL0_MSYNCED_MASK) | (((v) << XS1_SYNC_CTRL0_MSYNCED_SHIFT) & XS1_SYNC_CTRL0_MSYNCED_MASK))
+#define XS1_SYNC_CTRL0_JOIN_SHIFT 0x2
+#define XS1_SYNC_CTRL0_JOIN_SIZE 0x1
+#define XS1_SYNC_CTRL0_JOIN_MASK (((1 << XS1_SYNC_CTRL0_JOIN_SIZE) - 1) << XS1_SYNC_CTRL0_JOIN_SHIFT)
+#define XS1_SYNC_CTRL0_JOIN(x) (((x) & XS1_SYNC_CTRL0_JOIN_MASK) >> XS1_SYNC_CTRL0_JOIN_SHIFT)
+#define XS1_SYNC_CTRL0_JOIN_SET(x,v) (((x) & ~XS1_SYNC_CTRL0_JOIN_MASK) | (((v) << XS1_SYNC_CTRL0_JOIN_SHIFT) & XS1_SYNC_CTRL0_JOIN_MASK))
+#define XS1_SYNC_CTRL0_MASTER_SHIFT 0x8
+#define XS1_SYNC_CTRL0_MASTER_SIZE 0x8
+#define XS1_SYNC_CTRL0_MASTER_MASK (((1 << XS1_SYNC_CTRL0_MASTER_SIZE) - 1) << XS1_SYNC_CTRL0_MASTER_SHIFT)
+#define XS1_SYNC_CTRL0_MASTER(x) (((x) & XS1_SYNC_CTRL0_MASTER_MASK) >> XS1_SYNC_CTRL0_MASTER_SHIFT)
+#define XS1_SYNC_CTRL0_MASTER_SET(x,v) (((x) & ~XS1_SYNC_CTRL0_MASTER_MASK) | (((v) << XS1_SYNC_CTRL0_MASTER_SHIFT) & XS1_SYNC_CTRL0_MASTER_MASK))
+#define XS1_SYNC_TBV0_SLAVES_SHIFT 0x0
+#define XS1_SYNC_TBV0_SLAVES_SIZE 0x8
+#define XS1_SYNC_TBV0_SLAVES_MASK (((1 << XS1_SYNC_TBV0_SLAVES_SIZE) - 1) << XS1_SYNC_TBV0_SLAVES_SHIFT)
+#define XS1_SYNC_TBV0_SLAVES(x) (((x) & XS1_SYNC_TBV0_SLAVES_MASK) >> XS1_SYNC_TBV0_SLAVES_SHIFT)
+#define XS1_SYNC_TBV0_SLAVES_SET(x,v) (((x) & ~XS1_SYNC_TBV0_SLAVES_MASK) | (((v) << XS1_SYNC_TBV0_SLAVES_SHIFT) & XS1_SYNC_TBV0_SLAVES_MASK))
+#define XS1_LOCK_CTRL0_INUSE_SHIFT 0x0
+#define XS1_LOCK_CTRL0_INUSE_SIZE 0x1
+#define XS1_LOCK_CTRL0_INUSE_MASK (((1 << XS1_LOCK_CTRL0_INUSE_SIZE) - 1) << XS1_LOCK_CTRL0_INUSE_SHIFT)
+#define XS1_LOCK_CTRL0_INUSE(x) (((x) & XS1_LOCK_CTRL0_INUSE_MASK) >> XS1_LOCK_CTRL0_INUSE_SHIFT)
+#define XS1_LOCK_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_LOCK_CTRL0_INUSE_MASK) | (((v) << XS1_LOCK_CTRL0_INUSE_SHIFT) & XS1_LOCK_CTRL0_INUSE_MASK))
+#define XS1_LOCK_CTRL0_OWNT_V_SHIFT 0x1
+#define XS1_LOCK_CTRL0_OWNT_V_SIZE 0x1
+#define XS1_LOCK_CTRL0_OWNT_V_MASK (((1 << XS1_LOCK_CTRL0_OWNT_V_SIZE) - 1) << XS1_LOCK_CTRL0_OWNT_V_SHIFT)
+#define XS1_LOCK_CTRL0_OWNT_V(x) (((x) & XS1_LOCK_CTRL0_OWNT_V_MASK) >> XS1_LOCK_CTRL0_OWNT_V_SHIFT)
+#define XS1_LOCK_CTRL0_OWNT_V_SET(x,v) (((x) & ~XS1_LOCK_CTRL0_OWNT_V_MASK) | (((v) << XS1_LOCK_CTRL0_OWNT_V_SHIFT) & XS1_LOCK_CTRL0_OWNT_V_MASK))
+#define XS1_LOCK_CTRL0_OWNT_SHIFT 0x8
+#define XS1_LOCK_CTRL0_OWNT_SIZE 0x8
+#define XS1_LOCK_CTRL0_OWNT_MASK (((1 << XS1_LOCK_CTRL0_OWNT_SIZE) - 1) << XS1_LOCK_CTRL0_OWNT_SHIFT)
+#define XS1_LOCK_CTRL0_OWNT(x) (((x) & XS1_LOCK_CTRL0_OWNT_MASK) >> XS1_LOCK_CTRL0_OWNT_SHIFT)
+#define XS1_LOCK_CTRL0_OWNT_SET(x,v) (((x) & ~XS1_LOCK_CTRL0_OWNT_MASK) | (((v) << XS1_LOCK_CTRL0_OWNT_SHIFT) & XS1_LOCK_CTRL0_OWNT_MASK))
+#define XS1_LOCK_TBV0_WAITING_SHIFT 0x0
+#define XS1_LOCK_TBV0_WAITING_SIZE 0x8
+#define XS1_LOCK_TBV0_WAITING_MASK (((1 << XS1_LOCK_TBV0_WAITING_SIZE) - 1) << XS1_LOCK_TBV0_WAITING_SHIFT)
+#define XS1_LOCK_TBV0_WAITING(x) (((x) & XS1_LOCK_TBV0_WAITING_MASK) >> XS1_LOCK_TBV0_WAITING_SHIFT)
+#define XS1_LOCK_TBV0_WAITING_SET(x,v) (((x) & ~XS1_LOCK_TBV0_WAITING_MASK) | (((v) << XS1_LOCK_TBV0_WAITING_SHIFT) & XS1_LOCK_TBV0_WAITING_MASK))
+#define XS1_MMAP_CTRL0_INUSE_SHIFT 0x0
+#define XS1_MMAP_CTRL0_INUSE_SIZE 0x1
+#define XS1_MMAP_CTRL0_INUSE_MASK (((1 << XS1_MMAP_CTRL0_INUSE_SIZE) - 1) << XS1_MMAP_CTRL0_INUSE_SHIFT)
+#define XS1_MMAP_CTRL0_INUSE(x) (((x) & XS1_MMAP_CTRL0_INUSE_MASK) >> XS1_MMAP_CTRL0_INUSE_SHIFT)
+#define XS1_MMAP_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_MMAP_CTRL0_INUSE_MASK) | (((v) << XS1_MMAP_CTRL0_INUSE_SHIFT) & XS1_MMAP_CTRL0_INUSE_MASK))
+#define XS1_MMAP_CTRL0_RO_SHIFT 0x1
+#define XS1_MMAP_CTRL0_RO_SIZE 0x1
+#define XS1_MMAP_CTRL0_RO_MASK (((1 << XS1_MMAP_CTRL0_RO_SIZE) - 1) << XS1_MMAP_CTRL0_RO_SHIFT)
+#define XS1_MMAP_CTRL0_RO(x) (((x) & XS1_MMAP_CTRL0_RO_MASK) >> XS1_MMAP_CTRL0_RO_SHIFT)
+#define XS1_MMAP_CTRL0_RO_SET(x,v) (((x) & ~XS1_MMAP_CTRL0_RO_MASK) | (((v) << XS1_MMAP_CTRL0_RO_SHIFT) & XS1_MMAP_CTRL0_RO_MASK))
+#define XS1_MMAP_CTRL0_LOCK_SHIFT 0x2
+#define XS1_MMAP_CTRL0_LOCK_SIZE 0x1
+#define XS1_MMAP_CTRL0_LOCK_MASK (((1 << XS1_MMAP_CTRL0_LOCK_SIZE) - 1) << XS1_MMAP_CTRL0_LOCK_SHIFT)
+#define XS1_MMAP_CTRL0_LOCK(x) (((x) & XS1_MMAP_CTRL0_LOCK_MASK) >> XS1_MMAP_CTRL0_LOCK_SHIFT)
+#define XS1_MMAP_CTRL0_LOCK_SET(x,v) (((x) & ~XS1_MMAP_CTRL0_LOCK_MASK) | (((v) << XS1_MMAP_CTRL0_LOCK_SHIFT) & XS1_MMAP_CTRL0_LOCK_MASK))
+#define XS1_MMAP_CTRL0_GLOBAL_SHIFT 0x3
+#define XS1_MMAP_CTRL0_GLOBAL_SIZE 0x1
+#define XS1_MMAP_CTRL0_GLOBAL_MASK (((1 << XS1_MMAP_CTRL0_GLOBAL_SIZE) - 1) << XS1_MMAP_CTRL0_GLOBAL_SHIFT)
+#define XS1_MMAP_CTRL0_GLOBAL(x) (((x) & XS1_MMAP_CTRL0_GLOBAL_MASK) >> XS1_MMAP_CTRL0_GLOBAL_SHIFT)
+#define XS1_MMAP_CTRL0_GLOBAL_SET(x,v) (((x) & ~XS1_MMAP_CTRL0_GLOBAL_MASK) | (((v) << XS1_MMAP_CTRL0_GLOBAL_SHIFT) & XS1_MMAP_CTRL0_GLOBAL_MASK))
+#define XS1_MMAP_CTRL0_ASID_SHIFT 0x4
+#define XS1_MMAP_CTRL0_ASID_SIZE 0x2
+#define XS1_MMAP_CTRL0_ASID_MASK (((1 << XS1_MMAP_CTRL0_ASID_SIZE) - 1) << XS1_MMAP_CTRL0_ASID_SHIFT)
+#define XS1_MMAP_CTRL0_ASID(x) (((x) & XS1_MMAP_CTRL0_ASID_MASK) >> XS1_MMAP_CTRL0_ASID_SHIFT)
+#define XS1_MMAP_CTRL0_ASID_SET(x,v) (((x) & ~XS1_MMAP_CTRL0_ASID_MASK) | (((v) << XS1_MMAP_CTRL0_ASID_SHIFT) & XS1_MMAP_CTRL0_ASID_MASK))
+#define XS1_MMAP_CTRL0_LENGTH_SHIFT 0x6
+#define XS1_MMAP_CTRL0_LENGTH_SIZE 0x2
+#define XS1_MMAP_CTRL0_LENGTH_MASK (((1 << XS1_MMAP_CTRL0_LENGTH_SIZE) - 1) << XS1_MMAP_CTRL0_LENGTH_SHIFT)
+#define XS1_MMAP_CTRL0_LENGTH(x) (((x) & XS1_MMAP_CTRL0_LENGTH_MASK) >> XS1_MMAP_CTRL0_LENGTH_SHIFT)
+#define XS1_MMAP_CTRL0_LENGTH_SET(x,v) (((x) & ~XS1_MMAP_CTRL0_LENGTH_MASK) | (((v) << XS1_MMAP_CTRL0_LENGTH_SHIFT) & XS1_MMAP_CTRL0_LENGTH_MASK))
+#define XS1_MMAP_CTRL0_PHY_ADDR_SHIFT 0x8
+#define XS1_MMAP_CTRL0_PHY_ADDR_SIZE 0x18
+#define XS1_MMAP_CTRL0_PHY_ADDR_MASK (((1 << XS1_MMAP_CTRL0_PHY_ADDR_SIZE) - 1) << XS1_MMAP_CTRL0_PHY_ADDR_SHIFT)
+#define XS1_MMAP_CTRL0_PHY_ADDR(x) (((x) & XS1_MMAP_CTRL0_PHY_ADDR_MASK) >> XS1_MMAP_CTRL0_PHY_ADDR_SHIFT)
+#define XS1_MMAP_CTRL0_PHY_ADDR_SET(x,v) (((x) & ~XS1_MMAP_CTRL0_PHY_ADDR_MASK) | (((v) << XS1_MMAP_CTRL0_PHY_ADDR_SHIFT) & XS1_MMAP_CTRL0_PHY_ADDR_MASK))
+#define XS1_MMAP_CTRL1_THREADS_EN_SHIFT 0x0
+#define XS1_MMAP_CTRL1_THREADS_EN_SIZE 0x8
+#define XS1_MMAP_CTRL1_THREADS_EN_MASK (((1 << XS1_MMAP_CTRL1_THREADS_EN_SIZE) - 1) << XS1_MMAP_CTRL1_THREADS_EN_SHIFT)
+#define XS1_MMAP_CTRL1_THREADS_EN(x) (((x) & XS1_MMAP_CTRL1_THREADS_EN_MASK) >> XS1_MMAP_CTRL1_THREADS_EN_SHIFT)
+#define XS1_MMAP_CTRL1_THREADS_EN_SET(x,v) (((x) & ~XS1_MMAP_CTRL1_THREADS_EN_MASK) | (((v) << XS1_MMAP_CTRL1_THREADS_EN_SHIFT) & XS1_MMAP_CTRL1_THREADS_EN_MASK))
+#define XS1_MMAP_CTRL1_VIRT_ADDR_SHIFT 0x8
+#define XS1_MMAP_CTRL1_VIRT_ADDR_SIZE 0x18
+#define XS1_MMAP_CTRL1_VIRT_ADDR_MASK (((1 << XS1_MMAP_CTRL1_VIRT_ADDR_SIZE) - 1) << XS1_MMAP_CTRL1_VIRT_ADDR_SHIFT)
+#define XS1_MMAP_CTRL1_VIRT_ADDR(x) (((x) & XS1_MMAP_CTRL1_VIRT_ADDR_MASK) >> XS1_MMAP_CTRL1_VIRT_ADDR_SHIFT)
+#define XS1_MMAP_CTRL1_VIRT_ADDR_SET(x,v) (((x) & ~XS1_MMAP_CTRL1_VIRT_ADDR_MASK) | (((v) << XS1_MMAP_CTRL1_VIRT_ADDR_SHIFT) & XS1_MMAP_CTRL1_VIRT_ADDR_MASK))
+#define XS1_CHANEND_CTRL0_INUSE_SHIFT 0x0
+#define XS1_CHANEND_CTRL0_INUSE_SIZE 0x1
+#define XS1_CHANEND_CTRL0_INUSE_MASK (((1 << XS1_CHANEND_CTRL0_INUSE_SIZE) - 1) << XS1_CHANEND_CTRL0_INUSE_SHIFT)
+#define XS1_CHANEND_CTRL0_INUSE(x) (((x) & XS1_CHANEND_CTRL0_INUSE_MASK) >> XS1_CHANEND_CTRL0_INUSE_SHIFT)
+#define XS1_CHANEND_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_INUSE_MASK) | (((v) << XS1_CHANEND_CTRL0_INUSE_SHIFT) & XS1_CHANEND_CTRL0_INUSE_MASK))
+#define XS1_CHANEND_CTRL0_IE_MODE_SHIFT 0x1
+#define XS1_CHANEND_CTRL0_IE_MODE_SIZE 0x1
+#define XS1_CHANEND_CTRL0_IE_MODE_MASK (((1 << XS1_CHANEND_CTRL0_IE_MODE_SIZE) - 1) << XS1_CHANEND_CTRL0_IE_MODE_SHIFT)
+#define XS1_CHANEND_CTRL0_IE_MODE(x) (((x) & XS1_CHANEND_CTRL0_IE_MODE_MASK) >> XS1_CHANEND_CTRL0_IE_MODE_SHIFT)
+#define XS1_CHANEND_CTRL0_IE_MODE_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_IE_MODE_MASK) | (((v) << XS1_CHANEND_CTRL0_IE_MODE_SHIFT) & XS1_CHANEND_CTRL0_IE_MODE_MASK))
+#define XS1_CHANEND_CTRL0_IE_ENABLED_SHIFT 0x2
+#define XS1_CHANEND_CTRL0_IE_ENABLED_SIZE 0x1
+#define XS1_CHANEND_CTRL0_IE_ENABLED_MASK (((1 << XS1_CHANEND_CTRL0_IE_ENABLED_SIZE) - 1) << XS1_CHANEND_CTRL0_IE_ENABLED_SHIFT)
+#define XS1_CHANEND_CTRL0_IE_ENABLED(x) (((x) & XS1_CHANEND_CTRL0_IE_ENABLED_MASK) >> XS1_CHANEND_CTRL0_IE_ENABLED_SHIFT)
+#define XS1_CHANEND_CTRL0_IE_ENABLED_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_IE_ENABLED_MASK) | (((v) << XS1_CHANEND_CTRL0_IE_ENABLED_SHIFT) & XS1_CHANEND_CTRL0_IE_ENABLED_MASK))
+#define XS1_CHANEND_CTRL0_IN_READY_SHIFT 0x4
+#define XS1_CHANEND_CTRL0_IN_READY_SIZE 0x1
+#define XS1_CHANEND_CTRL0_IN_READY_MASK (((1 << XS1_CHANEND_CTRL0_IN_READY_SIZE) - 1) << XS1_CHANEND_CTRL0_IN_READY_SHIFT)
+#define XS1_CHANEND_CTRL0_IN_READY(x) (((x) & XS1_CHANEND_CTRL0_IN_READY_MASK) >> XS1_CHANEND_CTRL0_IN_READY_SHIFT)
+#define XS1_CHANEND_CTRL0_IN_READY_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_IN_READY_MASK) | (((v) << XS1_CHANEND_CTRL0_IN_READY_SHIFT) & XS1_CHANEND_CTRL0_IN_READY_MASK))
+#define XS1_CHANEND_CTRL0_IN_WAITING_SHIFT 0x5
+#define XS1_CHANEND_CTRL0_IN_WAITING_SIZE 0x1
+#define XS1_CHANEND_CTRL0_IN_WAITING_MASK (((1 << XS1_CHANEND_CTRL0_IN_WAITING_SIZE) - 1) << XS1_CHANEND_CTRL0_IN_WAITING_SHIFT)
+#define XS1_CHANEND_CTRL0_IN_WAITING(x) (((x) & XS1_CHANEND_CTRL0_IN_WAITING_MASK) >> XS1_CHANEND_CTRL0_IN_WAITING_SHIFT)
+#define XS1_CHANEND_CTRL0_IN_WAITING_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_IN_WAITING_MASK) | (((v) << XS1_CHANEND_CTRL0_IN_WAITING_SHIFT) & XS1_CHANEND_CTRL0_IN_WAITING_MASK))
+#define XS1_CHANEND_CTRL0_OUT_READY_SHIFT 0x6
+#define XS1_CHANEND_CTRL0_OUT_READY_SIZE 0x1
+#define XS1_CHANEND_CTRL0_OUT_READY_MASK (((1 << XS1_CHANEND_CTRL0_OUT_READY_SIZE) - 1) << XS1_CHANEND_CTRL0_OUT_READY_SHIFT)
+#define XS1_CHANEND_CTRL0_OUT_READY(x) (((x) & XS1_CHANEND_CTRL0_OUT_READY_MASK) >> XS1_CHANEND_CTRL0_OUT_READY_SHIFT)
+#define XS1_CHANEND_CTRL0_OUT_READY_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_OUT_READY_MASK) | (((v) << XS1_CHANEND_CTRL0_OUT_READY_SHIFT) & XS1_CHANEND_CTRL0_OUT_READY_MASK))
+#define XS1_CHANEND_CTRL0_OUT_WAITING_SHIFT 0x7
+#define XS1_CHANEND_CTRL0_OUT_WAITING_SIZE 0x1
+#define XS1_CHANEND_CTRL0_OUT_WAITING_MASK (((1 << XS1_CHANEND_CTRL0_OUT_WAITING_SIZE) - 1) << XS1_CHANEND_CTRL0_OUT_WAITING_SHIFT)
+#define XS1_CHANEND_CTRL0_OUT_WAITING(x) (((x) & XS1_CHANEND_CTRL0_OUT_WAITING_MASK) >> XS1_CHANEND_CTRL0_OUT_WAITING_SHIFT)
+#define XS1_CHANEND_CTRL0_OUT_WAITING_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_OUT_WAITING_MASK) | (((v) << XS1_CHANEND_CTRL0_OUT_WAITING_SHIFT) & XS1_CHANEND_CTRL0_OUT_WAITING_MASK))
+#define XS1_CHANEND_CTRL0_EV_VALID_SHIFT 0x8
+#define XS1_CHANEND_CTRL0_EV_VALID_SIZE 0x1
+#define XS1_CHANEND_CTRL0_EV_VALID_MASK (((1 << XS1_CHANEND_CTRL0_EV_VALID_SIZE) - 1) << XS1_CHANEND_CTRL0_EV_VALID_SHIFT)
+#define XS1_CHANEND_CTRL0_EV_VALID(x) (((x) & XS1_CHANEND_CTRL0_EV_VALID_MASK) >> XS1_CHANEND_CTRL0_EV_VALID_SHIFT)
+#define XS1_CHANEND_CTRL0_EV_VALID_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_EV_VALID_MASK) | (((v) << XS1_CHANEND_CTRL0_EV_VALID_SHIFT) & XS1_CHANEND_CTRL0_EV_VALID_MASK))
+#define XS1_CHANEND_CTRL0_IN_T_NUM_SHIFT 0x10
+#define XS1_CHANEND_CTRL0_IN_T_NUM_SIZE 0x8
+#define XS1_CHANEND_CTRL0_IN_T_NUM_MASK (((1 << XS1_CHANEND_CTRL0_IN_T_NUM_SIZE) - 1) << XS1_CHANEND_CTRL0_IN_T_NUM_SHIFT)
+#define XS1_CHANEND_CTRL0_IN_T_NUM(x) (((x) & XS1_CHANEND_CTRL0_IN_T_NUM_MASK) >> XS1_CHANEND_CTRL0_IN_T_NUM_SHIFT)
+#define XS1_CHANEND_CTRL0_IN_T_NUM_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_IN_T_NUM_MASK) | (((v) << XS1_CHANEND_CTRL0_IN_T_NUM_SHIFT) & XS1_CHANEND_CTRL0_IN_T_NUM_MASK))
+#define XS1_CHANEND_CTRL0_OUT_T_NUM_SHIFT 0x18
+#define XS1_CHANEND_CTRL0_OUT_T_NUM_SIZE 0x8
+#define XS1_CHANEND_CTRL0_OUT_T_NUM_MASK (((1 << XS1_CHANEND_CTRL0_OUT_T_NUM_SIZE) - 1) << XS1_CHANEND_CTRL0_OUT_T_NUM_SHIFT)
+#define XS1_CHANEND_CTRL0_OUT_T_NUM(x) (((x) & XS1_CHANEND_CTRL0_OUT_T_NUM_MASK) >> XS1_CHANEND_CTRL0_OUT_T_NUM_SHIFT)
+#define XS1_CHANEND_CTRL0_OUT_T_NUM_SET(x,v) (((x) & ~XS1_CHANEND_CTRL0_OUT_T_NUM_MASK) | (((v) << XS1_CHANEND_CTRL0_OUT_T_NUM_SHIFT) & XS1_CHANEND_CTRL0_OUT_T_NUM_MASK))
+#define XS1_CLKBLK_CTRL0_INUSE_SHIFT 0x0
+#define XS1_CLKBLK_CTRL0_INUSE_SIZE 0x1
+#define XS1_CLKBLK_CTRL0_INUSE_MASK (((1 << XS1_CLKBLK_CTRL0_INUSE_SIZE) - 1) << XS1_CLKBLK_CTRL0_INUSE_SHIFT)
+#define XS1_CLKBLK_CTRL0_INUSE(x) (((x) & XS1_CLKBLK_CTRL0_INUSE_MASK) >> XS1_CLKBLK_CTRL0_INUSE_SHIFT)
+#define XS1_CLKBLK_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_CLKBLK_CTRL0_INUSE_MASK) | (((v) << XS1_CLKBLK_CTRL0_INUSE_SHIFT) & XS1_CLKBLK_CTRL0_INUSE_MASK))
+#define XS1_CLKBLK_CTRL0_STARTED_SHIFT 0x1
+#define XS1_CLKBLK_CTRL0_STARTED_SIZE 0x1
+#define XS1_CLKBLK_CTRL0_STARTED_MASK (((1 << XS1_CLKBLK_CTRL0_STARTED_SIZE) - 1) << XS1_CLKBLK_CTRL0_STARTED_SHIFT)
+#define XS1_CLKBLK_CTRL0_STARTED(x) (((x) & XS1_CLKBLK_CTRL0_STARTED_MASK) >> XS1_CLKBLK_CTRL0_STARTED_SHIFT)
+#define XS1_CLKBLK_CTRL0_STARTED_SET(x,v) (((x) & ~XS1_CLKBLK_CTRL0_STARTED_MASK) | (((v) << XS1_CLKBLK_CTRL0_STARTED_SHIFT) & XS1_CLKBLK_CTRL0_STARTED_MASK))
+#define XS1_CLKBLK_CTRL0_STOPPING_SHIFT 0x2
+#define XS1_CLKBLK_CTRL0_STOPPING_SIZE 0x1
+#define XS1_CLKBLK_CTRL0_STOPPING_MASK (((1 << XS1_CLKBLK_CTRL0_STOPPING_SIZE) - 1) << XS1_CLKBLK_CTRL0_STOPPING_SHIFT)
+#define XS1_CLKBLK_CTRL0_STOPPING(x) (((x) & XS1_CLKBLK_CTRL0_STOPPING_MASK) >> XS1_CLKBLK_CTRL0_STOPPING_SHIFT)
+#define XS1_CLKBLK_CTRL0_STOPPING_SET(x,v) (((x) & ~XS1_CLKBLK_CTRL0_STOPPING_MASK) | (((v) << XS1_CLKBLK_CTRL0_STOPPING_SHIFT) & XS1_CLKBLK_CTRL0_STOPPING_MASK))
+#define XS1_CLKBLK_CTRL0_T_WAITING_SHIFT 0x17
+#define XS1_CLKBLK_CTRL0_T_WAITING_SIZE 0x1
+#define XS1_CLKBLK_CTRL0_T_WAITING_MASK (((1 << XS1_CLKBLK_CTRL0_T_WAITING_SIZE) - 1) << XS1_CLKBLK_CTRL0_T_WAITING_SHIFT)
+#define XS1_CLKBLK_CTRL0_T_WAITING(x) (((x) & XS1_CLKBLK_CTRL0_T_WAITING_MASK) >> XS1_CLKBLK_CTRL0_T_WAITING_SHIFT)
+#define XS1_CLKBLK_CTRL0_T_WAITING_SET(x,v) (((x) & ~XS1_CLKBLK_CTRL0_T_WAITING_MASK) | (((v) << XS1_CLKBLK_CTRL0_T_WAITING_SHIFT) & XS1_CLKBLK_CTRL0_T_WAITING_MASK))
+#define XS1_CLKBLK_CTRL0_T_NUM_SHIFT 0x18
+#define XS1_CLKBLK_CTRL0_T_NUM_SIZE 0x8
+#define XS1_CLKBLK_CTRL0_T_NUM_MASK (((1 << XS1_CLKBLK_CTRL0_T_NUM_SIZE) - 1) << XS1_CLKBLK_CTRL0_T_NUM_SHIFT)
+#define XS1_CLKBLK_CTRL0_T_NUM(x) (((x) & XS1_CLKBLK_CTRL0_T_NUM_MASK) >> XS1_CLKBLK_CTRL0_T_NUM_SHIFT)
+#define XS1_CLKBLK_CTRL0_T_NUM_SET(x,v) (((x) & ~XS1_CLKBLK_CTRL0_T_NUM_MASK) | (((v) << XS1_CLKBLK_CTRL0_T_NUM_SHIFT) & XS1_CLKBLK_CTRL0_T_NUM_MASK))
+#define XS1_CLKBLK_CTRL1_FALL_DELAY_SHIFT 0x0
+#define XS1_CLKBLK_CTRL1_FALL_DELAY_SIZE 0x9
+#define XS1_CLKBLK_CTRL1_FALL_DELAY_MASK (((1 << XS1_CLKBLK_CTRL1_FALL_DELAY_SIZE) - 1) << XS1_CLKBLK_CTRL1_FALL_DELAY_SHIFT)
+#define XS1_CLKBLK_CTRL1_FALL_DELAY(x) (((x) & XS1_CLKBLK_CTRL1_FALL_DELAY_MASK) >> XS1_CLKBLK_CTRL1_FALL_DELAY_SHIFT)
+#define XS1_CLKBLK_CTRL1_FALL_DELAY_SET(x,v) (((x) & ~XS1_CLKBLK_CTRL1_FALL_DELAY_MASK) | (((v) << XS1_CLKBLK_CTRL1_FALL_DELAY_SHIFT) & XS1_CLKBLK_CTRL1_FALL_DELAY_MASK))
+#define XS1_CLKBLK_CTRL1_RISE_DELAY_SHIFT 0x10
+#define XS1_CLKBLK_CTRL1_RISE_DELAY_SIZE 0x9
+#define XS1_CLKBLK_CTRL1_RISE_DELAY_MASK (((1 << XS1_CLKBLK_CTRL1_RISE_DELAY_SIZE) - 1) << XS1_CLKBLK_CTRL1_RISE_DELAY_SHIFT)
+#define XS1_CLKBLK_CTRL1_RISE_DELAY(x) (((x) & XS1_CLKBLK_CTRL1_RISE_DELAY_MASK) >> XS1_CLKBLK_CTRL1_RISE_DELAY_SHIFT)
+#define XS1_CLKBLK_CTRL1_RISE_DELAY_SET(x,v) (((x) & ~XS1_CLKBLK_CTRL1_RISE_DELAY_MASK) | (((v) << XS1_CLKBLK_CTRL1_RISE_DELAY_SHIFT) & XS1_CLKBLK_CTRL1_RISE_DELAY_MASK))
+#define XS1_COPROC_CTRL0_INUSE_SHIFT 0x0
+#define XS1_COPROC_CTRL0_INUSE_SIZE 0x1
+#define XS1_COPROC_CTRL0_INUSE_MASK (((1 << XS1_COPROC_CTRL0_INUSE_SIZE) - 1) << XS1_COPROC_CTRL0_INUSE_SHIFT)
+#define XS1_COPROC_CTRL0_INUSE(x) (((x) & XS1_COPROC_CTRL0_INUSE_MASK) >> XS1_COPROC_CTRL0_INUSE_SHIFT)
+#define XS1_COPROC_CTRL0_INUSE_SET(x,v) (((x) & ~XS1_COPROC_CTRL0_INUSE_MASK) | (((v) << XS1_COPROC_CTRL0_INUSE_SHIFT) & XS1_COPROC_CTRL0_INUSE_MASK))
+#define XS1_COPROC_CTRL0_OWNT_V_SHIFT 0x1
+#define XS1_COPROC_CTRL0_OWNT_V_SIZE 0x1
+#define XS1_COPROC_CTRL0_OWNT_V_MASK (((1 << XS1_COPROC_CTRL0_OWNT_V_SIZE) - 1) << XS1_COPROC_CTRL0_OWNT_V_SHIFT)
+#define XS1_COPROC_CTRL0_OWNT_V(x) (((x) & XS1_COPROC_CTRL0_OWNT_V_MASK) >> XS1_COPROC_CTRL0_OWNT_V_SHIFT)
+#define XS1_COPROC_CTRL0_OWNT_V_SET(x,v) (((x) & ~XS1_COPROC_CTRL0_OWNT_V_MASK) | (((v) << XS1_COPROC_CTRL0_OWNT_V_SHIFT) & XS1_COPROC_CTRL0_OWNT_V_MASK))
+#define XS1_COPROC_CTRL0_OWNT_SHIFT 0x8
+#define XS1_COPROC_CTRL0_OWNT_SIZE 0x8
+#define XS1_COPROC_CTRL0_OWNT_MASK (((1 << XS1_COPROC_CTRL0_OWNT_SIZE) - 1) << XS1_COPROC_CTRL0_OWNT_SHIFT)
+#define XS1_COPROC_CTRL0_OWNT(x) (((x) & XS1_COPROC_CTRL0_OWNT_MASK) >> XS1_COPROC_CTRL0_OWNT_SHIFT)
+#define XS1_COPROC_CTRL0_OWNT_SET(x,v) (((x) & ~XS1_COPROC_CTRL0_OWNT_MASK) | (((v) << XS1_COPROC_CTRL0_OWNT_SHIFT) & XS1_COPROC_CTRL0_OWNT_MASK))
+#define XS1_COPROC_TBV0_WAITING_SHIFT 0x0
+#define XS1_COPROC_TBV0_WAITING_SIZE 0x8
+#define XS1_COPROC_TBV0_WAITING_MASK (((1 << XS1_COPROC_TBV0_WAITING_SIZE) - 1) << XS1_COPROC_TBV0_WAITING_SHIFT)
+#define XS1_COPROC_TBV0_WAITING(x) (((x) & XS1_COPROC_TBV0_WAITING_MASK) >> XS1_COPROC_TBV0_WAITING_SHIFT)
+#define XS1_COPROC_TBV0_WAITING_SET(x,v) (((x) & ~XS1_COPROC_TBV0_WAITING_MASK) | (((v) << XS1_COPROC_TBV0_WAITING_SHIFT) & XS1_COPROC_TBV0_WAITING_MASK))
+#define XS1_DBG_INT_REQ_DBG_SHIFT 0x0
+#define XS1_DBG_INT_REQ_DBG_SIZE 0x1
+#define XS1_DBG_INT_REQ_DBG_MASK (((1 << XS1_DBG_INT_REQ_DBG_SIZE) - 1) << XS1_DBG_INT_REQ_DBG_SHIFT)
+#define XS1_DBG_INT_REQ_DBG(x) (((x) & XS1_DBG_INT_REQ_DBG_MASK) >> XS1_DBG_INT_REQ_DBG_SHIFT)
+#define XS1_DBG_INT_REQ_DBG_SET(x,v) (((x) & ~XS1_DBG_INT_REQ_DBG_MASK) | (((v) << XS1_DBG_INT_REQ_DBG_SHIFT) & XS1_DBG_INT_REQ_DBG_MASK))
+#define XS1_DBG_INT_IN_DBG_SHIFT 0x1
+#define XS1_DBG_INT_IN_DBG_SIZE 0x1
+#define XS1_DBG_INT_IN_DBG_MASK (((1 << XS1_DBG_INT_IN_DBG_SIZE) - 1) << XS1_DBG_INT_IN_DBG_SHIFT)
+#define XS1_DBG_INT_IN_DBG(x) (((x) & XS1_DBG_INT_IN_DBG_MASK) >> XS1_DBG_INT_IN_DBG_SHIFT)
+#define XS1_DBG_INT_IN_DBG_SET(x,v) (((x) & ~XS1_DBG_INT_IN_DBG_MASK) | (((v) << XS1_DBG_INT_IN_DBG_SHIFT) & XS1_DBG_INT_IN_DBG_MASK))
+#define XS1_DBG_CTRL_PSWITCH_RO_SHIFT 0x1f
+#define XS1_DBG_CTRL_PSWITCH_RO_SIZE 0x1
+#define XS1_DBG_CTRL_PSWITCH_RO_MASK (((1 << XS1_DBG_CTRL_PSWITCH_RO_SIZE) - 1) << XS1_DBG_CTRL_PSWITCH_RO_SHIFT)
+#define XS1_DBG_CTRL_PSWITCH_RO(x) (((x) & XS1_DBG_CTRL_PSWITCH_RO_MASK) >> XS1_DBG_CTRL_PSWITCH_RO_SHIFT)
+#define XS1_DBG_CTRL_PSWITCH_RO_SET(x,v) (((x) & ~XS1_DBG_CTRL_PSWITCH_RO_MASK) | (((v) << XS1_DBG_CTRL_PSWITCH_RO_SHIFT) & XS1_DBG_CTRL_PSWITCH_RO_MASK))
+#define XS1_DEVICE_ID0_VERSION_SHIFT 0x0
+#define XS1_DEVICE_ID0_VERSION_SIZE 0x8
+#define XS1_DEVICE_ID0_VERSION_MASK (((1 << XS1_DEVICE_ID0_VERSION_SIZE) - 1) << XS1_DEVICE_ID0_VERSION_SHIFT)
+#define XS1_DEVICE_ID0_VERSION(x) (((x) & XS1_DEVICE_ID0_VERSION_MASK) >> XS1_DEVICE_ID0_VERSION_SHIFT)
+#define XS1_DEVICE_ID0_VERSION_SET(x,v) (((x) & ~XS1_DEVICE_ID0_VERSION_MASK) | (((v) << XS1_DEVICE_ID0_VERSION_SHIFT) & XS1_DEVICE_ID0_VERSION_MASK))
+#define XS1_DEVICE_ID0_REVISION_SHIFT 0x8
+#define XS1_DEVICE_ID0_REVISION_SIZE 0x8
+#define XS1_DEVICE_ID0_REVISION_MASK (((1 << XS1_DEVICE_ID0_REVISION_SIZE) - 1) << XS1_DEVICE_ID0_REVISION_SHIFT)
+#define XS1_DEVICE_ID0_REVISION(x) (((x) & XS1_DEVICE_ID0_REVISION_MASK) >> XS1_DEVICE_ID0_REVISION_SHIFT)
+#define XS1_DEVICE_ID0_REVISION_SET(x,v) (((x) & ~XS1_DEVICE_ID0_REVISION_MASK) | (((v) << XS1_DEVICE_ID0_REVISION_SHIFT) & XS1_DEVICE_ID0_REVISION_MASK))
+#define XS1_DEVICE_ID0_NODE_SHIFT 0x10
+#define XS1_DEVICE_ID0_NODE_SIZE 0x8
+#define XS1_DEVICE_ID0_NODE_MASK (((1 << XS1_DEVICE_ID0_NODE_SIZE) - 1) << XS1_DEVICE_ID0_NODE_SHIFT)
+#define XS1_DEVICE_ID0_NODE(x) (((x) & XS1_DEVICE_ID0_NODE_MASK) >> XS1_DEVICE_ID0_NODE_SHIFT)
+#define XS1_DEVICE_ID0_NODE_SET(x,v) (((x) & ~XS1_DEVICE_ID0_NODE_MASK) | (((v) << XS1_DEVICE_ID0_NODE_SHIFT) & XS1_DEVICE_ID0_NODE_MASK))
+#define XS1_DEVICE_ID0_PID_SHIFT 0x18
+#define XS1_DEVICE_ID0_PID_SIZE 0x8
+#define XS1_DEVICE_ID0_PID_MASK (((1 << XS1_DEVICE_ID0_PID_SIZE) - 1) << XS1_DEVICE_ID0_PID_SHIFT)
+#define XS1_DEVICE_ID0_PID(x) (((x) & XS1_DEVICE_ID0_PID_MASK) >> XS1_DEVICE_ID0_PID_SHIFT)
+#define XS1_DEVICE_ID0_PID_SET(x,v) (((x) & ~XS1_DEVICE_ID0_PID_MASK) | (((v) << XS1_DEVICE_ID0_PID_SHIFT) & XS1_DEVICE_ID0_PID_MASK))
+#define XS1_DEVICE_ID1_NUM_THREADS_SHIFT 0x0
+#define XS1_DEVICE_ID1_NUM_THREADS_SIZE 0x8
+#define XS1_DEVICE_ID1_NUM_THREADS_MASK (((1 << XS1_DEVICE_ID1_NUM_THREADS_SIZE) - 1) << XS1_DEVICE_ID1_NUM_THREADS_SHIFT)
+#define XS1_DEVICE_ID1_NUM_THREADS(x) (((x) & XS1_DEVICE_ID1_NUM_THREADS_MASK) >> XS1_DEVICE_ID1_NUM_THREADS_SHIFT)
+#define XS1_DEVICE_ID1_NUM_THREADS_SET(x,v) (((x) & ~XS1_DEVICE_ID1_NUM_THREADS_MASK) | (((v) << XS1_DEVICE_ID1_NUM_THREADS_SHIFT) & XS1_DEVICE_ID1_NUM_THREADS_MASK))
+#define XS1_DEVICE_ID1_NUM_SYNCS_SHIFT 0x8
+#define XS1_DEVICE_ID1_NUM_SYNCS_SIZE 0x8
+#define XS1_DEVICE_ID1_NUM_SYNCS_MASK (((1 << XS1_DEVICE_ID1_NUM_SYNCS_SIZE) - 1) << XS1_DEVICE_ID1_NUM_SYNCS_SHIFT)
+#define XS1_DEVICE_ID1_NUM_SYNCS(x) (((x) & XS1_DEVICE_ID1_NUM_SYNCS_MASK) >> XS1_DEVICE_ID1_NUM_SYNCS_SHIFT)
+#define XS1_DEVICE_ID1_NUM_SYNCS_SET(x,v) (((x) & ~XS1_DEVICE_ID1_NUM_SYNCS_MASK) | (((v) << XS1_DEVICE_ID1_NUM_SYNCS_SHIFT) & XS1_DEVICE_ID1_NUM_SYNCS_MASK))
+#define XS1_DEVICE_ID1_NUM_LOCKS_SHIFT 0x10
+#define XS1_DEVICE_ID1_NUM_LOCKS_SIZE 0x8
+#define XS1_DEVICE_ID1_NUM_LOCKS_MASK (((1 << XS1_DEVICE_ID1_NUM_LOCKS_SIZE) - 1) << XS1_DEVICE_ID1_NUM_LOCKS_SHIFT)
+#define XS1_DEVICE_ID1_NUM_LOCKS(x) (((x) & XS1_DEVICE_ID1_NUM_LOCKS_MASK) >> XS1_DEVICE_ID1_NUM_LOCKS_SHIFT)
+#define XS1_DEVICE_ID1_NUM_LOCKS_SET(x,v) (((x) & ~XS1_DEVICE_ID1_NUM_LOCKS_MASK) | (((v) << XS1_DEVICE_ID1_NUM_LOCKS_SHIFT) & XS1_DEVICE_ID1_NUM_LOCKS_MASK))
+#define XS1_DEVICE_ID1_NUM_CHANENDS_SHIFT 0x18
+#define XS1_DEVICE_ID1_NUM_CHANENDS_SIZE 0x8
+#define XS1_DEVICE_ID1_NUM_CHANENDS_MASK (((1 << XS1_DEVICE_ID1_NUM_CHANENDS_SIZE) - 1) << XS1_DEVICE_ID1_NUM_CHANENDS_SHIFT)
+#define XS1_DEVICE_ID1_NUM_CHANENDS(x) (((x) & XS1_DEVICE_ID1_NUM_CHANENDS_MASK) >> XS1_DEVICE_ID1_NUM_CHANENDS_SHIFT)
+#define XS1_DEVICE_ID1_NUM_CHANENDS_SET(x,v) (((x) & ~XS1_DEVICE_ID1_NUM_CHANENDS_MASK) | (((v) << XS1_DEVICE_ID1_NUM_CHANENDS_SHIFT) & XS1_DEVICE_ID1_NUM_CHANENDS_MASK))
+#define XS1_DEVICE_ID2_NUM_TIMERS_SHIFT 0x0
+#define XS1_DEVICE_ID2_NUM_TIMERS_SIZE 0x8
+#define XS1_DEVICE_ID2_NUM_TIMERS_MASK (((1 << XS1_DEVICE_ID2_NUM_TIMERS_SIZE) - 1) << XS1_DEVICE_ID2_NUM_TIMERS_SHIFT)
+#define XS1_DEVICE_ID2_NUM_TIMERS(x) (((x) & XS1_DEVICE_ID2_NUM_TIMERS_MASK) >> XS1_DEVICE_ID2_NUM_TIMERS_SHIFT)
+#define XS1_DEVICE_ID2_NUM_TIMERS_SET(x,v) (((x) & ~XS1_DEVICE_ID2_NUM_TIMERS_MASK) | (((v) << XS1_DEVICE_ID2_NUM_TIMERS_SHIFT) & XS1_DEVICE_ID2_NUM_TIMERS_MASK))
+#define XS1_DEVICE_ID2_NUM_CLKBLKS_SHIFT 0x8
+#define XS1_DEVICE_ID2_NUM_CLKBLKS_SIZE 0x8
+#define XS1_DEVICE_ID2_NUM_CLKBLKS_MASK (((1 << XS1_DEVICE_ID2_NUM_CLKBLKS_SIZE) - 1) << XS1_DEVICE_ID2_NUM_CLKBLKS_SHIFT)
+#define XS1_DEVICE_ID2_NUM_CLKBLKS(x) (((x) & XS1_DEVICE_ID2_NUM_CLKBLKS_MASK) >> XS1_DEVICE_ID2_NUM_CLKBLKS_SHIFT)
+#define XS1_DEVICE_ID2_NUM_CLKBLKS_SET(x,v) (((x) & ~XS1_DEVICE_ID2_NUM_CLKBLKS_MASK) | (((v) << XS1_DEVICE_ID2_NUM_CLKBLKS_SHIFT) & XS1_DEVICE_ID2_NUM_CLKBLKS_MASK))
+#define XS1_JUNK_SHIFT 0x2
+#define XS1_JUNK_SIZE 0x1
+#define XS1_JUNK_MASK (((1 << XS1_JUNK_SIZE) - 1) << XS1_JUNK_SHIFT)
+#define XS1_JUNK(x) (((x) & XS1_JUNK_MASK) >> XS1_JUNK_SHIFT)
+#define XS1_JUNK_SET(x,v) (((x) & ~XS1_JUNK_MASK) | (((v) << XS1_JUNK_SHIFT) & XS1_JUNK_MASK))
+#define XS1_NETWORK_SHIFT 0x4
+#define XS1_NETWORK_SIZE 0x2
+#define XS1_NETWORK_MASK (((1 << XS1_NETWORK_SIZE) - 1) << XS1_NETWORK_SHIFT)
+#define XS1_NETWORK(x) (((x) & XS1_NETWORK_MASK) >> XS1_NETWORK_SHIFT)
+#define XS1_NETWORK_SET(x,v) (((x) & ~XS1_NETWORK_MASK) | (((v) << XS1_NETWORK_SHIFT) & XS1_NETWORK_MASK))
+#define XS1_SRC_TARGET_ID_SHIFT 0x10
+#define XS1_SRC_TARGET_ID_SIZE 0x8
+#define XS1_SRC_TARGET_ID_MASK (((1 << XS1_SRC_TARGET_ID_SIZE) - 1) << XS1_SRC_TARGET_ID_SHIFT)
+#define XS1_SRC_TARGET_ID(x) (((x) & XS1_SRC_TARGET_ID_MASK) >> XS1_SRC_TARGET_ID_SHIFT)
+#define XS1_SRC_TARGET_ID_SET(x,v) (((x) & ~XS1_SRC_TARGET_ID_MASK) | (((v) << XS1_SRC_TARGET_ID_SHIFT) & XS1_SRC_TARGET_ID_MASK))
+#define XS1_SRC_TARGET_TYPE_SHIFT 0x18
+#define XS1_SRC_TARGET_TYPE_SIZE 0x2
+#define XS1_SRC_TARGET_TYPE_MASK (((1 << XS1_SRC_TARGET_TYPE_SIZE) - 1) << XS1_SRC_TARGET_TYPE_SHIFT)
+#define XS1_SRC_TARGET_TYPE(x) (((x) & XS1_SRC_TARGET_TYPE_MASK) >> XS1_SRC_TARGET_TYPE_SHIFT)
+#define XS1_SRC_TARGET_TYPE_SET(x,v) (((x) & ~XS1_SRC_TARGET_TYPE_MASK) | (((v) << XS1_SRC_TARGET_TYPE_SHIFT) & XS1_SRC_TARGET_TYPE_MASK))
+#define XS1_SS_DEVICE_ID0_VERSION_SHIFT 0x0
+#define XS1_SS_DEVICE_ID0_VERSION_SIZE 0x8
+#define XS1_SS_DEVICE_ID0_VERSION_MASK (((1 << XS1_SS_DEVICE_ID0_VERSION_SIZE) - 1) << XS1_SS_DEVICE_ID0_VERSION_SHIFT)
+#define XS1_SS_DEVICE_ID0_VERSION(x) (((x) & XS1_SS_DEVICE_ID0_VERSION_MASK) >> XS1_SS_DEVICE_ID0_VERSION_SHIFT)
+#define XS1_SS_DEVICE_ID0_VERSION_SET(x,v) (((x) & ~XS1_SS_DEVICE_ID0_VERSION_MASK) | (((v) << XS1_SS_DEVICE_ID0_VERSION_SHIFT) & XS1_SS_DEVICE_ID0_VERSION_MASK))
+#define XS1_SS_DEVICE_ID0_REVISION_SHIFT 0x8
+#define XS1_SS_DEVICE_ID0_REVISION_SIZE 0x8
+#define XS1_SS_DEVICE_ID0_REVISION_MASK (((1 << XS1_SS_DEVICE_ID0_REVISION_SIZE) - 1) << XS1_SS_DEVICE_ID0_REVISION_SHIFT)
+#define XS1_SS_DEVICE_ID0_REVISION(x) (((x) & XS1_SS_DEVICE_ID0_REVISION_MASK) >> XS1_SS_DEVICE_ID0_REVISION_SHIFT)
+#define XS1_SS_DEVICE_ID0_REVISION_SET(x,v) (((x) & ~XS1_SS_DEVICE_ID0_REVISION_MASK) | (((v) << XS1_SS_DEVICE_ID0_REVISION_SHIFT) & XS1_SS_DEVICE_ID0_REVISION_MASK))
+#define XS1_SS_DEVICE_ID0_BOOT_CTRL_SHIFT 0x10
+#define XS1_SS_DEVICE_ID0_BOOT_CTRL_SIZE 0x8
+#define XS1_SS_DEVICE_ID0_BOOT_CTRL_MASK (((1 << XS1_SS_DEVICE_ID0_BOOT_CTRL_SIZE) - 1) << XS1_SS_DEVICE_ID0_BOOT_CTRL_SHIFT)
+#define XS1_SS_DEVICE_ID0_BOOT_CTRL(x) (((x) & XS1_SS_DEVICE_ID0_BOOT_CTRL_MASK) >> XS1_SS_DEVICE_ID0_BOOT_CTRL_SHIFT)
+#define XS1_SS_DEVICE_ID0_BOOT_CTRL_SET(x,v) (((x) & ~XS1_SS_DEVICE_ID0_BOOT_CTRL_MASK) | (((v) << XS1_SS_DEVICE_ID0_BOOT_CTRL_SHIFT) & XS1_SS_DEVICE_ID0_BOOT_CTRL_MASK))
+#define XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_SHIFT 0x0
+#define XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_SIZE 0x8
+#define XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_MASK (((1 << XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_SIZE) - 1) << XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_SHIFT)
+#define XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC(x) (((x) & XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_MASK) >> XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_SHIFT)
+#define XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_SET(x,v) (((x) & ~XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_MASK) | (((v) << XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_SHIFT) & XS1_SS_DEVICE_ID1_NUM_PLINKS_PER_PROC_MASK))
+#define XS1_SS_DEVICE_ID1_NUM_PROCESSORS_SHIFT 0x8
+#define XS1_SS_DEVICE_ID1_NUM_PROCESSORS_SIZE 0x8
+#define XS1_SS_DEVICE_ID1_NUM_PROCESSORS_MASK (((1 << XS1_SS_DEVICE_ID1_NUM_PROCESSORS_SIZE) - 1) << XS1_SS_DEVICE_ID1_NUM_PROCESSORS_SHIFT)
+#define XS1_SS_DEVICE_ID1_NUM_PROCESSORS(x) (((x) & XS1_SS_DEVICE_ID1_NUM_PROCESSORS_MASK) >> XS1_SS_DEVICE_ID1_NUM_PROCESSORS_SHIFT)
+#define XS1_SS_DEVICE_ID1_NUM_PROCESSORS_SET(x,v) (((x) & ~XS1_SS_DEVICE_ID1_NUM_PROCESSORS_MASK) | (((v) << XS1_SS_DEVICE_ID1_NUM_PROCESSORS_SHIFT) & XS1_SS_DEVICE_ID1_NUM_PROCESSORS_MASK))
+#define XS1_SS_DEVICE_ID1_NUM_SLINKS_SHIFT 0x10
+#define XS1_SS_DEVICE_ID1_NUM_SLINKS_SIZE 0x8
+#define XS1_SS_DEVICE_ID1_NUM_SLINKS_MASK (((1 << XS1_SS_DEVICE_ID1_NUM_SLINKS_SIZE) - 1) << XS1_SS_DEVICE_ID1_NUM_SLINKS_SHIFT)
+#define XS1_SS_DEVICE_ID1_NUM_SLINKS(x) (((x) & XS1_SS_DEVICE_ID1_NUM_SLINKS_MASK) >> XS1_SS_DEVICE_ID1_NUM_SLINKS_SHIFT)
+#define XS1_SS_DEVICE_ID1_NUM_SLINKS_SET(x,v) (((x) & ~XS1_SS_DEVICE_ID1_NUM_SLINKS_MASK) | (((v) << XS1_SS_DEVICE_ID1_NUM_SLINKS_SHIFT) & XS1_SS_DEVICE_ID1_NUM_SLINKS_MASK))
+#define XS1_SS_NODE_CONFIG_HEADERS_SHIFT 0x0
+#define XS1_SS_NODE_CONFIG_HEADERS_SIZE 0x1
+#define XS1_SS_NODE_CONFIG_HEADERS_MASK (((1 << XS1_SS_NODE_CONFIG_HEADERS_SIZE) - 1) << XS1_SS_NODE_CONFIG_HEADERS_SHIFT)
+#define XS1_SS_NODE_CONFIG_HEADERS(x) (((x) & XS1_SS_NODE_CONFIG_HEADERS_MASK) >> XS1_SS_NODE_CONFIG_HEADERS_SHIFT)
+#define XS1_SS_NODE_CONFIG_HEADERS_SET(x,v) (((x) & ~XS1_SS_NODE_CONFIG_HEADERS_MASK) | (((v) << XS1_SS_NODE_CONFIG_HEADERS_SHIFT) & XS1_SS_NODE_CONFIG_HEADERS_MASK))
+#define XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_SHIFT 0x8
+#define XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_SIZE 0x1
+#define XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_MASK (((1 << XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_SIZE) - 1) << XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_SHIFT)
+#define XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG(x) (((x) & XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_MASK) >> XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_SHIFT)
+#define XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_SET(x,v) (((x) & ~XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_MASK) | (((v) << XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_SHIFT) & XS1_SS_NODE_CONFIG_DISABLE_PLL_CTL_REG_MASK))
+#define XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_SHIFT 0x1f
+#define XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_SIZE 0x1
+#define XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_MASK (((1 << XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_SIZE) - 1) << XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_SHIFT)
+#define XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE(x) (((x) & XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_MASK) >> XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_SHIFT)
+#define XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_SET(x,v) (((x) & ~XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_MASK) | (((v) << XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_SHIFT) & XS1_SS_NODE_CONFIG_DISABLE_SSCTL_UPDATE_MASK))
+#define XS1_SS_NODE_ID_ID_SHIFT 0x0
+#define XS1_SS_NODE_ID_ID_SIZE 0x10
+#define XS1_SS_NODE_ID_ID_MASK (((1 << XS1_SS_NODE_ID_ID_SIZE) - 1) << XS1_SS_NODE_ID_ID_SHIFT)
+#define XS1_SS_NODE_ID_ID(x) (((x) & XS1_SS_NODE_ID_ID_MASK) >> XS1_SS_NODE_ID_ID_SHIFT)
+#define XS1_SS_NODE_ID_ID_SET(x,v) (((x) & ~XS1_SS_NODE_ID_ID_MASK) | (((v) << XS1_SS_NODE_ID_ID_SHIFT) & XS1_SS_NODE_ID_ID_MASK))
+#define XS1_SS_PLL_CTL_INPUT_DIVISOR_SHIFT 0x0
+#define XS1_SS_PLL_CTL_INPUT_DIVISOR_SIZE 0x7
+#define XS1_SS_PLL_CTL_INPUT_DIVISOR_MASK (((1 << XS1_SS_PLL_CTL_INPUT_DIVISOR_SIZE) - 1) << XS1_SS_PLL_CTL_INPUT_DIVISOR_SHIFT)
+#define XS1_SS_PLL_CTL_INPUT_DIVISOR(x) (((x) & XS1_SS_PLL_CTL_INPUT_DIVISOR_MASK) >> XS1_SS_PLL_CTL_INPUT_DIVISOR_SHIFT)
+#define XS1_SS_PLL_CTL_INPUT_DIVISOR_SET(x,v) (((x) & ~XS1_SS_PLL_CTL_INPUT_DIVISOR_MASK) | (((v) << XS1_SS_PLL_CTL_INPUT_DIVISOR_SHIFT) & XS1_SS_PLL_CTL_INPUT_DIVISOR_MASK))
+#define XS1_SS_PLL_CTL_FEEDBACK_MUL_SHIFT 0x8
+#define XS1_SS_PLL_CTL_FEEDBACK_MUL_SIZE 0xd
+#define XS1_SS_PLL_CTL_FEEDBACK_MUL_MASK (((1 << XS1_SS_PLL_CTL_FEEDBACK_MUL_SIZE) - 1) << XS1_SS_PLL_CTL_FEEDBACK_MUL_SHIFT)
+#define XS1_SS_PLL_CTL_FEEDBACK_MUL(x) (((x) & XS1_SS_PLL_CTL_FEEDBACK_MUL_MASK) >> XS1_SS_PLL_CTL_FEEDBACK_MUL_SHIFT)
+#define XS1_SS_PLL_CTL_FEEDBACK_MUL_SET(x,v) (((x) & ~XS1_SS_PLL_CTL_FEEDBACK_MUL_MASK) | (((v) << XS1_SS_PLL_CTL_FEEDBACK_MUL_SHIFT) & XS1_SS_PLL_CTL_FEEDBACK_MUL_MASK))
+#define XS1_SS_PLL_CTL_POST_DIVISOR_SHIFT 0x17
+#define XS1_SS_PLL_CTL_POST_DIVISOR_SIZE 0x3
+#define XS1_SS_PLL_CTL_POST_DIVISOR_MASK (((1 << XS1_SS_PLL_CTL_POST_DIVISOR_SIZE) - 1) << XS1_SS_PLL_CTL_POST_DIVISOR_SHIFT)
+#define XS1_SS_PLL_CTL_POST_DIVISOR(x) (((x) & XS1_SS_PLL_CTL_POST_DIVISOR_MASK) >> XS1_SS_PLL_CTL_POST_DIVISOR_SHIFT)
+#define XS1_SS_PLL_CTL_POST_DIVISOR_SET(x,v) (((x) & ~XS1_SS_PLL_CTL_POST_DIVISOR_MASK) | (((v) << XS1_SS_PLL_CTL_POST_DIVISOR_SHIFT) & XS1_SS_PLL_CTL_POST_DIVISOR_MASK))
+#define XS1_SS_CLK_DIVIDER_CLK_DIV_SHIFT 0x0
+#define XS1_SS_CLK_DIVIDER_CLK_DIV_SIZE 0x10
+#define XS1_SS_CLK_DIVIDER_CLK_DIV_MASK (((1 << XS1_SS_CLK_DIVIDER_CLK_DIV_SIZE) - 1) << XS1_SS_CLK_DIVIDER_CLK_DIV_SHIFT)
+#define XS1_SS_CLK_DIVIDER_CLK_DIV(x) (((x) & XS1_SS_CLK_DIVIDER_CLK_DIV_MASK) >> XS1_SS_CLK_DIVIDER_CLK_DIV_SHIFT)
+#define XS1_SS_CLK_DIVIDER_CLK_DIV_SET(x,v) (((x) & ~XS1_SS_CLK_DIVIDER_CLK_DIV_MASK) | (((v) << XS1_SS_CLK_DIVIDER_CLK_DIV_SHIFT) & XS1_SS_CLK_DIVIDER_CLK_DIV_MASK))
+#define XS1_SS_SSWITCH_REF_CLK_DIV_SHIFT 0x0
+#define XS1_SS_SSWITCH_REF_CLK_DIV_SIZE 0x10
+#define XS1_SS_SSWITCH_REF_CLK_DIV_MASK (((1 << XS1_SS_SSWITCH_REF_CLK_DIV_SIZE) - 1) << XS1_SS_SSWITCH_REF_CLK_DIV_SHIFT)
+#define XS1_SS_SSWITCH_REF_CLK_DIV(x) (((x) & XS1_SS_SSWITCH_REF_CLK_DIV_MASK) >> XS1_SS_SSWITCH_REF_CLK_DIV_SHIFT)
+#define XS1_SS_SSWITCH_REF_CLK_DIV_SET(x,v) (((x) & ~XS1_SS_SSWITCH_REF_CLK_DIV_MASK) | (((v) << XS1_SS_SSWITCH_REF_CLK_DIV_SHIFT) & XS1_SS_SSWITCH_REF_CLK_DIV_MASK))
+#define XS1_DIM0_DIR_SHIFT 0x0
+#define XS1_DIM0_DIR_SIZE 0x4
+#define XS1_DIM0_DIR_MASK (((1 << XS1_DIM0_DIR_SIZE) - 1) << XS1_DIM0_DIR_SHIFT)
+#define XS1_DIM0_DIR(x) (((x) & XS1_DIM0_DIR_MASK) >> XS1_DIM0_DIR_SHIFT)
+#define XS1_DIM0_DIR_SET(x,v) (((x) & ~XS1_DIM0_DIR_MASK) | (((v) << XS1_DIM0_DIR_SHIFT) & XS1_DIM0_DIR_MASK))
+#define XS1_DIM1_DIR_SHIFT 0x4
+#define XS1_DIM1_DIR_SIZE 0x4
+#define XS1_DIM1_DIR_MASK (((1 << XS1_DIM1_DIR_SIZE) - 1) << XS1_DIM1_DIR_SHIFT)
+#define XS1_DIM1_DIR(x) (((x) & XS1_DIM1_DIR_MASK) >> XS1_DIM1_DIR_SHIFT)
+#define XS1_DIM1_DIR_SET(x,v) (((x) & ~XS1_DIM1_DIR_MASK) | (((v) << XS1_DIM1_DIR_SHIFT) & XS1_DIM1_DIR_MASK))
+#define XS1_DIM2_DIR_SHIFT 0x8
+#define XS1_DIM2_DIR_SIZE 0x4
+#define XS1_DIM2_DIR_MASK (((1 << XS1_DIM2_DIR_SIZE) - 1) << XS1_DIM2_DIR_SHIFT)
+#define XS1_DIM2_DIR(x) (((x) & XS1_DIM2_DIR_MASK) >> XS1_DIM2_DIR_SHIFT)
+#define XS1_DIM2_DIR_SET(x,v) (((x) & ~XS1_DIM2_DIR_MASK) | (((v) << XS1_DIM2_DIR_SHIFT) & XS1_DIM2_DIR_MASK))
+#define XS1_DIM3_DIR_SHIFT 0xc
+#define XS1_DIM3_DIR_SIZE 0x4
+#define XS1_DIM3_DIR_MASK (((1 << XS1_DIM3_DIR_SIZE) - 1) << XS1_DIM3_DIR_SHIFT)
+#define XS1_DIM3_DIR(x) (((x) & XS1_DIM3_DIR_MASK) >> XS1_DIM3_DIR_SHIFT)
+#define XS1_DIM3_DIR_SET(x,v) (((x) & ~XS1_DIM3_DIR_MASK) | (((v) << XS1_DIM3_DIR_SHIFT) & XS1_DIM3_DIR_MASK))
+#define XS1_DIM4_DIR_SHIFT 0x10
+#define XS1_DIM4_DIR_SIZE 0x4
+#define XS1_DIM4_DIR_MASK (((1 << XS1_DIM4_DIR_SIZE) - 1) << XS1_DIM4_DIR_SHIFT)
+#define XS1_DIM4_DIR(x) (((x) & XS1_DIM4_DIR_MASK) >> XS1_DIM4_DIR_SHIFT)
+#define XS1_DIM4_DIR_SET(x,v) (((x) & ~XS1_DIM4_DIR_MASK) | (((v) << XS1_DIM4_DIR_SHIFT) & XS1_DIM4_DIR_MASK))
+#define XS1_DIM5_DIR_SHIFT 0x14
+#define XS1_DIM5_DIR_SIZE 0x4
+#define XS1_DIM5_DIR_MASK (((1 << XS1_DIM5_DIR_SIZE) - 1) << XS1_DIM5_DIR_SHIFT)
+#define XS1_DIM5_DIR(x) (((x) & XS1_DIM5_DIR_MASK) >> XS1_DIM5_DIR_SHIFT)
+#define XS1_DIM5_DIR_SET(x,v) (((x) & ~XS1_DIM5_DIR_MASK) | (((v) << XS1_DIM5_DIR_SHIFT) & XS1_DIM5_DIR_MASK))
+#define XS1_DIM6_DIR_SHIFT 0x18
+#define XS1_DIM6_DIR_SIZE 0x4
+#define XS1_DIM6_DIR_MASK (((1 << XS1_DIM6_DIR_SIZE) - 1) << XS1_DIM6_DIR_SHIFT)
+#define XS1_DIM6_DIR(x) (((x) & XS1_DIM6_DIR_MASK) >> XS1_DIM6_DIR_SHIFT)
+#define XS1_DIM6_DIR_SET(x,v) (((x) & ~XS1_DIM6_DIR_MASK) | (((v) << XS1_DIM6_DIR_SHIFT) & XS1_DIM6_DIR_MASK))
+#define XS1_DIM7_DIR_SHIFT 0x1c
+#define XS1_DIM7_DIR_SIZE 0x4
+#define XS1_DIM7_DIR_MASK (((1 << XS1_DIM7_DIR_SIZE) - 1) << XS1_DIM7_DIR_SHIFT)
+#define XS1_DIM7_DIR(x) (((x) & XS1_DIM7_DIR_MASK) >> XS1_DIM7_DIR_SHIFT)
+#define XS1_DIM7_DIR_SET(x,v) (((x) & ~XS1_DIM7_DIR_MASK) | (((v) << XS1_DIM7_DIR_SHIFT) & XS1_DIM7_DIR_MASK))
+#define XS1_DIM8_DIR_SHIFT 0x0
+#define XS1_DIM8_DIR_SIZE 0x4
+#define XS1_DIM8_DIR_MASK (((1 << XS1_DIM8_DIR_SIZE) - 1) << XS1_DIM8_DIR_SHIFT)
+#define XS1_DIM8_DIR(x) (((x) & XS1_DIM8_DIR_MASK) >> XS1_DIM8_DIR_SHIFT)
+#define XS1_DIM8_DIR_SET(x,v) (((x) & ~XS1_DIM8_DIR_MASK) | (((v) << XS1_DIM8_DIR_SHIFT) & XS1_DIM8_DIR_MASK))
+#define XS1_DIM9_DIR_SHIFT 0x4
+#define XS1_DIM9_DIR_SIZE 0x4
+#define XS1_DIM9_DIR_MASK (((1 << XS1_DIM9_DIR_SIZE) - 1) << XS1_DIM9_DIR_SHIFT)
+#define XS1_DIM9_DIR(x) (((x) & XS1_DIM9_DIR_MASK) >> XS1_DIM9_DIR_SHIFT)
+#define XS1_DIM9_DIR_SET(x,v) (((x) & ~XS1_DIM9_DIR_MASK) | (((v) << XS1_DIM9_DIR_SHIFT) & XS1_DIM9_DIR_MASK))
+#define XS1_DIMA_DIR_SHIFT 0x8
+#define XS1_DIMA_DIR_SIZE 0x4
+#define XS1_DIMA_DIR_MASK (((1 << XS1_DIMA_DIR_SIZE) - 1) << XS1_DIMA_DIR_SHIFT)
+#define XS1_DIMA_DIR(x) (((x) & XS1_DIMA_DIR_MASK) >> XS1_DIMA_DIR_SHIFT)
+#define XS1_DIMA_DIR_SET(x,v) (((x) & ~XS1_DIMA_DIR_MASK) | (((v) << XS1_DIMA_DIR_SHIFT) & XS1_DIMA_DIR_MASK))
+#define XS1_DIMB_DIR_SHIFT 0xc
+#define XS1_DIMB_DIR_SIZE 0x4
+#define XS1_DIMB_DIR_MASK (((1 << XS1_DIMB_DIR_SIZE) - 1) << XS1_DIMB_DIR_SHIFT)
+#define XS1_DIMB_DIR(x) (((x) & XS1_DIMB_DIR_MASK) >> XS1_DIMB_DIR_SHIFT)
+#define XS1_DIMB_DIR_SET(x,v) (((x) & ~XS1_DIMB_DIR_MASK) | (((v) << XS1_DIMB_DIR_SHIFT) & XS1_DIMB_DIR_MASK))
+#define XS1_DIMC_DIR_SHIFT 0x10
+#define XS1_DIMC_DIR_SIZE 0x4
+#define XS1_DIMC_DIR_MASK (((1 << XS1_DIMC_DIR_SIZE) - 1) << XS1_DIMC_DIR_SHIFT)
+#define XS1_DIMC_DIR(x) (((x) & XS1_DIMC_DIR_MASK) >> XS1_DIMC_DIR_SHIFT)
+#define XS1_DIMC_DIR_SET(x,v) (((x) & ~XS1_DIMC_DIR_MASK) | (((v) << XS1_DIMC_DIR_SHIFT) & XS1_DIMC_DIR_MASK))
+#define XS1_DIMD_DIR_SHIFT 0x14
+#define XS1_DIMD_DIR_SIZE 0x4
+#define XS1_DIMD_DIR_MASK (((1 << XS1_DIMD_DIR_SIZE) - 1) << XS1_DIMD_DIR_SHIFT)
+#define XS1_DIMD_DIR(x) (((x) & XS1_DIMD_DIR_MASK) >> XS1_DIMD_DIR_SHIFT)
+#define XS1_DIMD_DIR_SET(x,v) (((x) & ~XS1_DIMD_DIR_MASK) | (((v) << XS1_DIMD_DIR_SHIFT) & XS1_DIMD_DIR_MASK))
+#define XS1_DIME_DIR_SHIFT 0x18
+#define XS1_DIME_DIR_SIZE 0x4
+#define XS1_DIME_DIR_MASK (((1 << XS1_DIME_DIR_SIZE) - 1) << XS1_DIME_DIR_SHIFT)
+#define XS1_DIME_DIR(x) (((x) & XS1_DIME_DIR_MASK) >> XS1_DIME_DIR_SHIFT)
+#define XS1_DIME_DIR_SET(x,v) (((x) & ~XS1_DIME_DIR_MASK) | (((v) << XS1_DIME_DIR_SHIFT) & XS1_DIME_DIR_MASK))
+#define XS1_DIMF_DIR_SHIFT 0x1c
+#define XS1_DIMF_DIR_SIZE 0x4
+#define XS1_DIMF_DIR_MASK (((1 << XS1_DIMF_DIR_SIZE) - 1) << XS1_DIMF_DIR_SHIFT)
+#define XS1_DIMF_DIR(x) (((x) & XS1_DIMF_DIR_MASK) >> XS1_DIMF_DIR_SHIFT)
+#define XS1_DIMF_DIR_SET(x,v) (((x) & ~XS1_DIMF_DIR_MASK) | (((v) << XS1_DIMF_DIR_SHIFT) & XS1_DIMF_DIR_MASK))
+#define XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_SHIFT 0x0
+#define XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_SIZE 0x1
+#define XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_MASK (((1 << XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_SIZE) - 1) << XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_SHIFT)
+#define XS1_GLOBAL_DEBUG_ENABLE_INDEBUG(x) (((x) & XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_MASK) >> XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_SHIFT)
+#define XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_SET(x,v) (((x) & ~XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_MASK) | (((v) << XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_SHIFT) & XS1_GLOBAL_DEBUG_ENABLE_INDEBUG_MASK))
+#define XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_SHIFT 0x1
+#define XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_SIZE 0x1
+#define XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_MASK (((1 << XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_SIZE) - 1) << XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_SHIFT)
+#define XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ(x) (((x) & XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_MASK) >> XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_SHIFT)
+#define XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_SET(x,v) (((x) & ~XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_MASK) | (((v) << XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_SHIFT) & XS1_GLOBAL_DEBUG_ENABLE_GLOBAL_DEBUG_REQ_MASK))
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_SHIFT 0x0
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_SIZE 0x1
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_MASK (((1 << XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_SIZE) - 1) << XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_SHIFT)
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG(x) (((x) & XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_MASK) >> XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_SHIFT)
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_SET(x,v) (((x) & ~XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_MASK) | (((v) << XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_SHIFT) & XS1_GLOBAL_DEBUG_SOURCE_XCORE0_INDEBUG_MASK))
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_SHIFT 0x1
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_SIZE 0x1
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_MASK (((1 << XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_SIZE) - 1) << XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_SHIFT)
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG(x) (((x) & XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_MASK) >> XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_SHIFT)
+#define XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_SET(x,v) (((x) & ~XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_MASK) | (((v) << XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_SHIFT) & XS1_GLOBAL_DEBUG_SOURCE_XCORE1_INDEBUG_MASK))
+#define XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_SHIFT 0x4
+#define XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_SIZE 0x1
+#define XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_MASK (((1 << XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_SIZE) - 1) << XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_SHIFT)
+#define XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG(x) (((x) & XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_MASK) >> XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_SHIFT)
+#define XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_SET(x,v) (((x) & ~XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_MASK) | (((v) << XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_SHIFT) & XS1_GLOBAL_DEBUG_SOURCE_EXTERNAL_PAD_INDEBUG_MASK))
+#define XS1_LINK_SRC_INUSE_SHIFT 0x0
+#define XS1_LINK_SRC_INUSE_SIZE 0x1
+#define XS1_LINK_SRC_INUSE_MASK (((1 << XS1_LINK_SRC_INUSE_SIZE) - 1) << XS1_LINK_SRC_INUSE_SHIFT)
+#define XS1_LINK_SRC_INUSE(x) (((x) & XS1_LINK_SRC_INUSE_MASK) >> XS1_LINK_SRC_INUSE_SHIFT)
+#define XS1_LINK_SRC_INUSE_SET(x,v) (((x) & ~XS1_LINK_SRC_INUSE_MASK) | (((v) << XS1_LINK_SRC_INUSE_SHIFT) & XS1_LINK_SRC_INUSE_MASK))
+#define XS1_LINK_DST_INUSE_SHIFT 0x1
+#define XS1_LINK_DST_INUSE_SIZE 0x1
+#define XS1_LINK_DST_INUSE_MASK (((1 << XS1_LINK_DST_INUSE_SIZE) - 1) << XS1_LINK_DST_INUSE_SHIFT)
+#define XS1_LINK_DST_INUSE(x) (((x) & XS1_LINK_DST_INUSE_MASK) >> XS1_LINK_DST_INUSE_SHIFT)
+#define XS1_LINK_DST_INUSE_SET(x,v) (((x) & ~XS1_LINK_DST_INUSE_MASK) | (((v) << XS1_LINK_DST_INUSE_SHIFT) & XS1_LINK_DST_INUSE_MASK))
+#define XS1_LINK_JUNK_SHIFT 0x2
+#define XS1_LINK_JUNK_SIZE 0x1
+#define XS1_LINK_JUNK_MASK (((1 << XS1_LINK_JUNK_SIZE) - 1) << XS1_LINK_JUNK_SHIFT)
+#define XS1_LINK_JUNK(x) (((x) & XS1_LINK_JUNK_MASK) >> XS1_LINK_JUNK_SHIFT)
+#define XS1_LINK_JUNK_SET(x,v) (((x) & ~XS1_LINK_JUNK_MASK) | (((v) << XS1_LINK_JUNK_SHIFT) & XS1_LINK_JUNK_MASK))
+#define XS1_LINK_NETWORK_SHIFT 0x4
+#define XS1_LINK_NETWORK_SIZE 0x2
+#define XS1_LINK_NETWORK_MASK (((1 << XS1_LINK_NETWORK_SIZE) - 1) << XS1_LINK_NETWORK_SHIFT)
+#define XS1_LINK_NETWORK(x) (((x) & XS1_LINK_NETWORK_MASK) >> XS1_LINK_NETWORK_SHIFT)
+#define XS1_LINK_NETWORK_SET(x,v) (((x) & ~XS1_LINK_NETWORK_MASK) | (((v) << XS1_LINK_NETWORK_SHIFT) & XS1_LINK_NETWORK_MASK))
+#define XS1_LINK_DIRECTION_SHIFT 0x8
+#define XS1_LINK_DIRECTION_SIZE 0x4
+#define XS1_LINK_DIRECTION_MASK (((1 << XS1_LINK_DIRECTION_SIZE) - 1) << XS1_LINK_DIRECTION_SHIFT)
+#define XS1_LINK_DIRECTION(x) (((x) & XS1_LINK_DIRECTION_MASK) >> XS1_LINK_DIRECTION_SHIFT)
+#define XS1_LINK_DIRECTION_SET(x,v) (((x) & ~XS1_LINK_DIRECTION_MASK) | (((v) << XS1_LINK_DIRECTION_SHIFT) & XS1_LINK_DIRECTION_MASK))
+#define XS1_XLINK_INTER_TOKEN_DELAY_SHIFT 0x0
+#define XS1_XLINK_INTER_TOKEN_DELAY_SIZE 0xb
+#define XS1_XLINK_INTER_TOKEN_DELAY_MASK (((1 << XS1_XLINK_INTER_TOKEN_DELAY_SIZE) - 1) << XS1_XLINK_INTER_TOKEN_DELAY_SHIFT)
+#define XS1_XLINK_INTER_TOKEN_DELAY(x) (((x) & XS1_XLINK_INTER_TOKEN_DELAY_MASK) >> XS1_XLINK_INTER_TOKEN_DELAY_SHIFT)
+#define XS1_XLINK_INTER_TOKEN_DELAY_SET(x,v) (((x) & ~XS1_XLINK_INTER_TOKEN_DELAY_MASK) | (((v) << XS1_XLINK_INTER_TOKEN_DELAY_SHIFT) & XS1_XLINK_INTER_TOKEN_DELAY_MASK))
+#define XS1_XLINK_INTRA_TOKEN_DELAY_SHIFT 0xb
+#define XS1_XLINK_INTRA_TOKEN_DELAY_SIZE 0xb
+#define XS1_XLINK_INTRA_TOKEN_DELAY_MASK (((1 << XS1_XLINK_INTRA_TOKEN_DELAY_SIZE) - 1) << XS1_XLINK_INTRA_TOKEN_DELAY_SHIFT)
+#define XS1_XLINK_INTRA_TOKEN_DELAY(x) (((x) & XS1_XLINK_INTRA_TOKEN_DELAY_MASK) >> XS1_XLINK_INTRA_TOKEN_DELAY_SHIFT)
+#define XS1_XLINK_INTRA_TOKEN_DELAY_SET(x,v) (((x) & ~XS1_XLINK_INTRA_TOKEN_DELAY_MASK) | (((v) << XS1_XLINK_INTRA_TOKEN_DELAY_SHIFT) & XS1_XLINK_INTRA_TOKEN_DELAY_MASK))
+#define XS1_XLINK_RX_RESET_SHIFT 0x17
+#define XS1_XLINK_RX_RESET_SIZE 0x1
+#define XS1_XLINK_RX_RESET_MASK (((1 << XS1_XLINK_RX_RESET_SIZE) - 1) << XS1_XLINK_RX_RESET_SHIFT)
+#define XS1_XLINK_RX_RESET(x) (((x) & XS1_XLINK_RX_RESET_MASK) >> XS1_XLINK_RX_RESET_SHIFT)
+#define XS1_XLINK_RX_RESET_SET(x,v) (((x) & ~XS1_XLINK_RX_RESET_MASK) | (((v) << XS1_XLINK_RX_RESET_SHIFT) & XS1_XLINK_RX_RESET_MASK))
+#define XS1_XLINK_HELLO_SHIFT 0x18
+#define XS1_XLINK_HELLO_SIZE 0x1
+#define XS1_XLINK_HELLO_MASK (((1 << XS1_XLINK_HELLO_SIZE) - 1) << XS1_XLINK_HELLO_SHIFT)
+#define XS1_XLINK_HELLO(x) (((x) & XS1_XLINK_HELLO_MASK) >> XS1_XLINK_HELLO_SHIFT)
+#define XS1_XLINK_HELLO_SET(x,v) (((x) & ~XS1_XLINK_HELLO_MASK) | (((v) << XS1_XLINK_HELLO_SHIFT) & XS1_XLINK_HELLO_MASK))
+#define XS1_TX_CREDIT_SHIFT 0x19
+#define XS1_TX_CREDIT_SIZE 0x1
+#define XS1_TX_CREDIT_MASK (((1 << XS1_TX_CREDIT_SIZE) - 1) << XS1_TX_CREDIT_SHIFT)
+#define XS1_TX_CREDIT(x) (((x) & XS1_TX_CREDIT_MASK) >> XS1_TX_CREDIT_SHIFT)
+#define XS1_TX_CREDIT_SET(x,v) (((x) & ~XS1_TX_CREDIT_MASK) | (((v) << XS1_TX_CREDIT_SHIFT) & XS1_TX_CREDIT_MASK))
+#define XS1_RX_CREDIT_SHIFT 0x1a
+#define XS1_RX_CREDIT_SIZE 0x1
+#define XS1_RX_CREDIT_MASK (((1 << XS1_RX_CREDIT_SIZE) - 1) << XS1_RX_CREDIT_SHIFT)
+#define XS1_RX_CREDIT(x) (((x) & XS1_RX_CREDIT_MASK) >> XS1_RX_CREDIT_SHIFT)
+#define XS1_RX_CREDIT_SET(x,v) (((x) & ~XS1_RX_CREDIT_MASK) | (((v) << XS1_RX_CREDIT_SHIFT) & XS1_RX_CREDIT_MASK))
+#define XS1_XLINK_RX_ERROR_SHIFT 0x1b
+#define XS1_XLINK_RX_ERROR_SIZE 0x1
+#define XS1_XLINK_RX_ERROR_MASK (((1 << XS1_XLINK_RX_ERROR_SIZE) - 1) << XS1_XLINK_RX_ERROR_SHIFT)
+#define XS1_XLINK_RX_ERROR(x) (((x) & XS1_XLINK_RX_ERROR_MASK) >> XS1_XLINK_RX_ERROR_SHIFT)
+#define XS1_XLINK_RX_ERROR_SET(x,v) (((x) & ~XS1_XLINK_RX_ERROR_MASK) | (((v) << XS1_XLINK_RX_ERROR_SHIFT) & XS1_XLINK_RX_ERROR_MASK))
+#define XS1_XLINK_WIDE_SHIFT 0x1e
+#define XS1_XLINK_WIDE_SIZE 0x1
+#define XS1_XLINK_WIDE_MASK (((1 << XS1_XLINK_WIDE_SIZE) - 1) << XS1_XLINK_WIDE_SHIFT)
+#define XS1_XLINK_WIDE(x) (((x) & XS1_XLINK_WIDE_MASK) >> XS1_XLINK_WIDE_SHIFT)
+#define XS1_XLINK_WIDE_SET(x,v) (((x) & ~XS1_XLINK_WIDE_MASK) | (((v) << XS1_XLINK_WIDE_SHIFT) & XS1_XLINK_WIDE_MASK))
+#define XS1_XLINK_ENABLE_SHIFT 0x1f
+#define XS1_XLINK_ENABLE_SIZE 0x1
+#define XS1_XLINK_ENABLE_MASK (((1 << XS1_XLINK_ENABLE_SIZE) - 1) << XS1_XLINK_ENABLE_SHIFT)
+#define XS1_XLINK_ENABLE(x) (((x) & XS1_XLINK_ENABLE_MASK) >> XS1_XLINK_ENABLE_SHIFT)
+#define XS1_XLINK_ENABLE_SET(x,v) (((x) & ~XS1_XLINK_ENABLE_MASK) | (((v) << XS1_XLINK_ENABLE_SHIFT) & XS1_XLINK_ENABLE_MASK))
+#define XS1_XSTATIC_DEST_CHAN_END_SHIFT 0x0
+#define XS1_XSTATIC_DEST_CHAN_END_SIZE 0x5
+#define XS1_XSTATIC_DEST_CHAN_END_MASK (((1 << XS1_XSTATIC_DEST_CHAN_END_SIZE) - 1) << XS1_XSTATIC_DEST_CHAN_END_SHIFT)
+#define XS1_XSTATIC_DEST_CHAN_END(x) (((x) & XS1_XSTATIC_DEST_CHAN_END_MASK) >> XS1_XSTATIC_DEST_CHAN_END_SHIFT)
+#define XS1_XSTATIC_DEST_CHAN_END_SET(x,v) (((x) & ~XS1_XSTATIC_DEST_CHAN_END_MASK) | (((v) << XS1_XSTATIC_DEST_CHAN_END_SHIFT) & XS1_XSTATIC_DEST_CHAN_END_MASK))
+#define XS1_XSTATIC_ENABLE_SHIFT 0x1f
+#define XS1_XSTATIC_ENABLE_SIZE 0x1
+#define XS1_XSTATIC_ENABLE_MASK (((1 << XS1_XSTATIC_ENABLE_SIZE) - 1) << XS1_XSTATIC_ENABLE_SHIFT)
+#define XS1_XSTATIC_ENABLE(x) (((x) & XS1_XSTATIC_ENABLE_MASK) >> XS1_XSTATIC_ENABLE_SHIFT)
+#define XS1_XSTATIC_ENABLE_SET(x,v) (((x) & ~XS1_XSTATIC_ENABLE_MASK) | (((v) << XS1_XSTATIC_ENABLE_SHIFT) & XS1_XSTATIC_ENABLE_MASK))
+#define XS1_SSCTRL_PSCTRL_CORE_NUM_SHIFT 0x8
+#define XS1_SSCTRL_PSCTRL_CORE_NUM_SIZE 0x8
+#define XS1_SSCTRL_PSCTRL_CORE_NUM_MASK (((1 << XS1_SSCTRL_PSCTRL_CORE_NUM_SIZE) - 1) << XS1_SSCTRL_PSCTRL_CORE_NUM_SHIFT)
+#define XS1_SSCTRL_PSCTRL_CORE_NUM(x) (((x) & XS1_SSCTRL_PSCTRL_CORE_NUM_MASK) >> XS1_SSCTRL_PSCTRL_CORE_NUM_SHIFT)
+#define XS1_SSCTRL_PSCTRL_CORE_NUM_SET(x,v) (((x) & ~XS1_SSCTRL_PSCTRL_CORE_NUM_MASK) | (((v) << XS1_SSCTRL_PSCTRL_CORE_NUM_SHIFT) & XS1_SSCTRL_PSCTRL_CORE_NUM_MASK))
+#define XS1_DEVICE_ID0_VERSION_VALUE 0x0
+#define XS1_DEVICE_ID0_REVISION_VALUE 0x4
+#define XS1_PS_DBG_HANDLER XS1_PS_DBG_SCRATCH_0
+#define XS1_PS_DBG_COMMAND XS1_PS_DBG_SCRATCH_1
+#define XS1_PS_DBG_ARG0_REG XS1_PS_DBG_SCRATCH_2
+#define XS1_PS_DBG_ARG1_REG XS1_PS_DBG_SCRATCH_3
+#define XS1_PS_DBG_ARG2_REG XS1_PS_DBG_SCRATCH_4
+#define XS1_PS_DBG_ARG3_REG XS1_PS_DBG_SCRATCH_5
+#define XS1_PS_DBG_ARG4_REG XS1_PS_DBG_SCRATCH_6
+#define XS1_PS_DBG_ARG5_REG XS1_PS_DBG_SCRATCH_7
+#define XS1_PSWITCH_DBG_HANDLER_NUM XS1_PSWITCH_DBG_SCRATCH_0_NUM
+#define XS1_PSWITCH_DBG_COMMAND_NUM XS1_PSWITCH_DBG_SCRATCH_1_NUM
+#define XS1_PSWITCH_DBG_ARG0_NUM XS1_PSWITCH_DBG_SCRATCH_2_NUM
+#define XS1_PSWITCH_DBG_ARG1_NUM XS1_PSWITCH_DBG_SCRATCH_3_NUM
+#define XS1_PSWITCH_DBG_ARG2_NUM XS1_PSWITCH_DBG_SCRATCH_4_NUM
+#define XS1_PSWITCH_DBG_ARG3_NUM XS1_PSWITCH_DBG_SCRATCH_5_NUM
+#define XS1_PSWITCH_DBG_ARG4_NUM XS1_PSWITCH_DBG_SCRATCH_6_NUM
+#define XS1_PSWITCH_DBG_ARG5_NUM XS1_PSWITCH_DBG_SCRATCH_7_NUM
+#define XS1_XMOS_PHY_CONF_WIDTH 0x3
+#define XS1_USB_PHY_VCONTROL_SETUP_LENGTH 0x6
+#define XS1_USB_PHY_ENTER_BIST_LENGTH 0x40
+#define XS1_USB_PHY_CLKCNT_WIDTH 0x4
+#define XS1_USB_BISTGO_CTR_WIDTH 0x4
+#define XS1_USB_TESTGO_CTR_WIDTH 0x4
+#define XS1_USB_TESTGO_PULSE_LENGTH 0x8
+#define XS1_USB_BISTGO_PULSE_LENGTH 0x8
+#define XS1_CRC5_RESULT_WIDTH 0x5
+#define XS1_MS_NIBBLE "7:4"
+#define XS1_LS_NIBBLE "3:0"
+#define XS1_CLK_DIV_PULSE_SWALLOW_BITS 0x3
+#define _xs1_clock_h_ 
+
+
+
+
+#define _clock_defined 
+#define clock __clock_t
+void configure_in_port_handshake(void port p, in port readyin,
+                                 out port readyout, __clock_t clk);
+void configure_out_port_handshake(void port p, in port readyin,
+                                 out port readyout, __clock_t clk,
+                                 unsigned initial);
+void configure_in_port_strobed_master(void port p, out port readyout,
+                                      const __clock_t clk);
+void configure_out_port_strobed_master(void port p, out port readyout,
+                                      const __clock_t clk, unsigned initial);
+void configure_in_port_strobed_slave(void port p, in port readyin, __clock_t clk);
+void configure_out_port_strobed_slave(void port p, in port readyin, __clock_t clk,
+                                      unsigned initial);
+void configure_in_port(void port p, const __clock_t clk);
+
+
+
+
+
+void configure_in_port_no_ready(void port p, const __clock_t clk);
+#define configure_in_port_no_ready(p,clk) configure_in_port(p, clk)
+void configure_out_port(void port p, const __clock_t clk, unsigned initial);
+
+
+
+
+
+void configure_out_port_no_ready(void port p, const __clock_t clk, unsigned initial);
+#define configure_out_port_no_ready(p,clk,initial) configure_out_port(p, clk, initial)
+
+
+
+
+
+
+
+
+void configure_port_clock_output(void port p, const __clock_t clk);
+void start_port(void port p);
+
+
+
+
+
+
+void stop_port(void port p);
+void configure_clock_src(__clock_t clk, void port p);
+void configure_clock_src_divide(__clock_t clk, void port p, unsigned char d);
+void configure_clock_ref(__clock_t clk, unsigned char divide);
+void configure_clock_xcore(__clock_t clk, unsigned char divide);
+void configure_clock_rate(__clock_t clk, unsigned a, unsigned b);
+void configure_clock_rate_at_least(__clock_t clk, unsigned a, unsigned b);
+void configure_clock_rate_at_most(__clock_t clk, unsigned a, unsigned b);
+void set_clock_src(__clock_t clk, void port p);
+#define set_clock_src(clk,p) __builtin_set_clk_src(clk, p)
+void set_clock_ref(__clock_t clk);
+#define set_clock_ref(clk) __builtin_set_clk_ref(clk)
+void set_clock_xcore(__clock_t clk);
+#define set_clock_xcore(clk) __builtin_set_clk_xcore(clk)
+void set_clock_div(__clock_t clk, unsigned char div);
+#define set_clock_div(clk,div) __builtin_set_clk_div(clk, div)
+void set_clock_rise_delay(__clock_t clk, unsigned n);
+#define set_clock_rise_delay(clk,n) __builtin_set_clock_rise_delay (clk, n)
+void set_clock_fall_delay(__clock_t clk, unsigned n);
+#define set_clock_fall_delay(clk,n) __builtin_set_clock_fall_delay (clk, n)
+void set_port_clock(void port p, const __clock_t clk);
+#define set_port_clock(p,clk) __builtin_set_port_clk(p, clk)
+void set_port_ready_src(void port ready, void port p);
+#define set_port_ready_src(ready,p) __builtin_set_ready_src(ready, p)
+void set_clock_ready_src(__clock_t clk, void port ready);
+#define set_clock_ready_src(clk,portReady) __builtin_set_clock_ready_src(clk, portReady)
+
+
+
+
+
+
+
+
+void set_clock_on(__clock_t clk);
+#define set_clock_on(clk) __builtin_set_clock_on(clk)
+
+
+
+
+
+
+
+
+void set_clock_off(__clock_t clk);
+#define set_clock_off(clk) __builtin_set_clock_off(clk)
+
+
+
+
+
+
+
+
+void start_clock(__clock_t clk);
+#define start_clock(clk) __builtin_start_clock(clk)
+
+
+
+
+
+
+void stop_clock(__clock_t clk);
+#define stop_clock(clk) __builtin_stop_clock(clk)
+
+
+
+
+
+
+
+
+void set_port_use_on(void port p);
+#define set_port_use_on(p) __builtin_set_port_use (p, XS1_SETC_INUSE_ON)
+
+
+
+
+
+
+
+
+void set_port_use_off(void port p);
+#define set_port_use_off(p) __builtin_set_port_use (p, XS1_SETC_INUSE_OFF)
+
+
+
+
+
+
+
+
+void set_port_mode_data(void port p);
+#define set_port_mode_data(p) __builtin_set_port_type(p, XS1_SETC_PORT_DATAPORT)
+void set_port_mode_clock(void port p);
+#define set_port_mode_clock(p) __builtin_set_port_type(p, XS1_SETC_PORT_CLOCKPORT)
+void set_port_mode_ready(void port p);
+#define set_port_mode_ready(p) __builtin_set_port_type(p, XS1_SETC_PORT_READYPORT)
+void set_port_drive(void port p);
+#define set_port_drive(p) __builtin_set_port_drv (p, XS1_SETC_DRIVE_DRIVE)
+void set_port_drive_low(void port p);
+#define set_port_drive_low(p) __builtin_set_port_drv (p, XS1_SETC_DRIVE_PULL_UP)
+void set_port_drive_high(void port p);
+
+#define set_port_drive_high(p) __builtin_set_port_drv (p, XS1_SETC_DRIVE_PULL_DOWN)
+void set_port_pull_up(void port p);
+void set_port_pull_down(void port p);
+void set_port_pull_none(void port p);
+#define set_port_pull_none(p) __builtin_set_port_drv (p, XS1_SETC_DRIVE_DRIVE)
+void set_port_master(void port p);
+#define set_port_master(p) __builtin_set_port_ms (p, XS1_SETC_MS_MASTER)
+void set_port_slave(void port p);
+#define set_port_slave(p) __builtin_set_port_ms (p, XS1_SETC_MS_SLAVE)
+void set_port_no_ready(void port p);
+#define set_port_no_ready(p) __builtin_set_port_rdy (p, XS1_SETC_RDY_NOREADY)
+void set_port_strobed(void port p);
+#define set_port_strobed(p) __builtin_set_port_rdy (p, XS1_SETC_RDY_STROBED)
+void set_port_handshake(void port p);
+#define set_port_handshake(p) __builtin_set_port_rdy (p, XS1_SETC_RDY_HANDSHAKE)
+
+
+
+
+
+
+
+void set_port_no_sample_delay(void port p);
+#define set_port_no_sample_delay(p) __builtin_set_port_sdel(p, XS1_SETC_SDELAY_NOSDELAY)
+
+
+
+
+
+
+
+void set_port_sample_delay(void port p);
+#define set_port_sample_delay(p) __builtin_set_port_sdel(p, XS1_SETC_SDELAY_SDELAY)
+
+
+
+
+
+
+void set_port_no_inv(void port p);
+#define set_port_no_inv(p) __builtin_set_port_inv (p, XS1_SETC_INV_NOINVERT)
+void set_port_inv(void port p);
+#define set_port_inv(p) __builtin_set_port_inv (p, XS1_SETC_INV_INVERT)
+void set_port_shift_count( void port p, unsigned n);
+#define set_port_shift_count(port,n) __builtin_set_port_shift(port, n)
+void set_pad_delay(void port p, unsigned n);
+#define set_pad_delay(port,n) __builtin_set_pad_delay (port, n)
+#define reconfigure_port(ptr,typ) __reconfigure_port(ptr, typ)
+void set_core_fast_mode_on(void);
+
+
+
+
+
+
+
+void set_core_fast_mode_off(void);
+
+
+#define set_core_fast_mode_on() __builtin_set_thread_fast()
+#define set_core_fast_mode_off() __builtin_set_thread_norm()
+
+
+#define set_thread_fast_mode_on() set_core_fast_mode_on()
+#define set_thread_fast_mode_off() set_core_fast_mode_off()
+void set_core_high_priority_on(void);
+
+
+
+
+
+void set_core_high_priority_off(void);
+void outuchar(chanend c, unsigned char val);
+#define outuchar(c,val) __builtin_out_uchar(c, val)
+void outuint(chanend c, unsigned val);
+#define outuint(c,val) __builtin_out_uint(c, val)
+unsigned char inuchar(chanend c);
+#define inuchar(c) __builtin_in_uchar(c)
+unsigned inuint(chanend c);
+#define inuint(c) __builtin_in_uint(c)
+void inuchar_byref(chanend c, unsigned char &val);
+#define inuchar_byref(c,val) __builtin_in_uchar_byref(c, val)
+void inuint_byref(chanend c, unsigned &val);
+#define inuint_byref(c,val) __builtin_in_uint_byref(c, val)
+
+
+
+
+
+
+
+
+void sync(void port p);
+#define sync(p) __builtin_sync(p)
+unsigned peek(void port p);
+#define peek(p) __builtin_peek(p)
+void clearbuf(void port p);
+#define clearbuf(p) __builtin_clear_buff(p)
+unsigned endin( void port p);
+#define endin(p) __builtin_endin(p)
+unsigned partin( void port p, unsigned n);
+#define partin(p,n) __builtin_partin(p, n)
+void partout( void port p, unsigned n, unsigned val);
+#define partout(p,n,val) __builtin_partout(p, n, val)
+unsigned partout_timed( void port p, unsigned n, unsigned val, unsigned t);
+#define partout_timed(p,n,val,t) __builtin_partout_timed(p, n, val, t)
+{unsigned , unsigned } partin_timestamped( void port p, unsigned n);
+#define partin_timestamped(p,n) __builtin_partin_timestamped(p, n)
+unsigned partout_timestamped( void port p, unsigned n, unsigned val);
+#define partout_timestamped(p,n,val) __builtin_partout_timestamped(p, n, val)
+void outct(chanend c, unsigned char val);
+#define outct(c,val) __builtin_outct(c, val)
+void chkct(chanend c, unsigned char val);
+#define chkct(c,val) __builtin_chkct(c, val)
+unsigned char inct(chanend c);
+#define inct(c) __builtin_inct(c)
+void inct_byref(chanend c, unsigned char &val);
+#define inct_byref(c,val) __builtin_inct_byref(c, val)
+int testct(chanend c);
+#define testct(c) __builtin_testct(c)
+int testwct(chanend c);
+#define testwct(c) __builtin_testwct(c)
+void soutct(streaming chanend c, unsigned char val);
+#define soutct(c,val) __builtin_soutct(c, val)
+void schkct(streaming chanend c, unsigned char val);
+#define schkct(c,val) __builtin_schkct(c, val)
+unsigned char sinct(streaming chanend c);
+#define sinct(c) __builtin_sinct(c)
+void sinct_byref(streaming chanend c, unsigned char &val);
+#define sinct_byref(c,val) __builtin_sinct_byref(c, val)
+int stestct(streaming chanend c);
+#define stestct(c) __builtin_stestct(c)
+int stestwct(streaming chanend c);
+#define stestwct(c) __builtin_stestwct(c)
+transaction out_char_array(chanend c, const char src[size], unsigned size);
+transaction in_char_array(chanend c, char dst[size], unsigned size);
+void sout_char_array(streaming chanend c, const char src[size], unsigned size);
+#pragma select handler
+void sin_char_array(streaming chanend c, char dst[size], unsigned size);
+void crc32(unsigned &checksum, unsigned data, unsigned poly);
+#define crc32(checksum,data,poly) __builtin_crc32(checksum, data, poly)
+unsigned crc8shr(unsigned &checksum, unsigned data, unsigned poly);
+#define crc8shr(checksum,data,poly) __builtin_crc8shr(checksum, data, poly)
+{unsigned, unsigned} lmul(unsigned a, unsigned b, unsigned c, unsigned d);
+#define lmul(a,b,c,d) __builtin_long_mul(a, b, c, d)
+{unsigned, unsigned} mac(unsigned a, unsigned b, unsigned c, unsigned d);
+#define mac(a,b,c,d) __builtin_mac(a, b, c, d)
+{signed, unsigned} macs(signed a, signed b, signed c, unsigned d);
+#define macs(a,b,c,d) __builtin_macs(a, b, c, d)
+signed sext(unsigned a, unsigned b);
+#define sext(a,b) __builtin_sext(a,b)
+void crc32_inc(unsigned int &checksum, unsigned int data, unsigned int poly,
+               unsigned int &value, unsigned int increment);
+
+#define crc32_inc(d,x,p,v,b) __builtin_crc32_inc(d, x, p, v, b)
+void crcn(unsigned int &checksum, unsigned int data,
+          unsigned int poly, unsigned int n);
+
+#define crcn(c,d,p,n) __builtin_crcn(c, d, p, n)
+
+
+
+
+
+
+
+void elate(unsigned int time);
+
+#define elate(t) __builtin_elate(t)
+unsigned int lextract(unsigned long long value, unsigned int position,
+                      unsigned int length);
+
+#define lextract(v,p,l) __builtin_lextract(v, p, l)
+unsigned long long linsert(unsigned long long value, unsigned int bitfield,
+                           unsigned int position, unsigned int length);
+
+#define linsert(v,b,p,l) __builtin_linsert(v, b, p, l)
+signed long long lsats(signed long long value, unsigned int index);
+
+#define lsats(v,i) __builtin_lsats(v, i)
+{unsigned int, unsigned int} unzip(unsigned long long value,
+                                   unsigned int log_granularity);
+
+#define unzip(v,g) __builtin_unzip(v, g)
+unsigned long long zip(unsigned int value1, unsigned int value2,
+                       unsigned int log_granularity);
+
+#define zip(v1,v2,g) __builtin_zip(v1, v2, g)
+unsigned zext(unsigned a, unsigned b);
+#define zext(a,b) __builtin_zext(a,b)
+void pinseq(unsigned val);
+#define pinseq(val) __builtin_pins_eq(val)
+void pinsneq(unsigned val);
+#define pinsneq(val) __builtin_pins_ne(val)
+void pinseq_at(unsigned val, unsigned time);
+#define pinseq_at(val,time) __builtin_pins_eq_at(val, time)
+void pinsneq_at(unsigned val, unsigned time);
+#define pinsneq_at(val,time) __builtin_pins_ne_at(val, time)
+void timerafter(unsigned val);
+#define timerafter(val) __builtin_timer_after(val)
+#define timeafter(A,B) ((int)((B) - (A)) < 0)
+#define porttimeafter(A,B) ((short)((B) - (A)) < 0)
+unsigned getps(unsigned reg);
+
+#define getps(reg) __builtin_getps(reg)
+
+
+
+
+
+
+
+
+void setps(unsigned reg, unsigned value);
+
+#define setps(reg,value) __builtin_setps(reg, value)
+int read_pswitch_reg(unsigned tileid, unsigned reg, unsigned &data);
+int read_sswitch_reg(unsigned tileid, unsigned reg, unsigned &data);
+int write_pswitch_reg(unsigned tileid, unsigned reg, unsigned data);
+int write_pswitch_reg_no_ack(unsigned tileid, unsigned reg, unsigned data);
+int write_sswitch_reg(unsigned tileid, unsigned reg, unsigned data);
+int write_sswitch_reg_no_ack(unsigned tileid, unsigned reg, unsigned data);
+int read_tile_config_reg(tileref tile, unsigned reg, unsigned &data);
+int write_tile_config_reg(tileref tile, unsigned reg, unsigned data);
+int write_tile_config_reg_no_ack(tileref tile, unsigned reg, unsigned data);
+
+
+
+#define read_core_config_reg(tile,reg,data) read_tile_config_reg(tile, reg, data)
+#define write_core_config_reg(tile,reg,data) write_tile_config_reg(tile, reg, data)
+#define write_core_config_reg_no_ack(tile,reg,data) write_tile_config_reg_no_ack(tile, reg, data)
+int read_node_config_reg(tileref tile, unsigned reg, unsigned &data);
+int write_node_config_reg(tileref tile, unsigned reg, unsigned data);
+int write_node_config_reg_no_ack(tileref tile, unsigned reg, unsigned data);
+int read_periph_8(tileref tile, unsigned peripheral, unsigned base_address,
+                  unsigned size, unsigned char data[size]);
+int write_periph_8(tileref tile, unsigned peripheral, unsigned base_address,
+                   unsigned size, const unsigned char data[size]);
+int write_periph_8_no_ack(tileref tile, unsigned peripheral,
+                          unsigned base_address, unsigned size,
+                          const unsigned char data[size]);
+int read_periph_32(tileref tile, unsigned peripheral, unsigned base_address,
+                   unsigned size, unsigned data[size]);
+int write_periph_32(tileref tile, unsigned peripheral, unsigned base_address,
+                    unsigned size, const unsigned data[size]);
+int write_periph_32_no_ack(tileref tile, unsigned peripheral,
+                           unsigned base_address, unsigned size,
+                           const unsigned data[size]);
+unsigned get_local_tile_id(void);
+unsigned get_tile_id(tileref t);
+unsigned get_logical_core_id(void);
+
+
+#define get_logical_core_id() __builtin_getid()
+
+
+
+
+
+#define get_core_id() _Pragma("warning \"get_core_id is deprecated, use get_local_tile_id instead\"") get_local_tile_id()
+#define get_thread_id() _Pragma("warning \"get_thread_id is deprecated, use get_logical_core_id instead\"") get_logical_core_id()
+#define _STDINT_H 
+
+
+extern "C" {
+#define __STDINT_EXP(x) x
+
+
+#define _LIBC_LIMITS_H_ 1
+
+
+
+
+
+
+#define __NEWLIB_H__ 1
+
+
+
+
+
+#define _NEWLIB_VERSION "1.16.0"
+
+
+
+#define _WANT_IO_C99_FORMATS 1
+
+
+#define _WANT_IO_LONG_LONG 1
+#define _MB_LEN_MAX 1
+
+
+#define MB_LEN_MAX _MB_LEN_MAX
+
+
+
+
+
+
+#define NL_ARGMAX 32
+
+
+
+
+
+
+
+#define _LIMITS_H 1
+
+
+
+#define __SYS_CONFIG_H__ 
+
+
+#define __IEEE_LITTLE_ENDIAN 
+#define __DYNAMIC_REENT__ 
+#define __BUFSIZ__ 64
+#define __FILENAME_MAX__ 128
+#define _POINTER_INT long
+
+
+#undef __RAND_MAX
+
+
+
+#define __RAND_MAX 0x7fffffff
+#define __IMPORT 
+
+
+
+
+
+
+#define _READ_WRITE_RETURN_TYPE int
+
+
+#undef CHAR_BIT
+#define CHAR_BIT 8
+
+
+#undef SCHAR_MIN
+#define SCHAR_MIN (-128)
+#undef SCHAR_MAX
+#define SCHAR_MAX 127
+
+
+#undef UCHAR_MAX
+#define UCHAR_MAX 255
+
+
+
+#undef CHAR_MIN
+#define CHAR_MIN 0
+#undef CHAR_MAX
+#define CHAR_MAX 255
+#undef SHRT_MIN
+
+#define SHRT_MIN (-32767-1)
+#undef SHRT_MAX
+#define SHRT_MAX 32767
+
+
+#undef USHRT_MAX
+#define USHRT_MAX 65535
+
+
+
+
+
+#undef INT_MIN
+#define INT_MIN (-INT_MAX-1)
+#undef INT_MAX
+#define INT_MAX __INT_MAX__
+
+
+#undef UINT_MAX
+#define UINT_MAX (INT_MAX * 2U + 1)
+#undef LONG_MIN
+#define LONG_MIN (-LONG_MAX-1)
+#undef LONG_MAX
+#define LONG_MAX __LONG_MAX__
+
+
+#undef ULONG_MAX
+#define ULONG_MAX (LONG_MAX * 2UL + 1)
+
+
+
+
+
+
+
+#undef LLONG_MIN
+#define LLONG_MIN (-LLONG_MAX-1)
+#undef LLONG_MAX
+#define LLONG_MAX __LONG_LONG_MAX__
+
+
+#undef ULLONG_MAX
+#define ULLONG_MAX (LLONG_MAX * 2ULL + 1)
+
+
+
+
+
+#undef LONG_LONG_MIN
+#define LONG_LONG_MIN (-LONG_LONG_MAX-1)
+#undef LONG_LONG_MAX
+#define LONG_LONG_MAX __LONG_LONG_MAX__
+
+
+#undef ULONG_LONG_MAX
+#define ULONG_LONG_MAX (LONG_LONG_MAX * 2ULL + 1)
+
+
+
+
+
+
+#define __have_longlong64 1
+
+
+
+
+
+
+#define __have_long32 1
+
+
+
+typedef signed char int8_t ;
+typedef unsigned char uint8_t ;
+#define __int8_t_defined 1
+
+
+
+typedef signed char int_least8_t;
+typedef unsigned char uint_least8_t;
+#define __int_least8_t_defined 1
+
+
+
+typedef signed short int16_t;
+typedef unsigned short uint16_t;
+#define __int16_t_defined 1
+typedef int16_t int_least16_t;
+typedef uint16_t uint_least16_t;
+#define __int_least16_t_defined 1
+typedef signed long int32_t;
+typedef unsigned long uint32_t;
+#define __int32_t_defined 1
+typedef int32_t int_least32_t;
+typedef uint32_t uint_least32_t;
+#define __int_least32_t_defined 1
+typedef signed long long int64_t;
+typedef unsigned long long uint64_t;
+#define __int64_t_defined 1
+
+
+
+
+
+
+
+typedef int64_t int_least64_t;
+typedef uint64_t uint_least64_t;
+#define __int_least64_t_defined 1
+ typedef signed int int_fast8_t;
+  typedef unsigned int uint_fast8_t;
+#define __int_fast8_t_defined 1
+
+
+
+ typedef signed int int_fast16_t;
+  typedef unsigned int uint_fast16_t;
+#define __int_fast16_t_defined 1
+
+
+
+ typedef signed int int_fast32_t;
+  typedef unsigned int uint_fast32_t;
+#define __int_fast32_t_defined 1
+ typedef int_least64_t int_fast64_t;
+  typedef uint_least64_t uint_fast64_t;
+#define __int_fast64_t_defined 1
+
+
+
+
+
+
+ typedef long long int intmax_t;
+  typedef long long unsigned int uintmax_t;
+typedef signed int intptr_t;
+typedef unsigned int uintptr_t;
+#define INTPTR_MAX PTRDIFF_MAX
+#define INTPTR_MIN PTRDIFF_MIN
+
+
+
+#define UINTPTR_MAX (2UL * PTRDIFF_MAX + 1)
+#define INT8_MIN -128
+#define INT8_MAX 127
+#define UINT8_MAX 255
+
+
+
+#define INT_LEAST8_MIN -128
+#define INT_LEAST8_MAX 127
+#define UINT_LEAST8_MAX 255
+
+
+
+
+
+#define INT16_MIN -32768
+#define INT16_MAX 32767
+#define UINT16_MAX 65535
+
+
+
+#define INT_LEAST16_MIN -32768
+#define INT_LEAST16_MAX 32767
+#define UINT_LEAST16_MAX 65535
+
+
+
+
+
+#define INT32_MIN (-2147483647-1)
+#define INT32_MAX 2147483647
+#define UINT32_MAX 4294967295U
+
+
+
+#define INT_LEAST32_MIN (-2147483647-1)
+#define INT_LEAST32_MAX 2147483647
+#define UINT_LEAST32_MAX 4294967295U
+#define INT64_MIN (-9223372036854775807LL-1LL)
+#define INT64_MAX 9223372036854775807LL
+#define UINT64_MAX 18446744073709551615ULL
+#define INT_LEAST64_MIN (-9223372036854775807LL-1LL)
+#define INT_LEAST64_MAX 9223372036854775807LL
+#define UINT_LEAST64_MAX 18446744073709551615ULL
+
+
+
+
+
+#define INT_FAST8_MIN (-__STDINT_EXP(INT_MAX) - 1)
+#define INT_FAST8_MAX __STDINT_EXP(INT_MAX)
+#define UINT_FAST8_MAX (__STDINT_EXP(INT_MAX) * 2U + 1U)
+#define INT_FAST16_MIN (-__STDINT_EXP(INT_MAX) - 1)
+#define INT_FAST16_MAX __STDINT_EXP(INT_MAX)
+#define UINT_FAST16_MAX (__STDINT_EXP(INT_MAX) * 2U + 1U)
+#define INT_FAST32_MIN (-__STDINT_EXP(INT_MAX) - 1)
+#define INT_FAST32_MAX __STDINT_EXP(INT_MAX)
+#define UINT_FAST32_MAX (__STDINT_EXP(INT_MAX) * 2U + 1U)
+#define INT_FAST64_MIN INT64_MIN
+#define INT_FAST64_MAX INT64_MAX
+#define UINT_FAST64_MAX UINT64_MAX
+
+
+
+
+#define INTMAX_MAX __INTMAX_MAX__
+#define INTMAX_MIN (-INTMAX_MAX - 1)
+#define UINTMAX_MAX UINT64_MAX
+
+
+
+#define SIZE_MAX (__STDINT_EXP(LONG_MAX) * 2UL + 1)
+
+
+#define SIG_ATOMIC_MIN (-__STDINT_EXP(INT_MAX) - 1)
+#define SIG_ATOMIC_MAX __STDINT_EXP(INT_MAX)
+
+
+#define PTRDIFF_MIN (-__STDINT_EXP(LONG_MAX) - 1L)
+#define PTRDIFF_MAX __STDINT_EXP(LONG_MAX)
+
+
+
+#define WCHAR_MIN 0
+
+
+
+#define WCHAR_MAX __WCHAR_MAX__
+#define WINT_MAX (__STDINT_EXP(INT_MAX) * 2U + 1U)
+
+
+
+
+#define WINT_MIN 0U
+
+
+
+#define INT8_C(x) x
+#define UINT8_C(x) x##U
+
+#define INT16_C(x) x
+#define UINT16_C(x) x##U
+
+
+#define INT32_C(x) x##L
+#define UINT32_C(x) x##UL
+
+
+
+
+
+
+
+#define INT64_C(x) x##LL
+#define UINT64_C(x) x##ULL
+#define INTMAX_C(x) x##LL
+#define UINTMAX_C(x) x##ULL
+
+
+
+
+
+
+
+}
+#define __STDDEF_H 
+#define __need_ptrdiff_t 
+#define __need_size_t 
+#define __need_wchar_t 
+#define __need_NULL 
+
+
+
+
+
+
+
+#define _PTRDIFF_T 
+
+typedef int ptrdiff_t;
+
+#undef __need_ptrdiff_t
+
+
+
+
+
+
+#define _SIZE_T 
+
+typedef unsigned int size_t;
+
+#undef __need_size_t
+#define _WCHAR_T 
+
+
+
+
+typedef unsigned char wchar_t;
+
+
+#undef __need_wchar_t
+
+
+
+#undef NULL
+
+
+
+
+
+
+
+#define NULL ((void*)0)
+
+
+
+
+
+
+
+#undef __need_NULL
+#define offsetof(t,d) __builtin_offsetof(t, d)
+
+
+
+typedef struct {
+  out port irq;
+  in port we_re_ah;
+  in port cs;
+  port dq;
+  __clock_t clk;
+} xab_ports_t;
+
+#define XAB_PORTS_INITIALIZER(clk) {XS1_PORT_1J, XS1_PORT_32A, XS1_PORT_1I, XS1_PORT_8C, clk}
+
+enum xab_boot_cmd
+{
+  XAB_READ_CMD = 1,
+  XAB_TEMP_DISCONNECT_CMD = 2,
+  XAB_DISCONNECT_CMD = 3,
+};
+
+
+
+
+void sync_arm(xab_ports_t & ports);
+
+
+
+
+
+void disconnect_arm(xab_ports_t & ports);
+
+
+
+
+
+void write_arm(xab_ports_t & ports,
+               uint8_t writebuf[size_in_writebuf],
+               unsigned size_in_writebuf);
+
+
+
+
+
+
+
+void read_arm(xab_ports_t & ports,
+              uint8_t readbuf[size_in_readbuf],
+              unsigned size_in_readbuf);
+
+
+
+
+void DeviceAccess_Connect(void);
+void DeviceAccess_Disconnect(unsigned int perm_disconnect);
+unsigned int DeviceAccess_ReadWord(unsigned int word_address);
+
+
+void DeviceAccess_Read(unsigned int word_address,
+                       unsigned int destination[num_words],
+                       unsigned int num_words);
+
+
+
+
+
+
+unsigned int DeviceAccess_Streamed_CRC(unsigned int word_address,
+                                       unsigned int num_words,
+                                       unsigned int expected_crc);
+
+#define _DeviceAccess_SPI_h_ 
+
+
+
+typedef struct{
+
+  in buffered port:32 spi_miso;
+  out buffered port:32 spi_ss;
+  out port spi_clk;
+  out buffered port:32 spi_mosi;
+  __clock_t spi_clk_blk;
+
+
+
+
+
+
+
+} SPIPorts_T;
+
+
+
+void DeviceAccess_Connect(void);
+void DeviceAccess_Disconnect(unsigned int perm_disconnect);
+unsigned int DeviceAccess_ReadWord(unsigned int word_address);
+
+
+void DeviceAccess_Read(unsigned int word_address,
+                       unsigned int destination[num_words],
+                       unsigned int num_words);
+
+
+
+
+
+
+unsigned int DeviceAccess_Streamed_CRC(unsigned int word_address,
+                                       unsigned int num_words,
+                                       unsigned int expected_crc);
+
+#define _DeviceAccess_SQI_h_ 
+
+
+
+
+
+void DeviceAccess_Connect(void);
+void DeviceAccess_Disconnect(unsigned int perm_disconnect);
+unsigned int DeviceAccess_ReadWord(unsigned int word_address);
+
+
+void DeviceAccess_Read(unsigned int word_address,
+                       unsigned int destination[num_words],
+                       unsigned int num_words);
+
+
+
+
+
+
+unsigned int DeviceAccess_Streamed_CRC(unsigned int word_address,
+                                       unsigned int num_words,
+                                       unsigned int expected_crc);
+
+
+
+#include <platform.h>
+#include <xclib.h>
+#include <stdlib.h>
+
+////////////////////////////////////////////////////////////////////////////////
+//spanning tables and link setup tables
+
+unsigned int master_routing_id = 0x8002;
+unsigned int spanning_routing_id = 0x0000;
+Link_Info_T link_info [] =
+{
+  {0x00000008, 0xc0019833, 0x00000001},
+}; 
+
+Links_Table_T links_table [] =
+{
+  {0x00000000, 0x00008002, 0x00000001, 0, 0x22222102, 0x22222222, 0x000000ff, 0x00000000},
+};
+
+unsigned int num_link_tables = 0x00000001;
+
+Galaxian_Table_T galaxian_table [] =
+{
+  {0x00008006, 0xc1000000, 0x00000018},
+};
+
+unsigned int num_galaxian_tables = 1;
+
+////////////////////////////////////////////////////////////////////////////////
+//SwitchSetup_DoSwitchSetup
+
+void SwitchSetup_DoSwitchSetup(void)
+{
+  //Program master tile pll and ref_div
+  unsigned int master_pll = 0x80007c02;
+  unsigned int master_ref_div = 0x00000004;
+  SwitchSetup_SetMasterPLL(master_pll, master_ref_div);
+
+  //Switch Setup
+  SwitchSetup_DoSingleTileConfig();
+
+  SwitchSetup_DoLinkConfig(links_table, link_info, num_link_tables);
+
+  SwitchSetup_DoGalaxianConfig(galaxian_table, num_galaxian_tables);
+
+}
+
+////////////////////////////////////////////////////////////////////////////////

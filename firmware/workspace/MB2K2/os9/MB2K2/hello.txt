@@ -1,0 +1,29 @@
+ nam hello
+ ttl print 'Hello World' to the console
+*
+ use defsfile
+*
+* Data area
+ org 0
+stack rmb 200
+datsiz equ .
+*
+* Module header
+type equ PRGRM+OBJCT
+revs equ REENT+1
+ mod length,name,type,revs,start,datsiz
+name fcs /hello/
+msg  fcc /Hello World!/
+ fcb 13
+*
+* main code
+start leax msg,pcr
+ ldy #12
+ lda #1
+ os9 i$writln
+ bcs error
+ clrb
+error os9 f$exit
+*
+ emod
+length equ *

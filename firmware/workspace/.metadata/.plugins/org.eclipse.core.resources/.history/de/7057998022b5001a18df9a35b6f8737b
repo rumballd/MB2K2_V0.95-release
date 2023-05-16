@@ -1,0 +1,154 @@
+*
+* Boot flex.
+BFMESS FCC $0D,'Booting FLEX from system drive....',4
+BFRR2 FCC $0A,$0D,7,/Can't find FLEX.COR!/,4
+TEXT1 FCC 'FLEX',0,0,0,0
+BF LDX #BFMESS
+ JSR PDATA1
+ * get the first directory sector of drive 0 (track 0, sector 5)
+ CLR DRIVE
+ LDX #(DRIVE-3)
+ JSR RST
+ LDB #5
+ STB SECTOR
+ CLRA
+ STA TRACK
+NSEC LDB SECTOR
+ LDA TRACK
+ LDX #BUFFER
+ JSR READ
+* look for 'FLEX' entry in directory
+ LDX #(BUFFER+16)
+ LDB #10 ten directory entries per sector
+CHK LDY #TEXT1
+ PSHS X
+CHK1 LDA ,X+
+ CMPA ,Y+
+ BNE NOPE1
+ CMPY #(TEXT1+8) end of filename?
+ BNE CHK1
+ LDD 5,X match found, pick up starting track/sector
+ STD YTEMP
+ BRA LOAD load file
+NOPE1 DECB end of entries? 
+ BEQ NOPE2
+ PULS X
+ LEAX 24,X step to next filename
+ BRA CHK
+* get next directory sector, stop if end of directory sector chain
+NOPE2 LDD BUFFER
+ BEQ NOPE3
+ STD TRACK
+ BRA NSEC
+NOPE3 LDX #BFRR2
+NO4 JSR PSTRNG
+ JMP CONTRL
+*
+LOAD LDD YTEMP
+ STD BUFFER
+ LDY #(BUFFER+256)
+LOAD1 BSR GETCH
+ CMPA #2
+ BEQ LOAD2
+ CMPA #$16
+ BNE LOAD1
+ BSR GETCH
+ BSR GETCH
+ BRA LOAD1
+LOAD2 BSR GETCH
+ STA TTO
+ BSR GETCH
+ STA TTO+1
+ BSR GETCH
+ TFR A,B
+ TSTB
+ BEQ LOAD1
+ LDX TTO
+LOAD3 PSHS B,X
+ BSR GETCH
+ PULS B,X
+ CMPX #$DE00
+ BHI LR
+ STA ,X+
+LR DECB
+ BNE LOAD3
+ BRA LOAD1
+* get the next byte from the file, loading the next sector if needed
+GETCH CMPY #(BUFFER+256)
+ BNE GETCH4
+GETCH2 LDX #BUFFER
+ LDD ,X next sector address
+ BEQ LDONE if 0000 then this was the last sector
+ JSR READ
+ BNE LOAD
+ LDY #BUFFER+4
+GETCH4 LDA ,Y+
+ RTS
+*
+* Boot FLEX from the internal pre loaded image in RAM
+BOMESS FCC $0D,'Booting internal FLEX....',4
+BO LDX #BOMESS
+ JSR PDATA1
+*
+LDONE LDX #$D3E5
+ LDY #CONTAB Overlay console driver table
+LD1 LDD 0,Y++
+ STD 0,X++
+ CMPX #$D3FD
+ BNE LD1
+ LDX #$DE00 Overlay disk driver table
+ LDY #DISTAB
+LD2 LDD 0,Y++
+ STD 0,X++
+ CMPX #$DE1E
+ BNE LD2
+*
+ LDA #$39
+ STA $CA02  Disable date prompt and set date.
+ LDB #MONTH
+ JSR GETRTC
+ STA $CC0E 	month
+ LDB #DAY
+ JSR GETRTC
+ STA $CC0F 	day
+ LDB #YEAR
+ JSR GETRTC
+ STA $CC10 	year
+*
+ LDX  #$CC00  Set ASN & TTYSET parameters from the RTC.
+ LDB  #$14
+FLP  JSR GETRTC
+ STA  0,X+
+ INCB
+ CMPB  #$21
+ BNE  FLP
+*
+BOEND LDX #$CD00 Flex cold start address
+ JMP MAPOUT Geronimo!!
+*
+* FLEX console jump table.
+CONTAB FDB INCH1
+ FDB DUMMY
+ FDB $FFFE
+ FDB $FFFE
+ FDB DUMMY
+ FDB DUMMY
+ FDB DUMMY
+ FDB CONTRL
+ FDB DUMMY
+ FDB STATUS
+ FDB OUTCH
+ FDB INCH
+*
+* FLEX disk jump table.
+DISTAB JMP READ
+ JMP WRITE
+ JMP VERIFY
+ JMP RST
+ JMP DRV
+ JMP CHKRDY
+ JMP QUICK
+ JMP DINIT
+ JMP WARM
+ JMP SEEK
+*

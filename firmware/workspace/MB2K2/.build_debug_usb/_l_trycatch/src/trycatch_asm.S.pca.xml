@@ -1,0 +1,5 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_trycatch/src/trycatch_asm.S">
+  <fCall global="true" name="trycatch_trap_handler"/>
+  <fCall global="true" name="trycatch_state"/>
+  <fCall global="true" name="longjmp"/>
+</preCompilationAnalysis>

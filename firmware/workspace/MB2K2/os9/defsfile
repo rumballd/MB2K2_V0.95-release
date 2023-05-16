@@ -1,0 +1,3 @@
+LEVEL equ 1 select level one* 
+ pragma nolist
+* use systype_MB2K use sysdefs * use os9defs use os9sysdefs.li use os9iodefs use os9rbfdefs use os9scfdefs use li.equates* pragma list

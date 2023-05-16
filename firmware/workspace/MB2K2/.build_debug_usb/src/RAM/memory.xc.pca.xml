@@ -1,0 +1,69 @@
+<preCompilationAnalysis file="../src/RAM/memory.xc">
+<fDef name="debounce" global="true" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="decodeMem" global="true" noreturn="true" doNotSpecialize="false" numParams="8"/>
+<fDef name="delay_microseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_milliseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_seconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="xassert_msg" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_timer_after" global="true" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_timer_after" global="true" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="debounce" global="true" numArgs="0">
+</fCall>
+<fCall name="reset_cpu" global="true" numArgs="0">
+</fCall>
+<fCall name="debounce" global="true" numArgs="0">
+</fCall>
+<fCall name="reset_cpu" global="true" numArgs="0">
+</fCall>
+<fCall name="debounce" global="true" numArgs="0">
+</fCall>
+<fCall name="reset_cpu" global="true" numArgs="0">
+</fCall>
+<fCall name="debounce" global="true" numArgs="0">
+</fCall>
+<fCall name="reset_cpu" global="true" numArgs="0">
+</fCall>
+</preCompilationAnalysis>

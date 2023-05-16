@@ -1,0 +1,114 @@
+*
+* convert to upper case chars in the range a-z
+* Entry: (A) :- ASCII char to be converted.
+* Exit:  (A) :- converted char if in range, else no change.
+TOUPPER CMPA #'a
+        BLT  TOUP1
+        CMPA #'z
+        BGT  TOUP1
+        SUBA #'a-'A
+TOUP1   RTS
+*
+* convert BCD coded value to binary
+* Entry: (A) :- value to be converted.
+* Exit:  (A) :- converted value.
+BCD2BIN PSHS B
+        PSHS A
+	LSRA
+        LSRA
+	LSRA
+	LSRA
+	LDB	#10
+	MUL
+	TFR B,A
+        PULS B
+	ANDB	#$0F
+	STB TEMP
+	ADDA TEMP
+	PULS B,PC
+*
+* convert binary value to BCD
+* Entry: (A) :- value to be converted.
+* Exit:  (A) :- converted value.
+BIN2BCD PSHS B
+        CLRB
+BLP	SUBA 	#10
+	BMI	BLP1
+	INCB
+	BRA	BLP
+BLP1	ADDA	#10
+	ASLB
+	ASLB
+	ASLB
+	ASLB
+	STB	TEMP
+	ADDA	TEMP
+	PULS B,PC
+*
+* Get time string.
+* Entry :- (X) points to ten byte data area.
+* Exit :- Date and time placed in data area.
+GETTIM PSHS D,X
+ LDB #10
+GTL BSR GETRTC
+ STA ,X+
+ DECB
+ BNE GTL
+ PULS D,X,PC
+*
+* Get a byte from the RTC.
+* Entry :- (B) = RTC address.
+* Exit :- (A) = Data.
+GETRTC LDA #10
+ STA RTCADD
+ LDA RTCDAT
+ BMI GETRTC
+ STB RTCADD
+ LDA RTCDAT
+ RTS
+*
+* Put time string.
+* Entry :- (X) = Pointer to ten byte data area.
+PUTTIM PSHS D,X
+ LDB #10
+PTL LDA ,X+
+ BSR PUTRTC
+ DECB
+ BNE PTL
+ PULS D,X,PC
+* Send a byte to the RTC.
+* Entry :- (B) = RTC address  (A) = Data
+PUTRTC PSHS A
+PRTC LDA #10
+ STA RTCADD
+ LDA RTCDAT 
+ BMI PRTC
+ STB RTCADD
+ PULS A
+ STA RTCDAT
+ RTS
+*
+* Beep for 100ms.
+BEEP PSHS A,X
+ LDA SYSREG
+ ORA #8
+ STA SYSREG
+ LDX #100
+ JSR DELAY
+ LDA SYSREG
+ ANDA #$F7
+ STA SYSREG
+ PULS A,X,PC
+*
+MAPOUT LDA SYSREG
+ ANDA #$FB
+ STA SYSREG
+ JMP ,X
+*
+ LIB GDCSUBS_V2.TXT
+*
+* IRQ handler 
+irqhdl    lda     $FF40 clear TMR flag
+          rti 
+*
+                                                                                                                                               

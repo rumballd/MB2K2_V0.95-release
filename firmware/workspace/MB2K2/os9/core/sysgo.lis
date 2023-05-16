@@ -1,0 +1,88 @@
+                      (   core\sysgo.txt):00001         
+                      (   core\sysgo.txt):00002          nam SysGo
+                      (   core\sysgo.txt):00003          ttl SysGo - system bootstrap startup module
+                      (   core\sysgo.txt):00004         
+                      (   core\sysgo.txt):00005         * Copyright 1980 by Motorola, Inc., and Microware Systems Corp.,
+                      (   core\sysgo.txt):00006         * Reproduced Under License
+                      (   core\sysgo.txt):00007         
+                      (   core\sysgo.txt):00008         *
+                      (   core\sysgo.txt):00009         * This source code is the proprietary confidential property of
+                      (   core\sysgo.txt):00010         * Microware Systems Corporation, and is provided to licensee
+                      (   core\sysgo.txt):00011         * solely  for documentation and educational purposes. Reproduction,
+                      (   core\sysgo.txt):00012         * publication, or distribution in any form to any party other than 
+                      (   core\sysgo.txt):00013         * the licensee is strictly prohibited!
+                      (   core\sysgo.txt):00014         *
+                      (   core\sysgo.txt):00015         
+                      (   core\sysgo.txt):00016          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (   core\sysgo.txt):00017         
+                      (   core\sysgo.txt):00018         *****
+                      (   core\sysgo.txt):00019         *
+                      (   core\sysgo.txt):00020         *  Coldstart Module
+                      (   core\sysgo.txt):00021         *
+                      (   core\sysgo.txt):00022         * Inits clock then starts shell on Path "/Term"
+                      (   core\sysgo.txt):00023         *
+     00C1             (   core\sysgo.txt):00024         Type    set     SYSTM+OBJCT
+     0081             (   core\sysgo.txt):00025         Revs    set     REENT+1
+0000 87CD008D000DC181 (   core\sysgo.txt):00026                         mod     CldEnd,CldNam,Type,Revs,CldEnt,CldMem
+     7500480100
+000D 53797347EF       (   core\sysgo.txt):00027         CldNam  fcs     /SysGo/
+                      (   core\sysgo.txt):00028         
+0012 05               (   core\sysgo.txt):00029                         fcb     5                               Edition number
+                      (   core\sysgo.txt):00030         
+0000.                 (   core\sysgo.txt):00031                         rmb     256                     stack space
+     0100             (   core\sysgo.txt):00032         CldMem  equ     .
+                      (   core\sysgo.txt):00033         
+0013 436D6473         (   core\sysgo.txt):00034         DirStr  fcc     "Cmds"
+0017 0D               (   core\sysgo.txt):00035                         fcb     $D
+0018 2C2C2C2C2C2C2C2C (   core\sysgo.txt):00036                         fcc     ",,,,,,,,,,"    room for patch
+     2C2C
+0022 7368656C6C       (   core\sysgo.txt):00037         CMDSTR  fcc     "shell"
+0027 0D               (   core\sysgo.txt):00038                         fcb     $D
+0028 2C2C2C2C2C2C2C2C (   core\sysgo.txt):00039                         fcc     ",,,,,,,,,,"    room for patch
+     2C2C
+0032 2073746172747570 (   core\sysgo.txt):00040         SHLFUN  fcc     " startup -p"
+     202D70
+003D 0D               (   core\sysgo.txt):00041                         fcb     $D
+     000C             (   core\sysgo.txt):00042         FUNSIZ  equ     *-SHLFUN
+003E 2C2C2C2C2C2C2C2C (   core\sysgo.txt):00043                         fcc     ",,,,,,,,,,"    room for patch
+     2C2C
+                      (   core\sysgo.txt):00044         
+                      (   core\sysgo.txt):00045         
+0048 308D003D         (   core\sysgo.txt):00046         CldEnt  leax    CLICPT,PCR              Set up signal intercept
+004C 103F09           (   core\sysgo.txt):00047                         OS9     F$ICPT
+                      (   core\sysgo.txt):00048         *
+004F 103F16           (   core\sysgo.txt):00049                         OS9     F$STime                 set up clock and start TMR
+0052 1CEF             (   core\sysgo.txt):00050                         andcc   #$EF                    enable IRQ interrupt
+                      (   core\sysgo.txt):00051         *
+0054 308CBC           (   core\sysgo.txt):00052                         leax    DirStr,PCR              Get directory name ptr
+0057 8604             (   core\sysgo.txt):00053                         lda     #EXEC.                  Get execution mode
+0059 103F86           (   core\sysgo.txt):00054                         OS9     I$ChgDir                Change execution directory
+                      (   core\sysgo.txt):00055         * NOTE: do not test for error, at least system will boot
+005C 308CC3           (   core\sysgo.txt):00056                         leax    CMDSTR,PCR              Get ptr to "shell"
+005F 338CD0           (   core\sysgo.txt):00057                         leau    SHLFUN,PCR              Get ptr to startup file name
+0062 CC0100           (   core\sysgo.txt):00058                         ldd     #OBJCT*256              Get type
+0065 108E000C         (   core\sysgo.txt):00059                         ldy     #FUNSIZ                 Size of parameters
+0069 103F03           (   core\sysgo.txt):00060                         OS9     F$FORK                  Execute startup file
+006C 2517             (   core\sysgo.txt):00061                         bcs     CLDERR                  Branch if error
+006E 103F04           (   core\sysgo.txt):00062                         OS9     F$WAIT                  Wait for it
+0071 308CAE           (   core\sysgo.txt):00063         CLDM10  leax    CMDSTR,PCR              Get command name ptr
+0074 CC0100           (   core\sysgo.txt):00064                         ldd     #OBJCT*256
+0077 108E0000         (   core\sysgo.txt):00065                         ldy     #0                              No parameters
+007B 103F03           (   core\sysgo.txt):00066                         OS9     F$FORK                  Start new process
+007E 2505             (   core\sysgo.txt):00067                         bcs     CLDERR
+0080 103F04           (   core\sysgo.txt):00068                         OS9     F$WAIT                  Wait for it to die
+0083 24EC             (   core\sysgo.txt):00069                         bcc     CLDM10
+                      (   core\sysgo.txt):00070         *
+0085 6E9FFFFE         (   core\sysgo.txt):00071         CLDERR  jmp     [$FFFE]
+                      (   core\sysgo.txt):00072         
+0089 3B               (   core\sysgo.txt):00073         CLICPT  rti     COLDSTART               Intercept routine
+                      (   core\sysgo.txt):00074         
+008A 1E839F           (   core\sysgo.txt):00075                         emod    Module                  Crc
+                      (   core\sysgo.txt):00076         
+     008D             (   core\sysgo.txt):00077         CldEnd  equ     *
+                      (   core\sysgo.txt):00078         
+                      (   core\sysgo.txt):00079         
+                      (   core\sysgo.txt):00080          end

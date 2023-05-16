@@ -1,0 +1,7 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_usb/xudlib/XUD_SetupChanOverride.S">
+  <fCall global="true" name="SetupChannelVectorsOverride.nstackwords"/>
+  <fCall global="true" name="SetupChannelVectorsOverride.maxcores"/>
+  <fCall global="true" name="SetupChannelVectorsOverride.maxtimers"/>
+  <fCall global="true" name="SetupChannelVectorsOverride.maxchanends"/>
+  <fCall global="true" name="SetupChannelVectorsOverride"/>
+</preCompilationAnalysis>

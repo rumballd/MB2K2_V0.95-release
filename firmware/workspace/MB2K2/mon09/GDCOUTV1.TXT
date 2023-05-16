@@ -1,0 +1,413 @@
+GDCOUT PSHS D,X,Y,U,DP
+*
+* Set direct page for faster i/o
+ LDB #$FF
+ TFR B,DP
+ SETDP $FF
+*
+ TST CFLAG
+ BEQ OUT9
+ JSR CURS
+* Check if this is part of an escape sequence
+OUT9 TST ESCFLG
+ BEQ OUT3
+ JSR MX
+ BRA OUT1
+* control character?
+OUT3 CMPA #$20
+ LBLO CTLCHR
+* Strip any parity, and put character on screen
+ ANDA #$7F
+OUT2 BSR PUTCHAR
+* Update screen position, do not allow movement off rh edge
+ LDA COL
+ INCA
+ CMPA #84 MAXCOL
+ BEQ OUT1
+ STA COL
+OUT1 PULS D,X,Y,U,DP,PC
+*
+* Invert cursor at current position
+CURS PSHS D,X,Y,U,DP
+ LDB #$FF
+ TFR B,DP
+ TST CTYPE
+ BMI CUREND
+ LDA #1
+ JSR SETPEN
+ LDA CTYPE
+ ORA #$80
+ DECA
+ BSR PUTT1
+ COM CFLAG
+CUREND PULS D,X,Y,U,DP,PC
+*
+PUTCHAR PSHS D
+ CLRA
+ JSR SETPEN
+ PULS D
+PUTT1 PSHS D
+ JSR RCTOCR
+ SUBA #$20
+* Note that the char set is pre-loaded into the shadow RAM
+ LDX #$E408
+ LDB #11 CSPACE
+ MUL
+ LEAX D,X
+* map in shadow RAM
+ LDA SYSREG
+ ANDA #$FB
+ STA SYSREG
+ PSHS X
+ LDA ATTRI
+ BITA #1 test for reverse video
+ LBNE RV1
+* normal video
+* This is a faster version of SETPAT
+ LDA #$78
+ JSR GCOM
+ LDA 7,X
+ STA $FF14
+ LDA 6,X
+ STA $FF14
+ LDA 5,X
+ STA $FF14
+ LDA 4,X
+ STA $FF14
+ LDA 3,X
+ STA $FF14
+ LDA 2,X
+ STA $FF14
+ LDA 1,X
+ STA $FF14
+ LDA  ,X
+ STA $FF14
+* This is a faster version of FILL
+ LDA #$4C
+ JSR GCOM
+ LDA #$16
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #$68
+ JSR GCOM
+*
+ PULS X
+ LEAX 8,X
+*
+ LDA #$7D
+ JSR GCOM
+ LDA 2,X
+ STA $FF14
+ LDA 1,X
+ STA $FF14
+ LDA  ,X
+ STA $FF14
+*
+ LDA #$4C
+ JSR GCOM
+ LDA #$16
+ STA $FF14
+ LDA #2
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #$68
+ JSR GCOM
+ LBRA RV2
+*
+* reverse video
+* This is a faster version of SETPAT
+RV1 LDA #$78
+ JSR GCOM
+ LDA 7,X
+ COMA
+ STA $FF14
+ LDA 6,X
+ COMA
+ STA $FF14
+ LDA 5,X
+ COMA
+ STA $FF14
+ LDA 4,X
+ COMA
+ STA $FF14
+ LDA 3,X
+ COMA
+ STA $FF14
+ LDA 2,X
+ COMA
+ STA $FF14
+ LDA 1,X
+ COMA
+ STA $FF14
+ LDA  ,X
+ COMA
+ STA $FF14
+* This is a faster version of FILL
+ LDA #$4C
+ JSR GCOM
+ LDA #$16
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #$68
+ JSR GCOM
+*
+ PULS X
+ LEAX 8,X
+*
+ LDA #$7D
+ JSR GCOM
+ LDA 2,X
+ COMA
+ STA $FF14
+ LDA 1,X
+ COMA
+ STA $FF14
+ LDA  ,X
+ COMA
+ STA $FF14
+*
+ LDA #$4C
+ JSR GCOM
+ LDA #$16
+ STA $FF14
+ LDA #2
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #7
+ STA $FF14
+ CLRA
+ STA $FF14
+ LDA #$68
+ JSR GCOM
+*
+* map out shadow RAM
+RV2 LDA SYSREG
+ ORA #4
+ STA SYSREG
+ PULS D,PC
+*
+RCTOCR PSHS D,X,Y
+ LDA ROW
+ LDB #12 BROW
+ MUL
+ ADDD TL2
+ TFR D,Y
+ CMPY #288
+ BLT RC1
+ FDB $31A9,$FEE0 assembler bug!!! LEAY -288,Y
+RC1 LEAY (576),Y CROW+OFFSET
+ LDA COL
+ LDB #9 BCOL
+ MUL
+ TFR D,X
+ LEAX 7+9,X BCOL+CCOL
+ JSR SETCRG
+ PULS D,X,Y,PC
+*
+CTLCHR PSHS D,X
+ LDX #CTLTAB
+ ASLA
+ JSR [A,X]
+ PULS D,X
+ JMP OUT1
+CTLTAB FDB NU,NU,NU,NU,NU,NU,NU,BL
+ FDB BS,HT,LF,VT,FF,CR,MX,HO
+ FDB SX,SF,CO,CF,C1,C2,AA,AF
+ FDB DE,DD,EL,NU,NU,NU,NU,NU
+*
+NU RTS Null
+*
+BL JMP BEEP Bell
+*
+BS LDA COL Backspace/cursor L
+ DECA
+ BMI BSE
+ STA COL
+BSE RTS
+*
+HT LDA COL Cursor R
+ INCA 
+ CMPA #84 MAXCOL
+ BEQ HTE
+ STA COL
+HTE RTS
+*
+LF LDA ROW line Feed/Cursor down
+ INCA
+ CMPA #24
+ BNE LF1
+ JSR SU
+ JMP CLINE
+LF1 STA ROW
+ RTS
+*
+VT LDA ROW Cursor up
+ DECA
+ BPL VT1
+ JSR SD 
+ JMP CLINE
+VT1 STA ROW
+ RTS
+*
+FF JMP CLEART clear screen
+*
+HO CLR ROW Home
+*
+CR CLR COL carrige return
+ RTS
+*
+SX JMP ON screen on
+*
+SF JMP OFF screen off
+*
+CF LDA CTYPE cursor on
+ ORA #$80
+ STA CTYPE
+ RTS
+*
+CO LDA CTYPE cursor off
+ ANDA #$7F
+ STA CTYPE
+ RTS
+*
+C1 LDA #1 set cursor type 1
+ STA CTYPE
+ RTS
+*
+C2 LDA #2 set cursor type 2
+ STA CTYPE
+ RTS
+*
+MX LDB ESCFLG move cursor (three char sequence)
+ TSTB
+ BNE MX1
+ LDB #2
+ STB ESCFLG
+ RTS
+MX1 CMPB #2
+ BNE MX2
+ SUBA #$20
+ STA ROW
+ DEC ESCFLG
+ RTS
+MX2 SUBA #$20
+ STA COL
+ DEC ESCFLG
+ RTS
+*
+EL JMP CLINE clear line
+*
+DD LDA ROW erase to end of screen
+ PSHS A
+ BSR DE
+DPLOOP LDA ROW
+ INCA
+ CMPA #24
+ BEQ DPE
+ STA ROW
+ BSR EL
+ BRA DPLOOP
+DPE PULS A
+ STA ROW
+ RTS
+*
+DE LDA #$20 erase to EOL
+ LBSR PUTCHAR
+ LDA COL
+ CMPA #83 EOL?
+ BEQ DEE
+ INCA
+ STA COL
+ BRA DE
+DEE RTS
+*
+SU LDY TL1
+ LEAY -12,Y
+ BNE SU1
+ LBRA TXTPAR
+SU1 LDD TS2
+ LDX TS1
+ LEAX (12*48),X
+ LDU TL2
+ LEAU 12,U
+SU2 LBRA TXTPR1
+*
+SD LDU TL2
+ BEQ SD1
+ LDX TS1
+ FDB $3089,$FDC0 Assembler bug!!! LEAX -(12*48),X
+ LDD TS2
+ LDY TL1
+ LEAY 12,Y
+ LDU TL2
+ LEAU -12,U
+ LBRA TXTPR1
+SD1 LDX #(48*12*23)+$CA00
+ LDD #$CA00
+ LDY #12
+ LDU #276
+SD2 LBRA TXTPR1
+*
+CLINE PSHS D,X,Y
+ LDD ROW
+ LDB #12
+ MUL
+ ADDD TL2
+ TFR D,Y
+ CMPY #288
+ BLT CL1
+ FDB $31A9,$FEE0   Assembler bug!!! LEAY -288,Y
+CL1 LEAY 576,Y
+ LDX #0
+ JSR SETCRG
+ LDX #(12*48)
+ LDA #2
+ JSR CLEARX
+ PULS D,X,Y,PC
+*
+AA LDA ATTRI
+ ORA #$01
+ STA ATTRI
+ RTS
+*
+AF LDA ATTRI
+ ANDA #$FE
+ STA ATTRI
+ RTS
+ *

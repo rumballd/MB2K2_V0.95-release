@@ -1,0 +1,100 @@
+*************************************************************************************
+*   This utility will Change to a new Directory on the remote host computer
+*
+*   Syntax: RCD <path>
+*
+*   Note: <path> may contain the whole directory path,
+*         including the disk name, for example "C:\dir1\dir2\.."
+*   
+*   History
+*   1.0 (2020-07-09) - Initial version derived from the MB2K codebase                                                               *
+*****************************************************************************************
+*
+*
+ nam rcd
+ ttl Change to a new Directory on the remote host
+*
+ use defsfile
+*
+SCHAR   equ     $F0A0           FLEXNet driver send char
+RCHAR   equ     $F0A2           FLEXNet driver receive charck
+ACK     equ     $06             acknowledge character
+CR      equ     $0D             carriage return character
+*
+* Data area
+ 	    org 	0
+tbuff   rmb     256             text buffer
+*
+stack   rmb     200
+datsiz  equ     .
+*
+* Module header
+type    equ     PRGRM+OBJCT
+revs    equ     REENT+1
+        mod     length,name,type,revs,start,datsiz
+name    fcs     /rcd/
+*
+* main code 
+*
+*  get the drive numer and filename
+*
+start   lda		,x				x points to command line buffer
+		cmpa	#CR			    empty command line?
+		lbeq	where	
+*
+        lda     #'P             send P (Point) command to remote host
+        jsr     [SCHAR]
+        lbcc    nwrkng          time out, communication not working
+*
+lp1		lda		,x+
+		jsr     [SCHAR]         send one character to remote host
+        lbcc    nwrkng          
+        cmpa    #CR             last character in line?
+        bne     lp1
+*
+lp2		jsr     [RCHAR]         get response
+        lbcc    nwrkng          time out, communication not working
+        cmpa    #ACK            got an ack?
+        lbne    badfnm          no, report bad file name
+        leax    succst,pcr      report success
+        bra     finish
+*
+where	lda     #'?				send the 'where' command
+        jsr     [SCHAR]
+        bcc     nwrkng
+onelin  leax    tbuff,u      	receive one line
+lp3     jsr     [RCHAR]
+        bcc     nwrkng
+        sta		,x+
+        cmpa    #CR
+        bne     lp3
+*
+wtack   jsr     [RCHAR]
+        bcc     nwrkng
+        cmpa    #ACK
+        bne     wtack
+		leax	tbuff,u
+		bra		finish
+*                   
+nwrkng  leax    nwrkst,pcr      communication is not working
+        bra     finish
+*
+badfnm  leax    badfst,pcr      bad file name
+*
+finish  ldy     #80
+        lda     #1
+        os9     i$writln        print string pointed to by X
+alldone clrb
+        os9     f$exit
+* 
+nwrkst  fcc     /Comms time-out error!/
+        fcb     CR
+succst  fcc     /Command executed OK./
+        fcb     CR
+badfst	fcc		/Unknown directory/
+		fcb		CR
+*
+ emod
+length equ *
+
+                                                                            

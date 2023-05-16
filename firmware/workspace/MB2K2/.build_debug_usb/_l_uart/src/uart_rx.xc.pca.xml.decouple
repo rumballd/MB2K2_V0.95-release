@@ -1,0 +1,295 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/uart_rx.xc">
+<fDef name="add_to_buffer" global="false" unit="D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/uart_rx.xc" noreturn="false" doNotSpecialize="true" numParams="5"/>
+<fDef name="parity32" global="false" unit="D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/uart_rx.xc" noreturn="false" doNotSpecialize="true" numParams="2"/>
+<fDef name="data_ready" global="true" interface="uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="delay_microseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_milliseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_seconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="event" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="event_when_pins_eq" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="get_available_buffer_size" global="true" interface="uart_tx_buffered_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="has_data" global="true" interface="uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="init" global="true" interface="multi_uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="init" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="input" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="input_and_timestamp" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="is_slot_free" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="multi_uart_data_ready" global="true" noreturn="false" doNotSpecialize="true" numParams="2"/>
+<fDef name="output" global="true" interface="output_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="output_and_timestamp" global="true" interface="output_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="pause" global="true" interface="multi_uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="pause" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="read" global="true" interface="multi_uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="read" global="true" interface="uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="ready_to_transmit" global="true" interface="uart_tx_buffered_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="restart" global="true" interface="multi_uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="restart" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="set_baud_rate" global="true" interface="multi_uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="set_baud_rate" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="set_baud_rate" global="true" interface="uart_config_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="set_bits_per_byte" global="true" interface="multi_uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="set_bits_per_byte" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="set_bits_per_byte" global="true" interface="uart_config_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="set_mode" global="true" interface="uart_control_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="set_parity" global="true" interface="multi_uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="set_parity" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="set_parity" global="true" interface="uart_config_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="set_stop_bits" global="true" interface="multi_uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="set_stop_bits" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="set_stop_bits" global="true" interface="uart_config_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="uart_rx" global="true" noreturn="true" doNotSpecialize="false" numParams="8"/>
+<fDef name="wait_for_data_and_read" global="true" interface="uart_rx_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="write" global="true" interface="multi_uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="write" global="true" interface="uart_tx_buffered_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="write" global="true" interface="uart_tx_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="xassert_msg" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="has_data" global="true" interface="uart_rx_if" numArgs="0">
+</fCall>
+<fCall name="read" global="true" interface="uart_rx_if" numArgs="0">
+</fCall>
+<fCall name="__builtin_trap" global="true" numArgs="0">
+</fCall>
+<fCall name="__builtin_trap" global="true" numArgs="0">
+</fCall>
+<fCall name="__builtin_crc32" global="true" numArgs="3">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="2">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="xscope_char" global="true" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="-1"/></value>
+    </values>
+  </arg>
+  <arg num="1">
+    <passThroughArg param="4" caller="add_to_buffer" global="false" unit="D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/uart_rx.xc"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_trap" global="true" numArgs="0">
+</fCall>
+<fCall name="__builtin_trap" global="true" numArgs="0">
+</fCall>
+<fCall name="input" global="true" interface="input_gpio_if" numArgs="0">
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="0"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_timer_after" global="true" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="input" global="true" interface="input_gpio_if" numArgs="0">
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="input" global="true" interface="input_gpio_if" numArgs="0">
+</fCall>
+<fCall name="__builtin_bitrev" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="add_to_buffer" global="false" unit="D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/uart_rx.xc" numArgs="5">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <passThroughArg param="2" caller="uart_rx" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="2">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="3">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="4">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="data_ready" global="true" interface="uart_rx_if" numArgs="0">
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="0"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="input" global="true" interface="input_gpio_if" numArgs="0">
+</fCall>
+<fCall name="parity32" global="false" unit="D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/uart_rx.xc" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="add_to_buffer" global="false" unit="D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/uart_rx.xc" numArgs="5">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <passThroughArg param="2" caller="uart_rx" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="2">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="3">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="4">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="data_ready" global="true" interface="uart_rx_if" numArgs="0">
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="0"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="input" global="true" interface="input_gpio_if" numArgs="0">
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="0"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="data_ready" global="true" interface="uart_rx_if" numArgs="0">
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_trap" global="true" numArgs="0">
+</fCall>
+<fCall name="event_when_pins_eq" global="true" interface="input_gpio_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+</preCompilationAnalysis>

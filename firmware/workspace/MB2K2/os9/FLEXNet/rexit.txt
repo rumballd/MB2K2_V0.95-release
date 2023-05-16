@@ -1,0 +1,63 @@
+*************************************************************************************
+*   Exit a FLEXNet session on the remote host computer.
+*
+*   Syntax: REXIT
+*
+*   History
+*   1.0 (2020-07-09) - Initial version derived from the MB2K codebase                                                               *
+*****************************************************************************************
+*
+*
+ nam rexit
+ ttl exit FLEXNet session
+*
+ use defsfile
+*
+SCHAR   equ     $F0A0           FLEXNet driver send char
+RCHAR   equ     $F0A2           FLEXNet driver receive charck
+ACK     equ     $06             acknowledge character
+CR      equ     $0D             carriage return character
+*
+* Data area
+ 	    org 	0
+*
+stack   rmb     200
+datsiz  equ     .
+*
+* Module header
+type    equ     PRGRM+OBJCT
+revs    equ     REENT+1
+        mod     length,name,type,revs,start,datsiz
+name    fcs     /rexit/
+*
+* main code 
+*
+start   lda     #'E
+        jsr     [SCHAR]         send command
+        bcc     nowork          exit if time-out
+*
+wtack   JSR     [RCHAR]			waait for ACK
+        BCC     nowork          exit if time-out
+        CMPA    #ACK            "ack" received?
+        BNE     wtack           No, try again
+*
+		leax    exitst,pcr      Report exit from program
+		bra     finish
+*
+nowork  leax    timot,pcr       Report time-out error
+*
+finish  ldy     #80
+        lda     #1
+        os9     i$writln
+        clrb
+        os9     f$exit
+*
+timot   FCC     /Comms time-out error/
+        fcb     CR
+exitst  fcc     /Program Exit/
+        fcb     CR
+*
+ emod
+length equ *
+
+                                                                            

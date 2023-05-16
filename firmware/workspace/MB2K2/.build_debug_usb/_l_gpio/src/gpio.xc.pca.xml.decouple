@@ -1,0 +1,69 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_gpio/src/gpio.xc">
+<fDef name="delay_microseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_milliseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_seconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="event" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="event_when_pins_eq" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="input" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="input_and_timestamp" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="input_gpio" global="true" noreturn="true" doNotSpecialize="false" numParams="4"/>
+<fDef name="input_gpio_1bit_with_events" global="true" noreturn="true" doNotSpecialize="false" numParams="2"/>
+<fDef name="input_gpio_with_events" global="true" noreturn="true" doNotSpecialize="false" numParams="4"/>
+<fDef name="output" global="true" interface="output_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="output_and_timestamp" global="true" interface="output_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="output_gpio" global="true" noreturn="true" doNotSpecialize="false" numParams="4"/>
+<fDef name="xassert_msg" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_trap" global="true" numArgs="0">
+</fCall>
+<fCall name="event" global="true" interface="input_gpio_if" numArgs="0">
+</fCall>
+<fCall name="__builtin_pins_ne" global="true" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="event" global="true" interface="input_gpio_if" numArgs="0">
+</fCall>
+<fCall name="__builtin_pins_eq" global="true" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="event" global="true" interface="input_gpio_if" numArgs="0">
+</fCall>
+</preCompilationAnalysis>

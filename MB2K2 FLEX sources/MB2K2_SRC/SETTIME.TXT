@@ -1,0 +1,100 @@
+ NAM SETTIME
+ OPT NOL
+ LIB FLEXLINK.TXT
+ OPT LIS
+ ORG $C100
+*
+TABLE RMB 10
+*
+MESS FCC 'Enter last two digits of year ',4
+MES1 FCC 'Enter month number ',4
+MES2 FCC 'Enter day in month ',4
+MES3 FCC 'Enter day of week number (Sunday=1) ',4
+MES4 FCC 'Enter hour (24 hour clock) ',4
+MES5 FCC 'Enter minutes ',4
+MES6 FCC 'Enter seconds ',4
+sync FCC 'Hit any key to sync clock.......',4
+*
+SETTIME LDY #TABLE Point to table in ram
+ JSR FPCRLF
+ LDX #MESS
+ JSR GET Get year into table
+ LDX #MES1
+ JSR GET month
+ LDX #MES2
+ JSR GET date
+ LDX #MES3
+ JSR GET day of week
+ LEAY 1,Y Skip over alarm byte
+ LDX #MES4
+ JSR GET hour
+ LEAY 1,Y
+ LDX #MES5
+ JSR GET Get mins
+ LEAY 1,Y
+ LDX #MES6
+ JSR GET Get secs
+*
+ LDX #sync
+ JSR FPSTRNG Sync clock
+ JSR GETCHR
+*
+ LDX #TABLE Point to data
+ JSR puttim Send data to RTC
+*
+ LDA #$80
+ STA RTCFAIL Clear rtc fail flag.
+ JMP FWARM
+*
+puttim PSHS D,X
+ LDB #9
+PTL LDA ,X+
+ jsr [PUTRTC]
+ DECB
+ BPL PTL
+ PULS D,X,PC
+*
+GET JSR FPSTRNG Print text
+ jsr byte Get two digit number
+ JSR BCDHEX Convert from bcd to hex
+ STA ,Y+ and store it
+ RTS
+*
+BCDHEX PSHS B
+ TFR A,B
+ ANDB #$0F
+ PSHS B
+ ANDA #$F0
+ RPT 4
+ LSRA
+ LDB #10
+ MUL
+ ADDB ,S+
+ TFR B,A
+ PULS B,PC
+*
+byte pshs b
+ bsr inhex
+ rpt 4
+ asla
+ tfr a,b
+ bsr inhex
+ pshs b
+ adda ,s+
+ puls b,pc
+inhex jsr GETCHR
+ suba #$30
+ bmi nothex
+ cmpa #$09
+ ble inhex1
+ cmpa #$11
+ bmi nothex
+ cmpa #$16
+ bgt nothex
+ suba #$07
+inhex1 rts
+nothex lda #$08
+ jsr PUTCHR
+ bra inhex
+*
+ END SETTIME

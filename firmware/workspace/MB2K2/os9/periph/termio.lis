@@ -1,0 +1,198 @@
+                      (periph\termio.txt):00001          nam termio
+                      (periph\termio.txt):00002          ttl console IO via MON09
+                      (periph\termio.txt):00003         
+                      (periph\termio.txt):00004          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (periph\termio.txt):00005         
+     0001             (periph\termio.txt):00006         Edition  equ 1
+     0001             (periph\termio.txt):00007         Revision equ 1
+                      (periph\termio.txt):00008         *
+                      (periph\termio.txt):00009          org V.SCF
+001D                  (periph\termio.txt):00010         iport  rmb 1
+001E                  (periph\termio.txt):00011         oport  rmb 1
+001F                  (periph\termio.txt):00012         flash  rmb 2
+     0021             (periph\termio.txt):00013         PST    equ .
+                      (periph\termio.txt):00014         *
+0000 87CD00D5000EE181 (periph\termio.txt):00015          mod TEND,TNAM,Drivr+Objct,Reent+Revision,TENT,PST
+     0E00150021
+000D 03               (periph\termio.txt):00016          fcb READ.+WRITE.
+000E 7465726D69EF     (periph\termio.txt):00017         TNAM fcs /termio/
+0014 01               (periph\termio.txt):00018          fcb Edition
+                      (periph\termio.txt):00019         
+0015 16000F           (periph\termio.txt):00020         TENT lbra INIT
+0018 160025           (periph\termio.txt):00021          lbra READ
+001B 160064           (periph\termio.txt):00022          lbra WRITE
+001E 160079           (periph\termio.txt):00023          lbra GETSTA
+0021 1600A9           (periph\termio.txt):00024          lbra PUTSTA
+0024 1600AA           (periph\termio.txt):00025          lbra TERM
+                      (periph\termio.txt):00026         
+                      (periph\termio.txt):00027         **********************
+                      (periph\termio.txt):00028         * INIT
+                      (periph\termio.txt):00029         *  
+                      (periph\termio.txt):00030         * Get iport and oport from DIP switches.
+0027 B6FF02           (periph\termio.txt):00031         INIT    lda SYSREG
+002A 43               (periph\termio.txt):00032                         coma
+002B 44               (periph\termio.txt):00033                         lsra
+002C 44               (periph\termio.txt):00034                         lsra
+002D 44               (periph\termio.txt):00035                         lsra
+002E 44               (periph\termio.txt):00036                         lsra
+002F 1F89             (periph\termio.txt):00037                         tfr             a,b
+0031 C401             (periph\termio.txt):00038                         andb    #1
+0033 E7C81D           (periph\termio.txt):00039                         stb     iport,u
+0036 1F89             (periph\termio.txt):00040                         tfr             a,b
+0038 54               (periph\termio.txt):00041                         lsrb
+0039 C401             (periph\termio.txt):00042                         andb    #1
+003B E7C81E           (periph\termio.txt):00043                         stb     oport,u
+003E 5F               (periph\termio.txt):00044                         clrb
+003F 39               (periph\termio.txt):00045                 rts
+                      (periph\termio.txt):00046         
+                      (periph\termio.txt):00047         
+                      (periph\termio.txt):00048         **********************
+                      (periph\termio.txt):00049         * READ
+                      (periph\termio.txt):00050         *
+0040 3416             (periph\termio.txt):00051         READ    pshs    d,x
+0042 6DC81E           (periph\termio.txt):00052                         tst             oport,u 
+0045 260F             (periph\termio.txt):00053                         bne             flash1
+0047 AEC81F           (periph\termio.txt):00054                         ldx     flash,u
+004A 2605             (periph\termio.txt):00055                         bne             flash2
+004C 8D43             (periph\termio.txt):00056                         bsr     curs
+004E 8E07D0           (periph\termio.txt):00057                         ldx             #2000
+0051 301F             (periph\termio.txt):00058         flash2  leax    -1,x
+0053 AFC81F           (periph\termio.txt):00059                         stx     flash,u
+0056 8EF1B7           (periph\termio.txt):00060         flash1  ldx             #$F1B7  STATAB
+0059 E6C81D           (periph\termio.txt):00061                         ldb             iport,u
+005C 58               (periph\termio.txt):00062                         aslb
+005D AD95             (periph\termio.txt):00063                         jsr     [b,x]
+005F 3516             (periph\termio.txt):00064                         puls    d,x             
+0061 260C             (periph\termio.txt):00065                         bne     readbyte
+0063 3410             (periph\termio.txt):00066                         pshs    x
+0065 8E0001           (periph\termio.txt):00067                         ldx     #1
+0068 103F0A           (periph\termio.txt):00068                         os9     f$sleep
+006B 3510             (periph\termio.txt):00069                         puls    x
+006D 20D1             (periph\termio.txt):00070                         bra     read
+006F 3414             (periph\termio.txt):00071         readbyte pshs   b,x
+0071 8D1E             (periph\termio.txt):00072                         bsr     curs
+0073 8EF1AB           (periph\termio.txt):00073         rd11    ldx     #$F1AB  INTAB
+0076 E6C81D           (periph\termio.txt):00074                         ldb     iport,u
+0079 58               (periph\termio.txt):00075                         aslb
+007A AD95             (periph\termio.txt):00076                         jsr     [b,x]
+007C 847F             (periph\termio.txt):00077                         anda    #$7F
+007E 3514             (periph\termio.txt):00078                         puls b,x
+0080 5F               (periph\termio.txt):00079         wrt           clrb 
+0081 39               (periph\termio.txt):00080                         rts
+                      (periph\termio.txt):00081         
+                      (periph\termio.txt):00082         **********************
+                      (periph\termio.txt):00083         * WRITE
+                      (periph\termio.txt):00084         *
+0082 3414             (periph\termio.txt):00085         WRITE pshs b,x
+0084 8EF1B1           (periph\termio.txt):00086          ldx #$F1B1 OUTTAB
+0087 E6C81E           (periph\termio.txt):00087          ldb oport,u
+008A 58               (periph\termio.txt):00088          aslb
+008B AD95             (periph\termio.txt):00089          jsr [b,x]
+008D 3514             (periph\termio.txt):00090          puls b,x
+008F 5F               (periph\termio.txt):00091          clrb
+0090 39               (periph\termio.txt):00092          rts
+                      (periph\termio.txt):00093         *
+                      (periph\termio.txt):00094         * Invert cursor at current position
+0091 3406             (periph\termio.txt):00095         curs pshs d
+0093 C6D5             (periph\termio.txt):00096          ldb #$D5 toggle cursor
+0095 F7FF15           (periph\termio.txt):00097          stb $FF15
+0098 3586             (periph\termio.txt):00098          puls d,pc
+                      (periph\termio.txt):00099         *
+                      (periph\termio.txt):00100         **********************
+                      (periph\termio.txt):00101         * GETSTA
+                      (periph\termio.txt):00102         *  Data ready - C bit clear, (B) = 0
+                      (periph\termio.txt):00103         *     No data - C bit set,   (B) = $F6 (E$NRDY)
+                      (periph\termio.txt):00104         *
+009A 8101             (periph\termio.txt):00105         GETSTA cmpa #1
+009C 2708             (periph\termio.txt):00106          beq check
+009E 8106             (periph\termio.txt):00107          cmpa #6
+00A0 27DE             (periph\termio.txt):00108          beq wrt
+00A2 53               (periph\termio.txt):00109          comb
+00A3 C6D0             (periph\termio.txt):00110          ldb #E$UnkSVC
+00A5 39               (periph\termio.txt):00111          rts
+                      (periph\termio.txt):00112         *
+00A6 3416             (periph\termio.txt):00113         check   pshs   d,x 
+00A8 6DC81E           (periph\termio.txt):00114                 tst    oport,u
+00AB 260F             (periph\termio.txt):00115                 bne    flash11
+00AD AEC81F           (periph\termio.txt):00116                 ldx    flash,u
+00B0 2605             (periph\termio.txt):00117                 bne    flash12
+00B2 8DDD             (periph\termio.txt):00118                 bsr    curs
+00B4 8E07D0           (periph\termio.txt):00119                 ldx    #2000
+00B7 301F             (periph\termio.txt):00120         flash12 leax   -1,x
+00B9 AFC81F           (periph\termio.txt):00121                 stx    flash,u
+00BC 8EF1B7           (periph\termio.txt):00122         flash11 ldx    #$F1B7    STATAB
+00BF E6C81D           (periph\termio.txt):00123                 ldb    iport,u
+00C2 58               (periph\termio.txt):00124                 aslb
+00C3 AD95             (periph\termio.txt):00125                 jsr    [b,x] 
+00C5 3516             (periph\termio.txt):00126                 puls   d,x
+00C7 26B7             (periph\termio.txt):00127                 bne    wrt    (Z)=0 if character ready.
+                      (periph\termio.txt):00128         *
+00C9 53               (periph\termio.txt):00129                 comb
+00CA C6F6             (periph\termio.txt):00130                 ldb    #E$NotRdy
+00CC 39               (periph\termio.txt):00131                 rts
+                      (periph\termio.txt):00132         
+                      (periph\termio.txt):00133         **********************
+                      (periph\termio.txt):00134         * PUTSTA
+                      (periph\termio.txt):00135         *   No status requests
+                      (periph\termio.txt):00136         *
+00CD 53               (periph\termio.txt):00137         PUTSTA comb
+00CE C6D0             (periph\termio.txt):00138          ldb #E$UnkSVC
+00D0 39               (periph\termio.txt):00139          rts
+                      (periph\termio.txt):00140         
+                      (periph\termio.txt):00141         **********************
+                      (periph\termio.txt):00142         * TERM
+                      (periph\termio.txt):00143         *   Terminate Driver
+                      (periph\termio.txt):00144         *
+00D1 39               (periph\termio.txt):00145         TERM rts
+                      (periph\termio.txt):00146         
+00D2 43249C           (periph\termio.txt):00147          emod
+     00D5             (periph\termio.txt):00148         TEND equ * 
+                      (periph\termio.txt):00149         
+                      (periph\termio.txt):00150         **************************
+                      (periph\termio.txt):00151         *  TERMINAL device descriptor module
+                      (periph\termio.txt):00152         
+0000 87CD003C002CF181 (periph\termio.txt):00153          mod TrmEnd,TrmNam,DEVIC+OBJCT,REENT+1,TrmMgr,TrmDrv
+     D500300033
+000D 03               (periph\termio.txt):00154          fcb UPDAT. mode
+000E 00               (periph\termio.txt):00155          fcb $0 port bank
+000F FF08             (periph\termio.txt):00156          fdb $FF08 port address
+0011 1A               (periph\termio.txt):00157          fcb TrmNam-*-1 option byte count
+0012 00               (periph\termio.txt):00158          fcb DT.SCF Device Type: SCF
+                      (periph\termio.txt):00159         
+                      (periph\termio.txt):00160         * DEFAULT PARAMETERS
+                      (periph\termio.txt):00161         
+0013 00               (periph\termio.txt):00162          fcb 0 case=UPPER and lower
+0014 01               (periph\termio.txt):00163          fcb 1 backspace=BS,SP,BS
+0015 00               (periph\termio.txt):00164          fcb 0 delete=backspace over line
+0016 01               (periph\termio.txt):00165          fcb 1 auto echo on
+0017 01               (periph\termio.txt):00166          fcb 1 auto line feed on
+0018 00               (periph\termio.txt):00167          fcb 0 null count
+0019 00               (periph\termio.txt):00168          fcb 0 end of page pause on
+001A 18               (periph\termio.txt):00169          fcb 24 lines per page
+001B 08               (periph\termio.txt):00170          fcb C$BSP backspace char
+001C 18               (periph\termio.txt):00171          fcb C$DEL delete line char
+001D 0D               (periph\termio.txt):00172          fcb C$CR end of record char
+001E 1B               (periph\termio.txt):00173          fcb C$EOF end of file char
+001F 04               (periph\termio.txt):00174          fcb C$RPRT reprint line char
+0020 01               (periph\termio.txt):00175          fcb C$RPET dup last line char
+0021 17               (periph\termio.txt):00176          fcb C$PAUS pause char
+0022 03               (periph\termio.txt):00177          fcb C$INTR Keyboard Interrupt char
+0023 11               (periph\termio.txt):00178          fcb $11 Keyboard Quit char
+0024 08               (periph\termio.txt):00179          fcb C$BSP backspace echo char
+0025 07               (periph\termio.txt):00180          fcb C$BELL line overflow char
+0026 00               (periph\termio.txt):00181          fcb 0 reserved
+0027 00               (periph\termio.txt):00182          fcb 0 reserved
+0028 002C             (periph\termio.txt):00183          fdb TrmNam offset of echo device
+002A 00               (periph\termio.txt):00184          fcb 0 Transmit Enable char
+002B 00               (periph\termio.txt):00185          fcb 0 Transmit Disable char
+002C 746572ED         (periph\termio.txt):00186         TrmNam fcs "term" device name
+0030 5343C6           (periph\termio.txt):00187         TrmMgr fcs "SCF"  file manager
+0033 7465726D69EF     (periph\termio.txt):00188         TrmDrv fcs "termio" device driver
+                      (periph\termio.txt):00189         
+0039 10A7D6           (periph\termio.txt):00190          emod Module CRC
+                      (periph\termio.txt):00191         
+     003C             (periph\termio.txt):00192         TrmEnd EQU *
+                      (periph\termio.txt):00193          

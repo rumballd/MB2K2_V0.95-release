@@ -1,0 +1,326 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/dfu/dfu.xc">
+<fDef name="XUD_Receive_Sof" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="XUD_SetReady_In" global="true" noreturn="false" doNotSpecialize="true" numParams="3"/>
+<fDef name="XUD_SetReady_InPtr" global="true" noreturn="false" doNotSpecialize="true" numParams="3"/>
+<fDef name="XUD_SetReady_Out" global="true" noreturn="false" doNotSpecialize="true" numParams="2"/>
+<fDef name="XUD_SetReady_OutPtr" global="true" noreturn="false" doNotSpecialize="true" numParams="2"/>
+<fDef name="connected" global="true" interface="usb_ep0_callback_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="delay_microseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_milliseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_seconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="dfu_get_timeout" global="true" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="dfu_requires_timeout_check" global="true" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="dfu_reset_state" global="true" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="end_image_write" global="true" interface="usb_dfu_callback_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="event" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="event_when_pins_eq" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="get_interface_descriptor" global="true" interface="usb_ep0_callback_if" noreturn="false" doNotSpecialize="false" numParams="4"/>
+<fDef name="get_string" global="true" interface="usb_ep0_callback_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="handle_DFU_device_requests" global="true" noreturn="false" doNotSpecialize="false" numParams="5"/>
+<fDef name="handle_request" global="true" interface="usb_ep0_callback_if" noreturn="false" doNotSpecialize="false" numParams="4"/>
+<fDef name="input" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="input_and_timestamp" global="true" interface="input_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="output" global="true" interface="output_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="output_and_timestamp" global="true" interface="output_gpio_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="pre_dfu_reboot" global="true" interface="usb_ep0_callback_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="read_block" global="true" interface="usb_dfu_callback_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="register_interfaces" global="true" interface="usb_ep0_callback_if" noreturn="false" doNotSpecialize="false" numParams="6"/>
+<fDef name="revert_to_factory_image" global="true" interface="usb_dfu_callback_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="select_image" global="true" interface="usb_dfu_callback_if" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="start_image_read" global="true" interface="usb_dfu_callback_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="start_image_write" global="true" interface="usb_dfu_callback_if" noreturn="false" doNotSpecialize="false" numParams="0"/>
+<fDef name="write_block" global="true" interface="usb_dfu_callback_if" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="xassert_msg" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_zext" global="true" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="intval"><intval isSigned="true" val="7"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_SetReady_InPtr" global="true" numArgs="3">
+  <arg num="0">
+    <passThroughArg param="0" caller="XUD_SetReady_In" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="2">
+    <passThroughArg param="2" caller="XUD_SetReady_In" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_in_uint" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="0" caller="XUD_Receive_Sof" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_GetBuffer" global="true" numArgs="3">
+  <arg num="0">
+    <passThroughArg param="0" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="2">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="start_image_write" global="true" interface="usb_dfu_callback_if" numArgs="0">
+</fCall>
+<fCall name="write_block" global="true" interface="usb_dfu_callback_if" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="end_image_write" global="true" interface="usb_dfu_callback_if" numArgs="0">
+</fCall>
+<fCall name="write_block" global="true" interface="usb_dfu_callback_if" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="start_image_read" global="true" interface="usb_dfu_callback_if" numArgs="0">
+</fCall>
+<fCall name="read_block" global="true" interface="usb_dfu_callback_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoGetRequest" global="true" numArgs="5">
+  <arg num="0">
+    <passThroughArg param="0" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="1">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="2">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="3">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="4">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoGetRequest" global="true" numArgs="5">
+  <arg num="0">
+    <passThroughArg param="0" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="1">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="2">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="3">
+    <values>
+      <value type="intval"><intval isSigned="true" val="6"/></value>
+    </values>
+  </arg>
+  <arg num="4">
+    <values>
+      <value type="intval"><intval isSigned="true" val="6"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoGetRequest" global="true" numArgs="5">
+  <arg num="0">
+    <passThroughArg param="0" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="1">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+  <arg num="2">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="3">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+  <arg num="4">
+    <values>
+      <value type="intval"><intval isSigned="true" val="1"/></value>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="revert_to_factory_image" global="true" interface="usb_dfu_callback_if" numArgs="0">
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="select_image" global="true" interface="usb_dfu_callback_if" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+<fCall name="XUD_DoSetRequestStatus" global="true" numArgs="1">
+  <arg num="0">
+    <passThroughArg param="1" caller="handle_DFU_device_requests" global="true"/>
+    <values>
+    </values>
+  </arg>
+</fCall>
+</preCompilationAnalysis>

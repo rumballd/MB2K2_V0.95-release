@@ -1,0 +1,942 @@
+                      ( kernel\os9p2.txt):00001         
+                      ( kernel\os9p2.txt):00002          nam OS-9 Level I V1.2 kernal, part 2
+                      ( kernel\os9p2.txt):00003          ttl Module Header
+                      ( kernel\os9p2.txt):00004         
+                      ( kernel\os9p2.txt):00005         
+                      ( kernel\os9p2.txt):00006         ************************************************************
+                      ( kernel\os9p2.txt):00007         *                                                          *
+                      ( kernel\os9p2.txt):00008         *        Microware OS-9 Level I V1.2 Kernal, part 2        *
+                      ( kernel\os9p2.txt):00009         *                                                          *
+                      ( kernel\os9p2.txt):00010         ************************************************************
+                      ( kernel\os9p2.txt):00011         
+                      ( kernel\os9p2.txt):00012         * Copyright 1980 by Motorola, Inc., and Microware Systems Corp.,
+                      ( kernel\os9p2.txt):00013         * Reproduced Under License
+                      ( kernel\os9p2.txt):00014         
+                      ( kernel\os9p2.txt):00015         *
+                      ( kernel\os9p2.txt):00016         * This source code is the proprietary confidential property of
+                      ( kernel\os9p2.txt):00017         * Microware Systems Corporation, and is provided to licensee
+                      ( kernel\os9p2.txt):00018         * solely  for documentation and educational purposes. Reproduction,
+                      ( kernel\os9p2.txt):00019         * publication, or distribution in any form to any party other than 
+                      ( kernel\os9p2.txt):00020         * the licensee is strictly prohibited!!
+                      ( kernel\os9p2.txt):00021         *
+                      ( kernel\os9p2.txt):00022         
+                      ( kernel\os9p2.txt):00023          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      ( kernel\os9p2.txt):00024         
+                      ( kernel\os9p2.txt):00025         *****
+                      ( kernel\os9p2.txt):00026         *
+                      ( kernel\os9p2.txt):00027         *  Module Header
+                      ( kernel\os9p2.txt):00028         *
+     00C1             ( kernel\os9p2.txt):00029         Type set SYSTM+OBJCT
+     0081             ( kernel\os9p2.txt):00030         Revs set REENT+1
+0000 87CD04F2000DC181 ( kernel\os9p2.txt):00031          mod OS9End,OS9Nam,Type,Revs,OS9Ent,0
+     0E00410000
+000D 4F533970B2       ( kernel\os9p2.txt):00032         OS9Nam fcs /OS9p2/
+                      ( kernel\os9p2.txt):00033         
+                      ( kernel\os9p2.txt):00034         ********************
+                      ( kernel\os9p2.txt):00035         *
+                      ( kernel\os9p2.txt):00036         *     Edition History
+                      ( kernel\os9p2.txt):00037         *
+                      ( kernel\os9p2.txt):00038         * Edition  6 -  changes to Send routine, fixing timed sleep
+                      ( kernel\os9p2.txt):00039         *  82/09/10     wake up bug  LAC
+                      ( kernel\os9p2.txt):00040         *
+                      ( kernel\os9p2.txt):00041         * Edition  7 -  changes made to "boot" subroutine, keeping the
+                      ( kernel\os9p2.txt):00042         *               integrity of U (a ptr to D.Base)  WGP
+                      ( kernel\os9p2.txt):00043         *
+                      ( kernel\os9p2.txt):00044         * Edition  8 -  Change made to setime system call enabling it to
+                      ( kernel\os9p2.txt):00045         *               call the init routine of the clock module  WGP
+                      ( kernel\os9p2.txt):00046         *
+0012 08               ( kernel\os9p2.txt):00047          fcb 8 Edition number
+                      ( kernel\os9p2.txt):00048         
+                      ( kernel\os9p2.txt):00049          ttl Service Routine initialization table
+                      ( kernel\os9p2.txt):00050          page
+                      ( kernel\os9p2.txt):00051         *****
+                      ( kernel\os9p2.txt):00052         *
+                      ( kernel\os9p2.txt):00053         * System Service Routine Table
+                      ( kernel\os9p2.txt):00054         *
+     0013             ( kernel\os9p2.txt):00055         SVCTBL equ *
+0013 7F               ( kernel\os9p2.txt):00056          fcb $7F
+0014 0480             ( kernel\os9p2.txt):00057          fdb IOHOOK-*-2
+0016 02               ( kernel\os9p2.txt):00058          fcb F$Unlink
+0017 0098             ( kernel\os9p2.txt):00059          fdb UNLINK-*-2
+0019 04               ( kernel\os9p2.txt):00060          fcb F$WAIT
+001A 00DE             ( kernel\os9p2.txt):00061          fdb WAIT-*-2
+001C 06               ( kernel\os9p2.txt):00062          fcb F$EXIT
+001D 0129             ( kernel\os9p2.txt):00063          fdb EXIT-*-2
+001F 07               ( kernel\os9p2.txt):00064          fcb F$MEM
+0020 01A4             ( kernel\os9p2.txt):00065          fdb USRMEM-*-2
+0022 08               ( kernel\os9p2.txt):00066          fcb F$SEND
+0023 0217             ( kernel\os9p2.txt):00067          fdb SEND-*-2
+0025 09               ( kernel\os9p2.txt):00068          fcb F$ICPT
+0026 032C             ( kernel\os9p2.txt):00069          fdb INTCPT-*-2
+0028 0A               ( kernel\os9p2.txt):00070          fcb F$Sleep
+0029 029C             ( kernel\os9p2.txt):00071          fdb SLEEP-*-2
+002B 0C               ( kernel\os9p2.txt):00072          fcb F$ID
+002C 034F             ( kernel\os9p2.txt):00073          fdb GETID-*-2
+002E 0D               ( kernel\os9p2.txt):00074          fcb F$SPrior
+002F 0331             ( kernel\os9p2.txt):00075          fdb SETPRI-*-2
+0031 0E               ( kernel\os9p2.txt):00076          fcb F$SSWI
+0032 0355             ( kernel\os9p2.txt):00077          fdb SETSWI-*-2
+0034 16               ( kernel\os9p2.txt):00078          fcb F$STime
+0035 036D             ( kernel\os9p2.txt):00079          fdb SetTime-*-2
+0037 AF               ( kernel\os9p2.txt):00080          fcb F$Find64+$80
+0038 0386             ( kernel\os9p2.txt):00081          fdb F64-*-2
+003A B0               ( kernel\os9p2.txt):00082          fcb F$ALL64+$80
+003B 03A6             ( kernel\os9p2.txt):00083          fdb A64-*-2
+003D B1               ( kernel\os9p2.txt):00084          fcb F$Ret64+$80
+003E 0424             ( kernel\os9p2.txt):00085          fdb R64-*-2
+0040 80               ( kernel\os9p2.txt):00086          fcb $80
+                      ( kernel\os9p2.txt):00087         
+                      ( kernel\os9p2.txt):00088         
+                      ( kernel\os9p2.txt):00089         
+                      ( kernel\os9p2.txt):00090          ttl Cold Start routine
+                      ( kernel\os9p2.txt):00091          page
+                      ( kernel\os9p2.txt):00092         *****
+                      ( kernel\os9p2.txt):00093         *
+                      ( kernel\os9p2.txt):00094         * Cold Start Routines
+                      ( kernel\os9p2.txt):00095         *
+                      ( kernel\os9p2.txt):00096         *
+                      ( kernel\os9p2.txt):00097         * Initialize Service Routine Dispatch Table
+                      ( kernel\os9p2.txt):00098         *
+0041 318CCF           ( kernel\os9p2.txt):00099         OS9Ent leay SVCTBL,PCR Get ptr to service routine table
+0044 103F32           ( kernel\os9p2.txt):00100          OS9 F$SSVC Set service table addresses
+0047 9E49             ( kernel\os9p2.txt):00101          ldx D.PrcDBT Get process ptr
+0049 103F30           ( kernel\os9p2.txt):00102          OS9 F$ALL64 Get a process
+004C 2532             ( kernel\os9p2.txt):00103          bcs COLD
+004E 9F49             ( kernel\os9p2.txt):00104          stx D.PrcDBT Set process block
+0050 109F4B           ( kernel\os9p2.txt):00105          sty D.PROC
+0053 1F40             ( kernel\os9p2.txt):00106          tfr S,D copy stack ptr
+0055 4A               ( kernel\os9p2.txt):00107          deca get page lower bound
+0056 C601             ( kernel\os9p2.txt):00108          ldb #1 set page count
+0058 ED27             ( kernel\os9p2.txt):00109          std P$ADDR,Y set process descriptor
+005A 8680             ( kernel\os9p2.txt):00110          lda #SysState Set system state
+005C A72D             ( kernel\os9p2.txt):00111          sta P$State,Y
+005E DE2A             ( kernel\os9p2.txt):00112          ldu D.Init get configuration ptr
+0060 8D22             ( kernel\os9p2.txt):00113          bsr SETDIRS set default directories
+0062 2405             ( kernel\os9p2.txt):00114          bcc COLD10 branch if successful
+0064 170450           ( kernel\os9p2.txt):00115          lbsr BOOT Default failed, boot
+0067 8D1B             ( kernel\os9p2.txt):00116          bsr SETDIRS try again
+0069 8D27             ( kernel\os9p2.txt):00117         COLD10 bsr SETSTDS open standard i/o
+006B 2405             ( kernel\os9p2.txt):00118          bcc COLD20 branch if successful
+006D 170447           ( kernel\os9p2.txt):00119          lbsr BOOT open failed, boot
+0070 8D20             ( kernel\os9p2.txt):00120          bsr SETSTDS try again
+0072 EC4E             ( kernel\os9p2.txt):00121         COLD20 ldd InitStr,U Get initial execution string
+0074 30CB             ( kernel\os9p2.txt):00122          leax D,U Get string ptr
+0076 8601             ( kernel\os9p2.txt):00123          lda #OBJCT set type
+0078 5F               ( kernel\os9p2.txt):00124          clrb use declared memory
+0079 108E0000         ( kernel\os9p2.txt):00125          ldy #0 No parameters
+007D 103F05           ( kernel\os9p2.txt):00126          OS9 F$Chain Start process
+                      ( kernel\os9p2.txt):00127         
+0080 6E9FFFFE         ( kernel\os9p2.txt):00128         COLD jmp [$FFFE] Abort start up
+                      ( kernel\os9p2.txt):00129         
+0084 5F               ( kernel\os9p2.txt):00130         SETDIRS clrb clear carry
+0085 ECC810           ( kernel\os9p2.txt):00131          ldd SYSSTR,U Get system device name
+0088 2707             ( kernel\os9p2.txt):00132          beq SETDIR10 Branch if none
+008A 30CB             ( kernel\os9p2.txt):00133          leax D,U Get name ptr
+008C 8605             ( kernel\os9p2.txt):00134          lda #EXEC.+READ. Set both execution & data
+008E 103F86           ( kernel\os9p2.txt):00135          OS9 I$ChgDir Set default directory
+0091 39               ( kernel\os9p2.txt):00136         SETDIR10 rts
+                      ( kernel\os9p2.txt):00137         
+0092 5F               ( kernel\os9p2.txt):00138         SETSTDS clrb clear carry
+0093 ECC812           ( kernel\os9p2.txt):00139          ldd STDSTR,U get name offset
+0096 30CB             ( kernel\os9p2.txt):00140          leax D,U get name ptr
+0098 8603             ( kernel\os9p2.txt):00141          lda #UPDAT. set mode
+009A 103F84           ( kernel\os9p2.txt):00142          OS9 I$OPEN open file
+009D 2511             ( kernel\os9p2.txt):00143          bcs SETSTD10 branch if error
+009F 9E4B             ( kernel\os9p2.txt):00144          ldx D.PROC get process ptr
+00A1 A78826           ( kernel\os9p2.txt):00145          sta P$PATH,X set standard input
+00A4 103F82           ( kernel\os9p2.txt):00146          OS9 I$DUP count open image
+00A7 A78827           ( kernel\os9p2.txt):00147          sta P$PATH+1,X set standard output
+00AA 103F82           ( kernel\os9p2.txt):00148          OS9 I$DUP count open image
+00AD A78828           ( kernel\os9p2.txt):00149          sta P$PATH+2,X set standard error
+00B0 39               ( kernel\os9p2.txt):00150         SETSTD10 rts
+                      ( kernel\os9p2.txt):00151         
+                      ( kernel\os9p2.txt):00152         
+                      ( kernel\os9p2.txt):00153          ttl SERVICE Routines
+                      ( kernel\os9p2.txt):00154          page
+                      ( kernel\os9p2.txt):00155         *****
+                      ( kernel\os9p2.txt):00156         *
+                      ( kernel\os9p2.txt):00157         *  Subroutine Unlink
+                      ( kernel\os9p2.txt):00158         *
+                      ( kernel\os9p2.txt):00159         * Decrment Link Count. If Count Reaches Zero,
+                      ( kernel\os9p2.txt):00160         *    Delete Module From Directory & Return Memory
+                      ( kernel\os9p2.txt):00161         *
+00B1 EC48             ( kernel\os9p2.txt):00162         UNLINK ldd R$U,U Get module address
+00B3 2743             ( kernel\os9p2.txt):00163          beq UNLK25 Branch if none
+00B5 9E26             ( kernel\os9p2.txt):00164          ldx D.ModDir Get directory ptr
+00B7 10A300           ( kernel\os9p2.txt):00165         UNLK10 cmpd 0,X Is it this module?
+00BA 2708             ( kernel\os9p2.txt):00166          beq UNLK15 Branch if so
+00BC 3004             ( kernel\os9p2.txt):00167          leax 4,X Move to next entry
+00BE 9C28             ( kernel\os9p2.txt):00168          cmpx D.ModDir+2 End of directory?
+00C0 25F5             ( kernel\os9p2.txt):00169          bcs UNLK10
+00C2 2034             ( kernel\os9p2.txt):00170          bra UNLK25
+00C4 A602             ( kernel\os9p2.txt):00171         UNLK15 lda 2,X Get use count
+00C6 2705             ( kernel\os9p2.txt):00172          beq UNLK16 Branch if not used
+00C8 4A               ( kernel\os9p2.txt):00173          deca DOWN Link count
+00C9 A702             ( kernel\os9p2.txt):00174          sta 2,X
+00CB 262B             ( kernel\os9p2.txt):00175          bne UNLK25 Branch if still used
+00CD 10AE00           ( kernel\os9p2.txt):00176         UNLK16 ldy 0,X Get ptr to module
+00D0 109C66           ( kernel\os9p2.txt):00177          cmpy D.BTLO Is it 'system' module?
+00D3 2423             ( kernel\os9p2.txt):00178          bcc UNLK25 Branch if so
+00D5 E626             ( kernel\os9p2.txt):00179          ldb M$TYPE,Y Get module type
+00D7 C1D0             ( kernel\os9p2.txt):00180          cmpb #FLMGR Is i/o module?
+00D9 2509             ( kernel\os9p2.txt):00181          bcs UNLK20 Branch if not
+00DB 103F33           ( kernel\os9p2.txt):00182          OS9 F$IODel Delete from i/o system
+00DE 2404             ( kernel\os9p2.txt):00183          bcc UNLK20
+00E0 6C02             ( kernel\os9p2.txt):00184          inc 2,X Reset link count
+00E2 2015             ( kernel\os9p2.txt):00185          bra UNLK30
+00E4 4F               ( kernel\os9p2.txt):00186         UNLK20 clra
+00E5 5F               ( kernel\os9p2.txt):00187          clrb
+00E6 ED00             ( kernel\os9p2.txt):00188          std 0,X Clear directory entry
+00E8 ED20             ( kernel\os9p2.txt):00189          std 0,Y Destroy id code
+00EA EC22             ( kernel\os9p2.txt):00190          ldd M$SIZE,Y Get module size
+00EC 170146           ( kernel\os9p2.txt):00191          lbsr DIV256 Divide by 256, rounding up
+00EF 1E02             ( kernel\os9p2.txt):00192          exg D,Y Switch page count & beginning address
+00F1 1E89             ( kernel\os9p2.txt):00193          exg A,B Make address into page number
+00F3 9E20             ( kernel\os9p2.txt):00194          ldx D.FMBM Get bit map ptr
+00F5 103F14           ( kernel\os9p2.txt):00195          OS9 F$DelBit Deallocate memory block
+00F8 4F               ( kernel\os9p2.txt):00196         UNLK25 clra CLEAR Carry
+00F9 39               ( kernel\os9p2.txt):00197         UNLK30 rts
+                      ( kernel\os9p2.txt):00198          page
+                      ( kernel\os9p2.txt):00199         *****
+                      ( kernel\os9p2.txt):00200         *
+                      ( kernel\os9p2.txt):00201         *  Subroutine Wait
+                      ( kernel\os9p2.txt):00202         *
+                      ( kernel\os9p2.txt):00203         * Wait for Child Process to Exit
+                      ( kernel\os9p2.txt):00204         *
+00FA 109E4B           ( kernel\os9p2.txt):00205         WAIT ldy D.PROC Get process ptr
+00FD 9E49             ( kernel\os9p2.txt):00206          ldx D.PrcDBT Get process descriptor block ptr
+00FF A623             ( kernel\os9p2.txt):00207          lda P$CID,Y Does process have children?
+0101 2604             ( kernel\os9p2.txt):00208          bne WAIT10 Branch if so
+0103 53               ( kernel\os9p2.txt):00209          comb Set Carry
+0104 C6E2             ( kernel\os9p2.txt):00210          ldb #E$NoChld Err: no children
+0106 39               ( kernel\os9p2.txt):00211          rts
+0107 103F2F           ( kernel\os9p2.txt):00212         WAIT10 OS9 F$Find64 Get process ptr
+010A A62D             ( kernel\os9p2.txt):00213          lda P$State,Y Get child's status
+010C 8501             ( kernel\os9p2.txt):00214          bita #DEAD Is child dead?
+010E 2613             ( kernel\os9p2.txt):00215          bne WAIT20 Branch if so
+0110 A622             ( kernel\os9p2.txt):00216          lda P$SID,Y More children?
+0112 26F3             ( kernel\os9p2.txt):00217          bne WAIT10 Branch if so
+0114 6F41             ( kernel\os9p2.txt):00218          clr R$A,U clear child process id
+0116 9E4B             ( kernel\os9p2.txt):00219          ldx D.PROC Get process ptr
+0118 1A50             ( kernel\os9p2.txt):00220          orcc #IRQMask+FIRQMask Set interrupt masks
+011A DC4F             ( kernel\os9p2.txt):00221          ldd D.WProcQ Put in waiting queue
+011C ED0E             ( kernel\os9p2.txt):00222          std P$Queue,X
+011E 9F4F             ( kernel\os9p2.txt):00223          stx D.WProcQ
+0120 160217           ( kernel\os9p2.txt):00224          lbra ZZZPRC Put process to sleep
+0123 9E4B             ( kernel\os9p2.txt):00225         WAIT20 ldx D.PROC Get parent process ptr
+                      ( kernel\os9p2.txt):00226         *
+                      ( kernel\os9p2.txt):00227         *           Fall Thru to Childs
+                      ( kernel\os9p2.txt):00228         *
+                      ( kernel\os9p2.txt):00229         *****
+                      ( kernel\os9p2.txt):00230         *
+                      ( kernel\os9p2.txt):00231         *  Subroutine Childs
+                      ( kernel\os9p2.txt):00232         *
+                      ( kernel\os9p2.txt):00233         * Return Child's Death Status to Parent
+                      ( kernel\os9p2.txt):00234         *
+                      ( kernel\os9p2.txt):00235         * Input:  X - Parent Process ptr
+                      ( kernel\os9p2.txt):00236         *         Y - Child Process ptr
+                      ( kernel\os9p2.txt):00237         *         U - Parent Process Register ptr
+                      ( kernel\os9p2.txt):00238         *
+0125 A6A4             ( kernel\os9p2.txt):00239         CHILDS lda P$ID,Y Get process id
+0127 E6A836           ( kernel\os9p2.txt):00240          ldb P$Signal,Y Get death status
+012A ED41             ( kernel\os9p2.txt):00241          std R$D,U Return to parent
+012C 3472             ( kernel\os9p2.txt):00242          pshs A,X,Y,U Save registers
+012E 3101             ( kernel\os9p2.txt):00243          leay P$CID-P$SID,X Fake sibling process ptr
+0130 9E49             ( kernel\os9p2.txt):00244          ldx D.PrcDBT Get process descriptor block ptr
+0132 2003             ( kernel\os9p2.txt):00245          bra CHIL20
+0134 103F2F           ( kernel\os9p2.txt):00246         CHIL10 OS9 F$Find64 Get process ptr
+0137 A622             ( kernel\os9p2.txt):00247         CHIL20 lda P$SID,Y Is child next sibling?
+0139 A160             ( kernel\os9p2.txt):00248          cmpa 0,S
+013B 26F7             ( kernel\os9p2.txt):00249          bne CHIL10 Branch if not
+013D EE63             ( kernel\os9p2.txt):00250          ldu 3,S Get process ptr
+013F E642             ( kernel\os9p2.txt):00251          ldb P$SID,U Get child's sibling
+0141 E722             ( kernel\os9p2.txt):00252          stb P$SID,Y Remove child from sibling list
+0143 103F31           ( kernel\os9p2.txt):00253          OS9 F$Ret64 Return process descriptor
+0146 35F2             ( kernel\os9p2.txt):00254          puls A,X,Y,U,PC
+                      ( kernel\os9p2.txt):00255          page
+                      ( kernel\os9p2.txt):00256         *****
+                      ( kernel\os9p2.txt):00257         *
+                      ( kernel\os9p2.txt):00258         *  Subroutine Exit
+                      ( kernel\os9p2.txt):00259         *
+                      ( kernel\os9p2.txt):00260         * Process Termination
+                      ( kernel\os9p2.txt):00261         *
+0148 9E4B             ( kernel\os9p2.txt):00262         EXIT ldx D.PROC Get process ptr
+014A E642             ( kernel\os9p2.txt):00263          ldb R$B,U Get exit status
+014C E78836           ( kernel\os9p2.txt):00264          stb P$Signal,X Save status
+014F C610             ( kernel\os9p2.txt):00265          ldb #NumPaths Get number of paths
+0151 318826           ( kernel\os9p2.txt):00266          leay P$PATH,X Get path table ptr
+0154 A6A0             ( kernel\os9p2.txt):00267         EXIT10 lda ,Y+ Get next path number
+0156 2707             ( kernel\os9p2.txt):00268          beq EXIT15 Branch if not in use
+0158 3404             ( kernel\os9p2.txt):00269          pshs B Save path count
+015A 103F8F           ( kernel\os9p2.txt):00270          OS9 I$Close Close the file
+015D 3504             ( kernel\os9p2.txt):00271          puls B Retrieve path count
+015F 5A               ( kernel\os9p2.txt):00272         EXIT15 decb COUNT Down
+0160 26F2             ( kernel\os9p2.txt):00273          bne EXIT10 Branch if more
+0162 A607             ( kernel\os9p2.txt):00274          lda P$ADDR,X Get memory page number
+0164 1F03             ( kernel\os9p2.txt):00275          tfr D,U Copy it
+0166 A608             ( kernel\os9p2.txt):00276          lda P$PagCnt,X
+0168 103F29           ( kernel\os9p2.txt):00277          OS9 F$SRtMem
+016B EE8812           ( kernel\os9p2.txt):00278          ldu P$PModul,X Get primary module ptr
+016E 103F02           ( kernel\os9p2.txt):00279          OS9 F$Unlink Unlink it
+0171 DE4B             ( kernel\os9p2.txt):00280          ldu D.PROC Get process ptr
+0173 3141             ( kernel\os9p2.txt):00281          leay P$CID-P$SID,U Fake sibling process
+0175 9E49             ( kernel\os9p2.txt):00282          ldx D.PrcDBT Get process descriptor block
+0177 2012             ( kernel\os9p2.txt):00283          bra EXIT30
+0179 6F22             ( kernel\os9p2.txt):00284         EXIT20 clr P$SID,Y Clear sibling link
+017B 103F2F           ( kernel\os9p2.txt):00285          OS9 F$Find64 Get next process ptr
+017E A62D             ( kernel\os9p2.txt):00286          lda P$State,Y Get process status
+0180 8501             ( kernel\os9p2.txt):00287          bita #DEAD Is process dead?
+0182 2705             ( kernel\os9p2.txt):00288          beq EXIT25 Branch if not
+0184 A6A4             ( kernel\os9p2.txt):00289          lda P$ID,Y Return process to free
+0186 103F31           ( kernel\os9p2.txt):00290          OS9 F$Ret64 Return process descriptor
+0189 6F21             ( kernel\os9p2.txt):00291         EXIT25 clr P$PID,Y Clear parent process ptr
+018B A622             ( kernel\os9p2.txt):00292         EXIT30 lda P$SID,Y Get sibling id
+018D 26EA             ( kernel\os9p2.txt):00293          bne EXIT20 Branch if there is one
+018F 8E0041           ( kernel\os9p2.txt):00294          ldx #D.WProcQ-P$Queue Fake process ptr
+0192 A641             ( kernel\os9p2.txt):00295          lda P$PID,U Get parent process id
+0194 260D             ( kernel\os9p2.txt):00296          bne EXIT40 Branch if parent alive
+0196 9E49             ( kernel\os9p2.txt):00297          ldx D.PrcDBT Get process block ptr
+0198 A6C4             ( kernel\os9p2.txt):00298          lda P$ID,U Get process id
+019A 103F31           ( kernel\os9p2.txt):00299          OS9 F$Ret64 Return process descriptor
+019D 2022             ( kernel\os9p2.txt):00300          bra EXIT50
+019F A184             ( kernel\os9p2.txt):00301         EXIT35 cmpa P$ID,X Is this parent?
+01A1 270E             ( kernel\os9p2.txt):00302          beq EXIT45 Branch if so
+01A3 3100             ( kernel\os9p2.txt):00303         EXIT40 leay 0,X Copy this process ptr
+01A5 AE0E             ( kernel\os9p2.txt):00304          ldx P$Queue,X Get next process ptr
+01A7 26F6             ( kernel\os9p2.txt):00305          bne EXIT35 Branch if there is one
+01A9 A64D             ( kernel\os9p2.txt):00306          lda P$State,U Get process status
+01AB 8A01             ( kernel\os9p2.txt):00307          ora #DEAD Note process death
+01AD A74D             ( kernel\os9p2.txt):00308          sta P$State,U Update status
+01AF 2010             ( kernel\os9p2.txt):00309          bra EXIT50 Wait for parent to notice
+01B1 EC0E             ( kernel\os9p2.txt):00310         EXIT45 ldd P$Queue,X Remove parent from wait list
+01B3 ED2E             ( kernel\os9p2.txt):00311          std P$Queue,Y
+01B5 103F2C           ( kernel\os9p2.txt):00312          OS9 F$AProc Put parent in active process queue
+01B8 3140             ( kernel\os9p2.txt):00313          leay 0,U Copy child ptr
+01BA EE04             ( kernel\os9p2.txt):00314          ldu P$SP,X Get parent's stack
+01BC EE41             ( kernel\os9p2.txt):00315          ldu R$D,U Get actual wait stack
+01BE 17FF64           ( kernel\os9p2.txt):00316          lbsr CHILDS Return child status
+01C1 4F               ( kernel\os9p2.txt):00317         EXIT50 clra REMOVE Process from active system
+01C2 5F               ( kernel\os9p2.txt):00318          clrb
+01C3 DD4B             ( kernel\os9p2.txt):00319          std D.PROC
+01C5 39               ( kernel\os9p2.txt):00320          rts
+                      ( kernel\os9p2.txt):00321          page
+                      ( kernel\os9p2.txt):00322         *****
+                      ( kernel\os9p2.txt):00323         *
+                      ( kernel\os9p2.txt):00324         *  Subroutine Usrmem
+                      ( kernel\os9p2.txt):00325         *
+                      ( kernel\os9p2.txt):00326         * Adjust User Memory To Requested Size
+                      ( kernel\os9p2.txt):00327         *
+01C6 9E4B             ( kernel\os9p2.txt):00328         USRMEM ldx D.PROC get process ptr
+01C8 EC41             ( kernel\os9p2.txt):00329          ldd R$D,U Get size requested
+01CA 275A             ( kernel\os9p2.txt):00330          beq USRM35 branch if info request
+01CC 8D67             ( kernel\os9p2.txt):00331          bsr DIV256 Divide by 256, rounding up
+01CE E008             ( kernel\os9p2.txt):00332          subb P$PagCnt,X Subtract current size
+01D0 2754             ( kernel\os9p2.txt):00333          beq USRM35 Branch if already requested size
+01D2 2532             ( kernel\os9p2.txt):00334          bcs USRM20 Branch if current > requested
+01D4 1F02             ( kernel\os9p2.txt):00335          tfr D,Y Copy pages needed
+01D6 AE07             ( kernel\os9p2.txt):00336          ldx P$ADDR,X Get memory address & size
+01D8 3470             ( kernel\os9p2.txt):00337          pshs X,Y,U Save registers
+01DA E660             ( kernel\os9p2.txt):00338          ldb 0,S Get address
+01DC 2702             ( kernel\os9p2.txt):00339          beq USRM10 Branch if none
+01DE EB61             ( kernel\os9p2.txt):00340          addb 1,S Get location of new
+01E0 9E20             ( kernel\os9p2.txt):00341         USRM10 ldx D.FMBM Get free memory ptrs
+01E2 DE22             ( kernel\os9p2.txt):00342          ldu D.FMBM+2
+01E4 103F12           ( kernel\os9p2.txt):00343          OS9 F$SchBit Look for memory
+01E7 2547             ( kernel\os9p2.txt):00344          bcs BADMEM Branch if not available
+01E9 E762             ( kernel\os9p2.txt):00345          stb 2,S Save page number of new
+01EB E660             ( kernel\os9p2.txt):00346          ldb 0,S Get beginning of old
+01ED 2706             ( kernel\os9p2.txt):00347          beq USRM15 Branch if none
+01EF EB61             ( kernel\os9p2.txt):00348          addb 1,S Add size old
+01F1 E162             ( kernel\os9p2.txt):00349          cmpb 2,S Is that where new begins?
+01F3 263B             ( kernel\os9p2.txt):00350          bne BADMEM Branch if not
+01F5 E662             ( kernel\os9p2.txt):00351         USRM15 ldb 2,S Get page number of new
+01F7 103F13           ( kernel\os9p2.txt):00352          OS9 F$AllBit Allocate memory
+01FA EC62             ( kernel\os9p2.txt):00353          ldd 2,S Get new address & size
+01FC A061             ( kernel\os9p2.txt):00354          suba 1,S Get address of current
+01FE EB61             ( kernel\os9p2.txt):00355          addb 1,S Get size current
+0200 3570             ( kernel\os9p2.txt):00356          puls X,Y,U
+0202 9E4B             ( kernel\os9p2.txt):00357          ldx D.PROC Get process ptr
+0204 201E             ( kernel\os9p2.txt):00358          bra USRM30
+0206 50               ( kernel\os9p2.txt):00359         USRM20 negb GET Excess page count
+0207 1F02             ( kernel\os9p2.txt):00360          tfr D,Y Copy it
+0209 50               ( kernel\os9p2.txt):00361          negb GET Size requested
+020A EB08             ( kernel\os9p2.txt):00362          addb P$PagCnt,X
+020C EB07             ( kernel\os9p2.txt):00363          addb P$ADDR,X Get page number of excess
+020E E104             ( kernel\os9p2.txt):00364          cmpb P$SP,X Deallocating stack?
+0210 2204             ( kernel\os9p2.txt):00365          bhi USRM25 Branch if not
+0212 53               ( kernel\os9p2.txt):00366          comb SET Carry
+0213 C6DF             ( kernel\os9p2.txt):00367          ldb #E$DelSP
+0215 39               ( kernel\os9p2.txt):00368          rts
+0216 9E20             ( kernel\os9p2.txt):00369         USRM25 ldx D.FMBM Get free memory ptr
+0218 103F14           ( kernel\os9p2.txt):00370          OS9 F$DelBit Deallocate memory
+021B 1F20             ( kernel\os9p2.txt):00371          tfr Y,D Copy excess page count
+021D 50               ( kernel\os9p2.txt):00372          negb
+021E 9E4B             ( kernel\os9p2.txt):00373          ldx D.PROC Get process ptr
+0220 EB08             ( kernel\os9p2.txt):00374          addb P$PagCnt,X Adjust page count
+0222 A607             ( kernel\os9p2.txt):00375          lda P$ADDR,X Get address
+0224 ED07             ( kernel\os9p2.txt):00376         USRM30 std P$ADDR,X Set new address & size
+0226 A608             ( kernel\os9p2.txt):00377         USRM35 lda P$PagCnt,X Get process beginning address
+0228 5F               ( kernel\os9p2.txt):00378          clrb CLEAR Lsb
+0229 ED41             ( kernel\os9p2.txt):00379          std R$D,U Return memory size
+022B AB07             ( kernel\os9p2.txt):00380          adda P$ADDR,X Return ptr to memory end
+022D ED46             ( kernel\os9p2.txt):00381          std R$Y,U
+022F 39               ( kernel\os9p2.txt):00382          rts
+                      ( kernel\os9p2.txt):00383         
+0230 53               ( kernel\os9p2.txt):00384         BADMEM comb SET Carry
+0231 C6CF             ( kernel\os9p2.txt):00385          ldb #E$MemFul Err: memory full
+0233 35F0             ( kernel\os9p2.txt):00386          puls X,Y,U,PC
+                      ( kernel\os9p2.txt):00387         
+                      ( kernel\os9p2.txt):00388         
+                      ( kernel\os9p2.txt):00389         
+                      ( kernel\os9p2.txt):00390         *****
+                      ( kernel\os9p2.txt):00391         *
+                      ( kernel\os9p2.txt):00392         * Subroutine Div256
+                      ( kernel\os9p2.txt):00393         *
+                      ( kernel\os9p2.txt):00394         * Divide By 256, Rounding Up
+                      ( kernel\os9p2.txt):00395         *
+0235 C300FF           ( kernel\os9p2.txt):00396         DIV256 addd #$FF
+0238 5F               ( kernel\os9p2.txt):00397          clrb ROUND Up
+0239 1E89             ( kernel\os9p2.txt):00398          exg A,B Divide by 256
+023B 39               ( kernel\os9p2.txt):00399          rts
+                      ( kernel\os9p2.txt):00400          page
+                      ( kernel\os9p2.txt):00401         *****
+                      ( kernel\os9p2.txt):00402         *
+                      ( kernel\os9p2.txt):00403         *  Subroutine Send
+                      ( kernel\os9p2.txt):00404         *
+                      ( kernel\os9p2.txt):00405         * Send a Signal to Process(es)
+                      ( kernel\os9p2.txt):00406         *
+023C A641             ( kernel\os9p2.txt):00407         SEND lda R$A,U Get destination process id
+023E 260E             ( kernel\os9p2.txt):00408          bne SENSUB Branch if not all processes
+                      ( kernel\os9p2.txt):00409         *
+                      ( kernel\os9p2.txt):00410         * Loop thru all Process Ids, send Signal to all but Sender
+                      ( kernel\os9p2.txt):00411         *
+0240 4C               ( kernel\os9p2.txt):00412          inca Start with process 1
+0241 9E4B             ( kernel\os9p2.txt):00413         SEND10 ldx D.PROC Get process ptr
+0243 A184             ( kernel\os9p2.txt):00414          cmpa P$ID,X Is this sender?
+0245 2702             ( kernel\os9p2.txt):00415          beq SEND15 Branch if so
+0247 8D05             ( kernel\os9p2.txt):00416          bsr SENSUB Signal process
+0249 4C               ( kernel\os9p2.txt):00417         SEND15 inca Get next process id
+024A 26F5             ( kernel\os9p2.txt):00418          bne SEND10 Branch if more
+024C 5F               ( kernel\os9p2.txt):00419          clrb Clear Carry
+024D 39               ( kernel\os9p2.txt):00420          rts
+                      ( kernel\os9p2.txt):00421         *
+                      ( kernel\os9p2.txt):00422         * Get destination Process ptr
+                      ( kernel\os9p2.txt):00423         *
+024E 9E49             ( kernel\os9p2.txt):00424         SENSUB ldx D.PrcDBT Get process descriptor block ptr
+0250 103F2F           ( kernel\os9p2.txt):00425          OS9 F$Find64 Get process ptr
+0253 2403             ( kernel\os9p2.txt):00426          bcc SEND20 Branch if good
+0255 C6E0             ( kernel\os9p2.txt):00427          ldb #E$IPrcID Err: illegal process id
+0257 39               ( kernel\os9p2.txt):00428          rts
+                      ( kernel\os9p2.txt):00429         *
+                      ( kernel\os9p2.txt):00430         * Check Signal type
+                      ( kernel\os9p2.txt):00431         *
+0258 1A50             ( kernel\os9p2.txt):00432         SEND20 orcc #IRQMask+FIRQMask Set interrupt masks
+025A 3422             ( kernel\os9p2.txt):00433          pshs A,Y Save process id & ptr
+025C E642             ( kernel\os9p2.txt):00434          ldb R$B,U Is it unconditional abort signal?
+025E 2606             ( kernel\os9p2.txt):00435          bne SEND30 Branch if not
+0260 A62D             ( kernel\os9p2.txt):00436          lda P$State,Y Get process status
+0262 8A02             ( kernel\os9p2.txt):00437          ora #CONDEM Condem process
+0264 A72D             ( kernel\os9p2.txt):00438          sta P$State,Y Update status
+                      ( kernel\os9p2.txt):00439         *
+                      ( kernel\os9p2.txt):00440         * Check for Signal collision
+                      ( kernel\os9p2.txt):00441         *
+0266 A6A836           ( kernel\os9p2.txt):00442         SEND30 lda P$Signal,Y Is signal pending?
+0269 2708             ( kernel\os9p2.txt):00443          beq SEND40 Branch if not
+026B 4A               ( kernel\os9p2.txt):00444          deca Is it wake-up?
+026C 2705             ( kernel\os9p2.txt):00445          beq SEND40 Branch if so
+026E 53               ( kernel\os9p2.txt):00446          comb Set Carry
+026F C6E9             ( kernel\os9p2.txt):00447          ldb #E$USigP Err: unprocessed signal pending
+0271 35A2             ( kernel\os9p2.txt):00448          puls A,Y,PC
+0273 E7A836           ( kernel\os9p2.txt):00449         SEND40 stb P$Signal,Y Save signal
+                      ( kernel\os9p2.txt):00450         *
+                      ( kernel\os9p2.txt):00451         * Look for Process in Sleeping Queue
+                      ( kernel\os9p2.txt):00452         *
+0276 8E0043           ( kernel\os9p2.txt):00453          ldx #D.SProcQ-P$Queue Fake process ptr
+0279 2026             ( kernel\os9p2.txt):00454          bra SEND55
+027B AC61             ( kernel\os9p2.txt):00455         SEND50 cmpx 1,S Is this destination process?
+                      ( kernel\os9p2.txt):00456         *
+                      ( kernel\os9p2.txt):00457         *** Ed. 6 changes follow
+                      ( kernel\os9p2.txt):00458         *
+027D 2622             ( kernel\os9p2.txt):00459          bne SEND55 branch if not
+027F A60D             ( kernel\os9p2.txt):00460          lda P$State,x get process state
+0281 8540             ( kernel\os9p2.txt):00461          bita #TimSleep is process in timed sleep?
+0283 272F             ( kernel\os9p2.txt):00462          beq SEND65 branch if not
+0285 EE04             ( kernel\os9p2.txt):00463          ldu P$SP,x get process stack ptr
+0287 EC44             ( kernel\os9p2.txt):00464          ldd R$X,u get remaining time
+0289 2729             ( kernel\os9p2.txt):00465          beq SEND65 branch if none
+028B EE0E             ( kernel\os9p2.txt):00466          ldu P$Queue,x get next process in queue
+028D 2725             ( kernel\os9p2.txt):00467          beq SEND65 branch if none
+028F 3406             ( kernel\os9p2.txt):00468          pshs d save remaining time
+0291 A64D             ( kernel\os9p2.txt):00469          lda P$State,u get process state
+0293 8540             ( kernel\os9p2.txt):00470          bita #TimSleep is it in timed sleep?
+0295 3506             ( kernel\os9p2.txt):00471          puls d retrieve remaining time
+0297 271B             ( kernel\os9p2.txt):00472          beq SEND65 branch if not
+0299 EE44             ( kernel\os9p2.txt):00473          ldu P$SP,u get process stack ptr
+029B E344             ( kernel\os9p2.txt):00474          addd R$X,u add remaining time
+029D ED44             ( kernel\os9p2.txt):00475          std R$X,u update it
+029F 2013             ( kernel\os9p2.txt):00476          bra SEND65
+                      ( kernel\os9p2.txt):00477         *
+                      ( kernel\os9p2.txt):00478         *** end of Ed. 6 changes
+                      ( kernel\os9p2.txt):00479         *
+02A1 3100             ( kernel\os9p2.txt):00480         SEND55 leay 0,X Copy process ptr
+02A3 AE2E             ( kernel\os9p2.txt):00481          ldx P$Queue,Y More in queue?
+02A5 26D4             ( kernel\os9p2.txt):00482          bne SEND50 Branch if so
+                      ( kernel\os9p2.txt):00483         *
+                      ( kernel\os9p2.txt):00484         * Look for Process in Waiting Queue
+                      ( kernel\os9p2.txt):00485         *
+02A7 8E0041           ( kernel\os9p2.txt):00486          ldx #D.WProcQ-P$Queue Fake process ptr
+02AA 3100             ( kernel\os9p2.txt):00487         SEND60 leay 0,X Copy process ptr
+02AC AE2E             ( kernel\os9p2.txt):00488          ldx P$Queue,Y More in queue?
+02AE 2714             ( kernel\os9p2.txt):00489          beq SEND75 Branch if not
+02B0 AC61             ( kernel\os9p2.txt):00490          cmpx 1,S Is this destination process?
+02B2 26F6             ( kernel\os9p2.txt):00491          bne SEND60 Branch if not
+                      ( kernel\os9p2.txt):00492         *
+                      ( kernel\os9p2.txt):00493         * Move Process from it's current Queue to Active Queue
+                      ( kernel\os9p2.txt):00494         *
+02B4 EC0E             ( kernel\os9p2.txt):00495         SEND65 ldd P$Queue,X Remove from queue
+02B6 ED2E             ( kernel\os9p2.txt):00496          std P$Queue,Y
+02B8 A68836           ( kernel\os9p2.txt):00497          lda P$Signal,X Get signal
+02BB 4A               ( kernel\os9p2.txt):00498          deca Is it wake-up?
+02BC 2603             ( kernel\os9p2.txt):00499          bne SEND70 Branch if not
+02BE A78836           ( kernel\os9p2.txt):00500          sta P$Signal,X Clear signal
+02C1 103F2C           ( kernel\os9p2.txt):00501         SEND70 OS9 F$AProc Put in active queue
+02C4 5F               ( kernel\os9p2.txt):00502         SEND75 clrb Clear carry
+02C5 35A2             ( kernel\os9p2.txt):00503          puls A,Y,PC
+                      ( kernel\os9p2.txt):00504          page
+                      ( kernel\os9p2.txt):00505         *****
+                      ( kernel\os9p2.txt):00506         *
+                      ( kernel\os9p2.txt):00507         *  Subroutine Sleep
+                      ( kernel\os9p2.txt):00508         *
+                      ( kernel\os9p2.txt):00509         * Suspend Process
+                      ( kernel\os9p2.txt):00510         *
+02C7 9E4B             ( kernel\os9p2.txt):00511         SLEEP ldx D.PROC Get current process
+02C9 1A50             ( kernel\os9p2.txt):00512          orcc #IRQMask+FIRQMask Set interrupt mask
+02CB A68836           ( kernel\os9p2.txt):00513          lda P$Signal,X Signal waiting?
+02CE 270B             ( kernel\os9p2.txt):00514          beq SLEP20 Branch if not
+02D0 4A               ( kernel\os9p2.txt):00515         CKSIGN deca IS It wake-up?
+02D1 2603             ( kernel\os9p2.txt):00516          bne SLEP10 Branch if not
+02D3 A78836           ( kernel\os9p2.txt):00517          sta P$Signal,X Clear signal
+02D6 103F2C           ( kernel\os9p2.txt):00518         SLEP10 OS9 F$AProc Put process in active queue
+02D9 205F             ( kernel\os9p2.txt):00519          bra ZZZPRC Suspend process
+02DB EC44             ( kernel\os9p2.txt):00520         SLEP20 ldd R$X,U Get length of sleep
+02DD 2748             ( kernel\os9p2.txt):00521          beq SLEP50 Branch if indefinite
+02DF 830001           ( kernel\os9p2.txt):00522          subd #1 count current tick
+02E2 ED44             ( kernel\os9p2.txt):00523          std R$X,U update count
+02E4 27F0             ( kernel\os9p2.txt):00524          beq SLEP10 branch if done
+02E6 3450             ( kernel\os9p2.txt):00525          pshs X,U Save process & register ptr
+02E8 8E0043           ( kernel\os9p2.txt):00526          ldx #D.SProcQ-P$Queue Fake process ptr
+02EB 3100             ( kernel\os9p2.txt):00527         SLEP30 leay 0,X Copy process ptr
+02ED AE0E             ( kernel\os9p2.txt):00528          ldx P$Queue,X Get next process
+02EF 2712             ( kernel\os9p2.txt):00529          beq SLEP40 Branch if end of queue
+02F1 3406             ( kernel\os9p2.txt):00530          pshs D Save sleep time
+02F3 A60D             ( kernel\os9p2.txt):00531          lda P$State,X Get process status
+02F5 8540             ( kernel\os9p2.txt):00532          bita #TimSleep In timed sleep?
+02F7 3506             ( kernel\os9p2.txt):00533          puls D Retrieve sleep time
+02F9 2708             ( kernel\os9p2.txt):00534          beq SLEP40 Branch if not timed sleep
+02FB EE04             ( kernel\os9p2.txt):00535          ldu P$SP,X Get process stack ptr
+02FD A344             ( kernel\os9p2.txt):00536          subd R$X,U Subtract sleep time
+02FF 24EA             ( kernel\os9p2.txt):00537          bcc SLEP30 Branch if not greater
+0301 E344             ( kernel\os9p2.txt):00538          addd R$X,U Fix sleep time
+0303 3550             ( kernel\os9p2.txt):00539         SLEP40 puls X,U Retrieve process & register ptr
+0305 ED44             ( kernel\os9p2.txt):00540          std R$X,U Set time to sleep
+0307 EC2E             ( kernel\os9p2.txt):00541          ldd P$Queue,Y Put process in queue
+0309 AF2E             ( kernel\os9p2.txt):00542          stx P$Queue,Y
+030B ED0E             ( kernel\os9p2.txt):00543          std P$Queue,X
+030D A60D             ( kernel\os9p2.txt):00544          lda P$State,X Set timed sleep status
+030F 8A40             ( kernel\os9p2.txt):00545          ora #TimSleep
+0311 A70D             ( kernel\os9p2.txt):00546          sta P$State,X
+0313 AE0E             ( kernel\os9p2.txt):00547          ldx P$Queue,X Get next process ptr
+0315 2723             ( kernel\os9p2.txt):00548          beq ZZZPRC
+0317 A60D             ( kernel\os9p2.txt):00549          lda P$State,X Get status
+0319 8540             ( kernel\os9p2.txt):00550          bita #TimSleep In timed sleep?
+031B 271D             ( kernel\os9p2.txt):00551          beq ZZZPRC Branch if not
+031D AE04             ( kernel\os9p2.txt):00552          ldx P$SP,X Get stack ptr
+031F EC04             ( kernel\os9p2.txt):00553          ldd R$X,X Get sleep time
+0321 A344             ( kernel\os9p2.txt):00554          subd R$X,U Subtract new sleep
+0323 ED04             ( kernel\os9p2.txt):00555          std R$X,X Update sleep time
+0325 2013             ( kernel\os9p2.txt):00556          bra ZZZPRC
+0327 A60D             ( kernel\os9p2.txt):00557         SLEP50 lda P$State,X Get status
+0329 84BF             ( kernel\os9p2.txt):00558          anda #$FF-TimSleep Set not timed sleep
+032B A70D             ( kernel\os9p2.txt):00559          sta P$State,X
+032D CC0043           ( kernel\os9p2.txt):00560          ldd #D.SProcQ-P$Queue Fake process ptr
+0330 1F02             ( kernel\os9p2.txt):00561         SLEP60 tfr D,Y Copy process ptr
+0332 EC2E             ( kernel\os9p2.txt):00562          ldd P$Queue,Y Get next process ptr
+0334 26FA             ( kernel\os9p2.txt):00563          bne SLEP60 Branch if one exists
+0336 AF2E             ( kernel\os9p2.txt):00564          stx P$Queue,Y Link into queue
+0338 ED0E             ( kernel\os9p2.txt):00565          std P$Queue,X
+                      ( kernel\os9p2.txt):00566         *
+                      ( kernel\os9p2.txt):00567         *      Fall Thru To Zzzprc
+                      ( kernel\os9p2.txt):00568         *
+                      ( kernel\os9p2.txt):00569         *****
+                      ( kernel\os9p2.txt):00570         *
+                      ( kernel\os9p2.txt):00571         *  Subroutine Zzzprc
+                      ( kernel\os9p2.txt):00572         *
+                      ( kernel\os9p2.txt):00573         * Deactivate Process, Start Another
+                      ( kernel\os9p2.txt):00574         *
+033A 318C11           ( kernel\os9p2.txt):00575         ZZZPRC leay <WAKPRC,PCR Get wakeup address
+033D 3420             ( kernel\os9p2.txt):00576          pshs Y Make new pc
+033F 109E4B           ( kernel\os9p2.txt):00577          ldy D.PROC Get process ptr
+0342 EC24             ( kernel\os9p2.txt):00578          ldd P$SP,Y Get process stack
+0344 AE44             ( kernel\os9p2.txt):00579          ldx R$X,U Get sleep time (if any)
+0346 347F             ( kernel\os9p2.txt):00580          pshs CC,D,DP,X,Y,U Make new stack
+0348 10EF24           ( kernel\os9p2.txt):00581          sts P$SP,Y Note location
+034B 103F2D           ( kernel\os9p2.txt):00582          OS9 F$NProc Start another process
+                      ( kernel\os9p2.txt):00583         
+034E ED24             ( kernel\os9p2.txt):00584         WAKPRC std P$SP,Y Restore previous stack
+0350 AF44             ( kernel\os9p2.txt):00585          stx R$X,U Return sleep time
+0352 5F               ( kernel\os9p2.txt):00586          clrb CLEAR Carry
+0353 39               ( kernel\os9p2.txt):00587          rts
+                      ( kernel\os9p2.txt):00588          page
+                      ( kernel\os9p2.txt):00589         *****
+                      ( kernel\os9p2.txt):00590         *
+                      ( kernel\os9p2.txt):00591         *  Subroutine Intcpt
+                      ( kernel\os9p2.txt):00592         *
+                      ( kernel\os9p2.txt):00593         * Signal Intercept Handler
+                      ( kernel\os9p2.txt):00594         *
+0354 9E4B             ( kernel\os9p2.txt):00595         INTCPT ldx D.PROC Get process ptr
+0356 EC44             ( kernel\os9p2.txt):00596          ldd R$X,U Get vector
+0358 ED8837           ( kernel\os9p2.txt):00597          std P$SigVec,X Save it
+035B EC48             ( kernel\os9p2.txt):00598          ldd R$U,U Get data address
+035D ED8839           ( kernel\os9p2.txt):00599          std P$SigDat,X Save it
+0360 5F               ( kernel\os9p2.txt):00600          clrb CLEAR Carry
+0361 39               ( kernel\os9p2.txt):00601          rts
+                      ( kernel\os9p2.txt):00602         
+                      ( kernel\os9p2.txt):00603         
+                      ( kernel\os9p2.txt):00604         
+                      ( kernel\os9p2.txt):00605         *****
+                      ( kernel\os9p2.txt):00606         *
+                      ( kernel\os9p2.txt):00607         *  Subroutine Setpri
+                      ( kernel\os9p2.txt):00608         *
+                      ( kernel\os9p2.txt):00609         * Set Process Priority
+                      ( kernel\os9p2.txt):00610         *
+0362 A641             ( kernel\os9p2.txt):00611         SETPRI lda R$A,U Get process id
+0364 9E49             ( kernel\os9p2.txt):00612          ldx D.PrcDBT Get process block ptr
+0366 103F2F           ( kernel\os9p2.txt):00613          OS9 F$Find64 Find process descriptor
+0369 250E             ( kernel\os9p2.txt):00614          bcs SETP10
+036B 9E4B             ( kernel\os9p2.txt):00615          ldx D.PROC Get setting process ptr
+036D EC09             ( kernel\os9p2.txt):00616          ldd P$USER,X Get setting user
+036F 10A329           ( kernel\os9p2.txt):00617          cmpd P$USER,Y Same as set user?
+0372 2605             ( kernel\os9p2.txt):00618          bne SETP10 Branch if not
+0374 A642             ( kernel\os9p2.txt):00619          lda R$B,U Get priority
+0376 A72B             ( kernel\os9p2.txt):00620          sta P$Prior,Y Set priority
+0378 39               ( kernel\os9p2.txt):00621          rts
+0379 53               ( kernel\os9p2.txt):00622         SETP10 comb SET Carry
+037A C6E0             ( kernel\os9p2.txt):00623          ldb #E$IPrcID Err: illegal process id
+037C 39               ( kernel\os9p2.txt):00624          rts
+                      ( kernel\os9p2.txt):00625         
+                      ( kernel\os9p2.txt):00626         
+                      ( kernel\os9p2.txt):00627         
+                      ( kernel\os9p2.txt):00628         *****
+                      ( kernel\os9p2.txt):00629         *
+                      ( kernel\os9p2.txt):00630         *  Subroutine Getid
+                      ( kernel\os9p2.txt):00631         *
+037D 9E4B             ( kernel\os9p2.txt):00632         GETID ldx D.PROC Get process ptr
+037F A684             ( kernel\os9p2.txt):00633          lda P$ID,X Get process id
+0381 A741             ( kernel\os9p2.txt):00634          sta R$A,U Return to user
+0383 EC09             ( kernel\os9p2.txt):00635          ldd P$USER,X Get user index
+0385 ED46             ( kernel\os9p2.txt):00636          std R$Y,U Return to user
+0387 5F               ( kernel\os9p2.txt):00637          clrb
+0388 39               ( kernel\os9p2.txt):00638          rts
+                      ( kernel\os9p2.txt):00639          page
+                      ( kernel\os9p2.txt):00640         *****
+                      ( kernel\os9p2.txt):00641         *
+                      ( kernel\os9p2.txt):00642         *  Subroutine Setswi
+                      ( kernel\os9p2.txt):00643         *
+                      ( kernel\os9p2.txt):00644         * Set Software Interrupt Vectors
+                      ( kernel\os9p2.txt):00645         *
+0389 9E4B             ( kernel\os9p2.txt):00646         SETSWI ldx D.PROC Get process ptr
+038B 318814           ( kernel\os9p2.txt):00647          leay P$SWI,X Get ptr to vectors
+038E E641             ( kernel\os9p2.txt):00648          ldb R$A,U Get swi code
+0390 5A               ( kernel\os9p2.txt):00649          decb ADJUST Range
+0391 C103             ( kernel\os9p2.txt):00650          cmpb #3 Is it in range
+0393 2406             ( kernel\os9p2.txt):00651          bcc SSWI10 Branch if not
+0395 58               ( kernel\os9p2.txt):00652          aslb
+0396 AE44             ( kernel\os9p2.txt):00653          ldx R$X,U
+0398 AFA5             ( kernel\os9p2.txt):00654          stx B,Y
+039A 39               ( kernel\os9p2.txt):00655          rts
+039B 53               ( kernel\os9p2.txt):00656         SSWI10 comb
+039C C6E3             ( kernel\os9p2.txt):00657          ldb #E$ISWI
+039E 39               ( kernel\os9p2.txt):00658          rts
+                      ( kernel\os9p2.txt):00659         
+                      ( kernel\os9p2.txt):00660         
+                      ( kernel\os9p2.txt):00661         
+                      ( kernel\os9p2.txt):00662         **********
+                      ( kernel\os9p2.txt):00663         *
+                      ( kernel\os9p2.txt):00664         * Subroutine Settime
+                      ( kernel\os9p2.txt):00665         *
+                      ( kernel\os9p2.txt):00666         
+039F 436C6F63EB       ( kernel\os9p2.txt):00667         ClockNam fcs "Clock"
+                      ( kernel\os9p2.txt):00668         
+03A4 AE44             ( kernel\os9p2.txt):00669         SetTime ldx R$X,U get date ptr
+03A6 EC00             ( kernel\os9p2.txt):00670          ldd 0,X get year & month
+03A8 DD53             ( kernel\os9p2.txt):00671          std D.YEAR
+03AA EC02             ( kernel\os9p2.txt):00672          ldd 2,X get day & hour
+03AC DD55             ( kernel\os9p2.txt):00673          std D.DAY
+03AE EC04             ( kernel\os9p2.txt):00674          ldd 4,X get minute & second
+03B0 DD57             ( kernel\os9p2.txt):00675          std D.MIN
+03B2 86C1             ( kernel\os9p2.txt):00676          lda #SYSTM+OBJCT
+03B4 308CE8           ( kernel\os9p2.txt):00677          leax <ClockNam,PCR
+03B7 103F00           ( kernel\os9p2.txt):00678          OS9 F$Link link to clock module
+03BA 2503             ( kernel\os9p2.txt):00679          bcs SeTime99
+03BC 6E20             ( kernel\os9p2.txt):00680          jmp 0,Y execute clock's initialization
+03BE 5F               ( kernel\os9p2.txt):00681          clrb
+03BF 39               ( kernel\os9p2.txt):00682         SeTime99 rts
+                      ( kernel\os9p2.txt):00683          page
+                      ( kernel\os9p2.txt):00684         ***************
+                      ( kernel\os9p2.txt):00685         * Findpd
+                      ( kernel\os9p2.txt):00686         *   Find Address Of Path Descriptor Or Process Descriptor
+                      ( kernel\os9p2.txt):00687         *
+                      ( kernel\os9p2.txt):00688         * Calling Seq: (A)=Pd Number
+                      ( kernel\os9p2.txt):00689         *              (X)=Pd Table Addr
+                      ( kernel\os9p2.txt):00690         * Returns: (Y)=Addr Of Pd
+                      ( kernel\os9p2.txt):00691         *          Cc=Set If Pd Is Not Owned By Caller
+                      ( kernel\os9p2.txt):00692         * Destroys: B,Cc
+                      ( kernel\os9p2.txt):00693         *
+03C0 A641             ( kernel\os9p2.txt):00694         F64 lda R$A,U Get block number
+03C2 AE44             ( kernel\os9p2.txt):00695          ldx R$X,U Get block ptr
+03C4 8D06             ( kernel\os9p2.txt):00696          bsr FINDPD Find block
+03C6 2503             ( kernel\os9p2.txt):00697          bcs F6410
+03C8 10AF46           ( kernel\os9p2.txt):00698          sty R$Y,U
+03CB 39               ( kernel\os9p2.txt):00699         F6410 rts
+                      ( kernel\os9p2.txt):00700         
+03CC 3406             ( kernel\os9p2.txt):00701         FINDPD pshs D Save registers
+03CE 4D               ( kernel\os9p2.txt):00702          tsta LEGAL Number?
+03CF 270F             ( kernel\os9p2.txt):00703          beq FPDERR ..yes; error
+03D1 5F               ( kernel\os9p2.txt):00704          clrb
+03D2 44               ( kernel\os9p2.txt):00705          lsra
+03D3 56               ( kernel\os9p2.txt):00706          rorb
+03D4 44               ( kernel\os9p2.txt):00707          lsra
+03D5 56               ( kernel\os9p2.txt):00708          rorb DIVIDED By 4 pd's per pd block
+03D6 A686             ( kernel\os9p2.txt):00709          lda A,X Map into high order pd address
+03D8 1F02             ( kernel\os9p2.txt):00710          tfr D,Y (y)=address of path descriptor
+03DA 2704             ( kernel\os9p2.txt):00711          beq FPDERR Pd block not allocated!
+03DC 6D20             ( kernel\os9p2.txt):00712          tst 0,Y Is pd in use?
+03DE 2601             ( kernel\os9p2.txt):00713          bne FINDP9 Allocated pd, good!
+03E0 43               ( kernel\os9p2.txt):00714         FPDERR coma ERROR - return carry set
+03E1 3586             ( kernel\os9p2.txt):00715         FINDP9 puls D,PC Return
+                      ( kernel\os9p2.txt):00716          page
+                      ( kernel\os9p2.txt):00717         ***************
+                      ( kernel\os9p2.txt):00718         * Aloc64
+                      ( kernel\os9p2.txt):00719         *   Allocate Path Descriptor (64 Bytes)
+                      ( kernel\os9p2.txt):00720         *
+                      ( kernel\os9p2.txt):00721         * Passed:  X=Pdbt, Path Descriptor Block Table Addr
+                      ( kernel\os9p2.txt):00722         * Returns: A=Path Number
+                      ( kernel\os9p2.txt):00723         *          Y=Pd Address
+                      ( kernel\os9p2.txt):00724         *          Cc=Set If Unable To Allocate
+                      ( kernel\os9p2.txt):00725         *           B=Error Code If Unable To Allocate
+                      ( kernel\os9p2.txt):00726         * Destroys: B
+                      ( kernel\os9p2.txt):00727         *
+03E3 AE44             ( kernel\os9p2.txt):00728         A64 ldx R$X,U Get block ptr
+03E5 2608             ( kernel\os9p2.txt):00729          bne A6410 Branch if set
+03E7 8D10             ( kernel\os9p2.txt):00730          bsr A64ADD Add a page
+03E9 250D             ( kernel\os9p2.txt):00731          bcs A6420 Branch if error
+03EB AF00             ( kernel\os9p2.txt):00732          stx 0,X Init block
+03ED AF44             ( kernel\os9p2.txt):00733          stx R$X,U Return block ptr
+03EF 8D1E             ( kernel\os9p2.txt):00734         A6410 bsr ALOC64 Alocate block
+03F1 2505             ( kernel\os9p2.txt):00735          bcs A6420
+03F3 A741             ( kernel\os9p2.txt):00736          sta R$A,U Return block number
+03F5 10AF46           ( kernel\os9p2.txt):00737          sty R$Y,U Return block ptr
+03F8 39               ( kernel\os9p2.txt):00738         A6420 rts
+                      ( kernel\os9p2.txt):00739         
+03F9 3440             ( kernel\os9p2.txt):00740         A64ADD pshs U Save register ptr
+03FB CC0100           ( kernel\os9p2.txt):00741          ldd #$100 Get a page
+03FE 103F28           ( kernel\os9p2.txt):00742          OS9 F$SRqMem
+0401 3040             ( kernel\os9p2.txt):00743          leax 0,U Copy page ptr
+0403 3540             ( kernel\os9p2.txt):00744          puls U Retrieve register ptr
+0405 2507             ( kernel\os9p2.txt):00745          bcs A64A20 Branch if no memory
+0407 4F               ( kernel\os9p2.txt):00746          clra
+0408 5F               ( kernel\os9p2.txt):00747          clrb
+0409 A78B             ( kernel\os9p2.txt):00748         A64A10 sta D,X Clear page
+040B 5C               ( kernel\os9p2.txt):00749          incb
+040C 26FB             ( kernel\os9p2.txt):00750          bne A64A10
+040E 39               ( kernel\os9p2.txt):00751         A64A20 rts
+                      ( kernel\os9p2.txt):00752         
+040F 3450             ( kernel\os9p2.txt):00753         ALOC64 pshs X,U
+0411 4F               ( kernel\os9p2.txt):00754          clra
+                      ( kernel\os9p2.txt):00755         
+0412 3402             ( kernel\os9p2.txt):00756         ALCPD1 pshs A Save index of pd block
+0414 5F               ( kernel\os9p2.txt):00757          clrb
+0415 A686             ( kernel\os9p2.txt):00758          lda A,X
+0417 270B             ( kernel\os9p2.txt):00759          beq ALPD12 Empty block (not found)
+0419 1F02             ( kernel\os9p2.txt):00760          tfr D,Y (y)=address of pd block
+041B 4F               ( kernel\os9p2.txt):00761          clra
+041C 6DAB             ( kernel\os9p2.txt):00762         ALPD11 tst D,Y Available pd?
+041E 2706             ( kernel\os9p2.txt):00763          beq ALPD13 ..yes
+0420 CB40             ( kernel\os9p2.txt):00764          addb #PDSIZE Skip to next pd
+0422 24F8             ( kernel\os9p2.txt):00765          bcc ALPD11 Repeat until end of pd block
+0424 1A01             ( kernel\os9p2.txt):00766         ALPD12 orcc #CARRY Set carry - not found
+0426 31AB             ( kernel\os9p2.txt):00767         ALPD13 leay D,Y Get address of path descriptor
+0428 3502             ( kernel\os9p2.txt):00768          puls A Restore pd block index
+042A 2425             ( kernel\os9p2.txt):00769          bcc ALCPD4 Found a pd, return it
+042C 4C               ( kernel\os9p2.txt):00770          inca SKIP To next pd block
+042D 8140             ( kernel\os9p2.txt):00771          cmpa #PDSIZE Last one checked?
+042F 25E1             ( kernel\os9p2.txt):00772          blo ALCPD1 ..no; keep looking
+0431 4F               ( kernel\os9p2.txt):00773          clra
+0432 6D86             ( kernel\os9p2.txt):00774         ALCPD2 tst A,X Search for an unused pdb
+0434 270A             ( kernel\os9p2.txt):00775          beq ALCPD3 ..found one
+0436 4C               ( kernel\os9p2.txt):00776          inca SKIP To next
+0437 8140             ( kernel\os9p2.txt):00777          cmpa #PDSIZE All tried?
+0439 25F7             ( kernel\os9p2.txt):00778          blo ALCPD2 ..no; keep looking
+043B C6C8             ( kernel\os9p2.txt):00779          ldb #E$PthFul No available path
+043D 43               ( kernel\os9p2.txt):00780          coma RETURN Carry set - error
+043E 201E             ( kernel\os9p2.txt):00781          bra ALCPD9 Return
+                      ( kernel\os9p2.txt):00782         
+0440 3412             ( kernel\os9p2.txt):00783         ALCPD3 pshs A,X
+0442 8DB5             ( kernel\os9p2.txt):00784          bsr A64ADD Add a page
+0444 251A             ( kernel\os9p2.txt):00785          bcs ALCPDR Allocate error
+0446 3100             ( kernel\os9p2.txt):00786          leay 0,X Set up pd address as first pd in block
+0448 1F10             ( kernel\os9p2.txt):00787          tfr X,D
+044A 1F89             ( kernel\os9p2.txt):00788          tfr A,B (b)=page address of new pd block
+044C 3512             ( kernel\os9p2.txt):00789          puls A,X
+                      ( kernel\os9p2.txt):00790         * (A)=Pdbt Index, (X)=Pdbt
+044E E786             ( kernel\os9p2.txt):00791          stb A,X
+0450 5F               ( kernel\os9p2.txt):00792          clrb
+                      ( kernel\os9p2.txt):00793         *
+                      ( kernel\os9p2.txt):00794         * A=Index Into Pdbt Of Pdb Containing Pd
+                      ( kernel\os9p2.txt):00795         * B=Low Order Address Of Pd In Pdb
+                      ( kernel\os9p2.txt):00796         * Y=Address Of Pd
+                      ( kernel\os9p2.txt):00797         *
+0451 58               ( kernel\os9p2.txt):00798         ALCPD4 aslb FORM Path number
+0452 49               ( kernel\os9p2.txt):00799          rola
+0453 58               ( kernel\os9p2.txt):00800          aslb
+0454 49               ( kernel\os9p2.txt):00801          rola
+0455 C63F             ( kernel\os9p2.txt):00802          ldb #PDSIZE-1
+0457 6FA5             ( kernel\os9p2.txt):00803         ALCPD5 clr B,Y
+0459 5A               ( kernel\os9p2.txt):00804          decb
+045A 26FB             ( kernel\os9p2.txt):00805          bne ALCPD5 Clear out fresh path descriptor
+045C A7A4             ( kernel\os9p2.txt):00806          sta PD.PD,Y Set pd# in pd (indicates in use)
+045E 35D0             ( kernel\os9p2.txt):00807         ALCPD9 puls X,U,PC Return carry clear
+                      ( kernel\os9p2.txt):00808         
+                      ( kernel\os9p2.txt):00809         
+0460 3263             ( kernel\os9p2.txt):00810         ALCPDR leas 3,S Return not enough memory error
+0462 35D0             ( kernel\os9p2.txt):00811          puls X,U,PC Return
+                      ( kernel\os9p2.txt):00812         
+                      ( kernel\os9p2.txt):00813         
+                      ( kernel\os9p2.txt):00814         ***************
+                      ( kernel\os9p2.txt):00815         * Rtrn64
+                      ( kernel\os9p2.txt):00816         *   Return Path Descriptor To Free Status
+                      ( kernel\os9p2.txt):00817         *
+                      ( kernel\os9p2.txt):00818         * Passed: (A)=Path Number
+                      ( kernel\os9p2.txt):00819         *         (X)=D.Pdbt Path Descriptor Block Table Addr
+                      ( kernel\os9p2.txt):00820         * Returns: None
+                      ( kernel\os9p2.txt):00821         * Destroys: Cc
+                      ( kernel\os9p2.txt):00822         *
+0464 A641             ( kernel\os9p2.txt):00823         R64 lda R$A,U Get block number
+0466 AE44             ( kernel\os9p2.txt):00824          ldx R$X,U Get block ptr
+0468 3476             ( kernel\os9p2.txt):00825         RTRN64 pshs D,X,Y,U Save registers
+046A 5F               ( kernel\os9p2.txt):00826          clrb
+046B 44               ( kernel\os9p2.txt):00827          lsra
+046C 56               ( kernel\os9p2.txt):00828          rorb
+046D 44               ( kernel\os9p2.txt):00829          lsra PATH #
+046E 56               ( kernel\os9p2.txt):00830          rorb DIVIDED By 4 pd's per block
+046F 3402             ( kernel\os9p2.txt):00831          pshs A Save a
+0471 A686             ( kernel\os9p2.txt):00832          lda A,X
+0473 2718             ( kernel\os9p2.txt):00833          beq RTRNP9 Impossible path number - return
+0475 1F02             ( kernel\os9p2.txt):00834          tfr D,Y Get address of pd
+0477 6F20             ( kernel\os9p2.txt):00835          clr 0,Y Mark it as unused
+0479 5F               ( kernel\os9p2.txt):00836          clrb
+047A 1F03             ( kernel\os9p2.txt):00837          tfr D,U Get address of pdb in which pd lies
+047C 4F               ( kernel\os9p2.txt):00838          clra
+047D 6DCB             ( kernel\os9p2.txt):00839         RTRNP1 tst D,U Pd in use?
+047F 260C             ( kernel\os9p2.txt):00840          bne RTRNP9 ..yes; return
+0481 CB40             ( kernel\os9p2.txt):00841          addb #PDSIZE
+0483 26F8             ( kernel\os9p2.txt):00842          bne RTRNP1 Repeat for each pd in block
+0485 4C               ( kernel\os9p2.txt):00843          inca (D)=$0100
+0486 103F29           ( kernel\os9p2.txt):00844          OS9 F$SRtMem Return (unused) pdb to system store
+0489 A660             ( kernel\os9p2.txt):00845          lda 0,S
+048B 6F86             ( kernel\os9p2.txt):00846          clr A,X Mark pd unused
+048D 6FE0             ( kernel\os9p2.txt):00847         RTRNP9 clr ,S+ Return scratch with carry clear
+048F 35F6             ( kernel\os9p2.txt):00848          puls D,X,Y,U,PC Return to caller
+                      ( kernel\os9p2.txt):00849         
+                      ( kernel\os9p2.txt):00850         
+                      ( kernel\os9p2.txt):00851         
+                      ( kernel\os9p2.txt):00852          ttl BOOTSTRAP Routines
+                      ( kernel\os9p2.txt):00853          page
+                      ( kernel\os9p2.txt):00854         *****
+                      ( kernel\os9p2.txt):00855         *
+                      ( kernel\os9p2.txt):00856         *  Subroutine Iohook
+                      ( kernel\os9p2.txt):00857         *
+                      ( kernel\os9p2.txt):00858         * Handles Locating/Loading Remainder Of System
+                      ( kernel\os9p2.txt):00859         *
+                      ( kernel\os9p2.txt):00860         * Input: Y - Service Dispatch Table ptr
+                      ( kernel\os9p2.txt):00861         *
+0491 494F4D41CE       ( kernel\os9p2.txt):00862         IOSTR fcb 'I,'O,'M,'A,'N+$80
+0496 3476             ( kernel\os9p2.txt):00863         IOHOOK pshs D,X,Y,U Save registers
+0498 8D14             ( kernel\os9p2.txt):00864          bsr IOLink Link ioman
+049A 2408             ( kernel\os9p2.txt):00865          bcc IOHOOK10
+049C 8D19             ( kernel\os9p2.txt):00866          bsr BOOT Ioman not found, boot
+049E 250C             ( kernel\os9p2.txt):00867          bcs IOHOOK20
+04A0 8D0C             ( kernel\os9p2.txt):00868          bsr IOLink Link ioman again
+04A2 2508             ( kernel\os9p2.txt):00869          bcs IOHOOK20
+04A4 AD20             ( kernel\os9p2.txt):00870         IOHOOK10 jsr 0,Y Call ioman init
+04A6 3576             ( kernel\os9p2.txt):00871          puls D,X,Y,U Retrieve registers
+04A8 AE3E             ( kernel\os9p2.txt):00872          ldx -2,Y Get ioman entry
+04AA 6E00             ( kernel\os9p2.txt):00873          jmp 0,X
+04AC 35F6             ( kernel\os9p2.txt):00874         IOHOOK20 puls D,X,Y,U,PC
+                      ( kernel\os9p2.txt):00875         
+04AE 308CE0           ( kernel\os9p2.txt):00876         IOLink leax IOSTR,PCR Get ioman name ptr
+04B1 86C1             ( kernel\os9p2.txt):00877          lda #SYSTM+OBJCT Get type
+04B3 103F00           ( kernel\os9p2.txt):00878          OS9 F$LINK
+04B6 39               ( kernel\os9p2.txt):00879          rts
+                      ( kernel\os9p2.txt):00880         
+04B7 3440             ( kernel\os9p2.txt):00881         BOOT pshs U save D.Init ptr
+04B9 53               ( kernel\os9p2.txt):00882          comb set carry
+04BA ECC814           ( kernel\os9p2.txt):00883          ldd BOOTSTR,U Get default device string
+04BD 272E             ( kernel\os9p2.txt):00884          beq BOOTXX Can't boot without device
+04BF 30CB             ( kernel\os9p2.txt):00885          leax D,U Get name ptr
+04C1 86C1             ( kernel\os9p2.txt):00886          lda #SYSTM+OBJCT get type
+04C3 103F00           ( kernel\os9p2.txt):00887          OS9 F$LINK find bootstrap module
+04C6 2525             ( kernel\os9p2.txt):00888          bcs BOOTXX Can't boot without module
+04C8 AD20             ( kernel\os9p2.txt):00889          jsr 0,Y Call boot entry
+04CA 2521             ( kernel\os9p2.txt):00890          bcs BOOTXX Boot failed
+04CC 9F24             ( kernel\os9p2.txt):00891          stx D.MLIM Set memory limit
+04CE 9F66             ( kernel\os9p2.txt):00892          stx D.BTLO Set boot area low limit
+04D0 338B             ( kernel\os9p2.txt):00893          leau D,X Make boot area high limit
+04D2 DF68             ( kernel\os9p2.txt):00894          stu D.BTHI
+04D4 EC00             ( kernel\os9p2.txt):00895         BOOT10 ldd 0,X get module beginning
+04D6 108387CD         ( kernel\os9p2.txt):00896          cmpd #M$ID12 is it module sync code?
+04DA 260B             ( kernel\os9p2.txt):00897          bne BOOT20 branch if not
+04DC 103F2E           ( kernel\os9p2.txt):00898          OS9 F$VModul Validate module
+04DF 2506             ( kernel\os9p2.txt):00899          bcs BOOT20
+04E1 EC02             ( kernel\os9p2.txt):00900          ldd M$SIZE,X Get module size
+04E3 308B             ( kernel\os9p2.txt):00901          leax D,X Skip module
+04E5 2002             ( kernel\os9p2.txt):00902          bra BOOT30
+04E7 3001             ( kernel\os9p2.txt):00903         BOOT20 leax 1,X Try next
+04E9 9C68             ( kernel\os9p2.txt):00904         BOOT30 cmpx D.BTHI End of boot?
+04EB 25E7             ( kernel\os9p2.txt):00905          bcs BOOT10 Branch if not
+04ED 35C0             ( kernel\os9p2.txt):00906         BOOTXX puls U,PC Restore ptr and return
+                      ( kernel\os9p2.txt):00907         
+                      ( kernel\os9p2.txt):00908         
+04EF ABABA1           ( kernel\os9p2.txt):00909          emod
+     04F2             ( kernel\os9p2.txt):00910         OS9End equ *
+                      ( kernel\os9p2.txt):00911         
+                      ( kernel\os9p2.txt):00912         
+                      ( kernel\os9p2.txt):00913         
+                      ( kernel\os9p2.txt):00914          ttl Configuration Module
+                      ( kernel\os9p2.txt):00915          page
+                      ( kernel\os9p2.txt):00916         *****
+                      ( kernel\os9p2.txt):00917         *
+                      ( kernel\os9p2.txt):00918         * Configuration Module
+                      ( kernel\os9p2.txt):00919         *
+     00C0             ( kernel\os9p2.txt):00920         Type set SYSTM
+                      ( kernel\os9p2.txt):00921         * note LWASM bug forces the use of execution address etc
+                      ( kernel\os9p2.txt):00922         * so fudge these values to give the required format for INIT
+0000 87CD002E0016C081 ( kernel\os9p2.txt):00923          mod ConEnd,ConNam,Type,Revs,$00DE,$800C (fcb 0 no extended memory, fdb $DE80 High free memory bound, fcb 12 Entries in interrupt polling table)
+     CC00DE800C
+000D 0C               ( kernel\os9p2.txt):00924          fcb 12 Entries in device table
+000E 001A             ( kernel\os9p2.txt):00925          fdb ModNam Initial module name
+0010 001F             ( kernel\os9p2.txt):00926          fdb DirNam Default directory name
+0012 0022             ( kernel\os9p2.txt):00927          fdb TermNam Standard i/o device name
+0014 0027             ( kernel\os9p2.txt):00928          fdb BootNam Bootstrap module name
+0016 496E69F4         ( kernel\os9p2.txt):00929         ConNam fcs "Init"
+001A 53797347EF       ( kernel\os9p2.txt):00930         ModNam fcs "SysGo"
+001F 2F44B0           ( kernel\os9p2.txt):00931         DirNam fcs "/D0"
+0022 2F546572ED       ( kernel\os9p2.txt):00932         TermNam fcs "/Term"
+0027 426F6FF4         ( kernel\os9p2.txt):00933         BootNam fcs "Boot"
+002B BCE8FE           ( kernel\os9p2.txt):00934          emod
+     002E             ( kernel\os9p2.txt):00935         ConEnd equ *
+                      ( kernel\os9p2.txt):00936         
+                      ( kernel\os9p2.txt):00937          end

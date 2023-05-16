@@ -1,0 +1,589 @@
+12:44:26 **** Incremental Build of configuration release_usb for project MB2K2 ****
+xmake CONFIG=release_usb all 
+Checking build modules
+WARNING: Required version of lib_xassert is >=2.0.0 and actual version has greater major version: 3.0.0. There could be API incompatibilities.
+WARNING: Required version of lib_xassert is >=2.0.1 and actual version has greater major version: 3.0.0. There could be API incompatibilities.
+Using build modules: lib_logging(2.1.0) lib_trycatch(1.0.0) lib_uart(3.1.0) lib_usb(3.1.2) lib_xassert(3.0.0) lib_xcore_c(2.0.0) lib_gpio(1.1.0)
+Rebuild .build_release_usb/_iflag.rsp
+Analyzing 6809.c
+Analyzing debug_printf.c
+Analyzing trycatch.c
+Analyzing XUD_GetDone.c
+Analyzing XUD_SetCrcTableAddr.c
+Analyzing XUD_User.c
+Analyzing xcore_c_chan.c
+Analyzing xcore_c_clock.c
+Analyzing xcore_c_hwtimer.c
+Analyzing xcore_c_interrupt.c
+Analyzing xcore_c_lock.c
+Analyzing xcore_c_port.c
+Analyzing xcore_c_resource.c
+Analyzing xcore_c_select.c
+Analyzing main.xc
+Analyzing acia.xc
+Analyzing gdc.xc
+../src/GDC/gdc.xc:231:36: warning: suggest parentheses around arithmetic in operand of | [-Wparentheses]
+            cmd = vram[STATUS_REG] | FIFO_EMPTY & ~FIFO_FULL; // FIFO is always empty and never full
+                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:331:13: warning: pointer cast to type of larger alignment
+   c_disp <:(unsigned* unsafe) &vram;
+            ^~~~~~~~~~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:339:30: warning: pointer cast to type of larger alignment
+       while (popFIFO(c_gdc, (unsigned*)&vram) != 0) {};
+                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:342:27: warning: pointer cast to type of larger alignment
+           popFIFO(c_gdc, (unsigned*)&vram);
+                          ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:367:38: warning: pointer cast to type of larger alignment
+               cmd =  popFIFO(c_gdc, (unsigned*)&vram);
+                                     ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:400:23: warning: case not terminated with a break, return, continue or [[fallthrough]] [-Wswitch-fallthrough]
+                      default:
+                      ^~~~~~~~
+../src/GDC/gdc.xc:395:19: warning: case not terminated with a break, return, continue or [[fallthrough]] [-Wswitch-fallthrough]
+                  default:
+                  ^~~~~~~~
+../src/GDC/gdc.xc:388:15: warning: case not terminated with a break, return, continue or [[fallthrough]] [-Wswitch-fallthrough]
+              default:
+              ^~~~~~~~
+../src/GDC/gdc.xc:420:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram); // dump param
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:426:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram); // dump params
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:427:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram);
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:428:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram);
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:434:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram); // dump params
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:473:49: warning: pointer cast to type of larger alignment
+                       pRAM[i] = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                                ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:499:41: warning: pointer cast to type of larger alignment
+                   cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                        ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:516:34: warning: pointer cast to type of larger alignment
+              if((popFIFO(c_gdc, (unsigned*)&vram) & 0x09) == 0) {
+                                 ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:532:36: warning: pointer cast to type of larger alignment
+              eAD = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:533:36: warning: pointer cast to type of larger alignment
+              dAD = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:537:37: warning: pointer cast to type of larger alignment
+              dAD = (popFIFO(c_gdc, (unsigned*)&vram) & 0xF0) >> 4;
+                                    ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:545:36: warning: pointer cast to type of larger alignment
+             mask = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:546:46: warning: pointer cast to type of larger alignment
+              mask = mask | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:560:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:566:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:569:46: warning: pointer cast to type of larger alignment
+                  DC = DC | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:577:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:580:44: warning: pointer cast to type of larger alignment
+                  D = D | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                           ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:588:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:591:46: warning: pointer cast to type of larger alignment
+                  D2 = D2 | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:599:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:602:46: warning: pointer cast to type of larger alignment
+                  D1 = D1 | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:610:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:613:46: warning: pointer cast to type of larger alignment
+                  DM = DM | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:629:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:632:58: warning: pointer cast to type of larger alignment
+                  xferData = xferData | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                                         ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:709:40: warning: pointer cast to type of larger alignment
+                  cmd = popFIFO(c_gdc, (unsigned*)&vram) & 0x7F; // pick up char
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:743:40: warning: pointer cast to type of larger alignment
+                  cmd = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF; // pick up char
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:784:40: warning: pointer cast to type of larger alignment
+                  cmd = popFIFO(c_gdc, (unsigned*)&vram) & 0x7F; // pick up char
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1055:40: warning: pointer cast to type of larger alignment
+                  row = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1056:40: warning: pointer cast to type of larger alignment
+                  col = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1058:43: warning: pointer cast to type of larger alignment
+                  offset = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF; // low byte
+                                          ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1059:54: warning: pointer cast to type of larger alignment
+                  offset = offset | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8); // high byte
+                                                     ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1072:38: warning: pointer cast to type of larger alignment
+                  x = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF; // lo byte
+                                     ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1073:44: warning: pointer cast to type of larger alignment
+                  x = x | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8); // hi byte
+                                           ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1074:38: warning: pointer cast to type of larger alignment
+                  y = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                     ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1075:44: warning: pointer cast to type of larger alignment
+                  y = y | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                           ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1083:41: warning: pointer cast to type of larger alignment
+                  endX = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF; // lo byte
+                                        ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1084:50: warning: pointer cast to type of larger alignment
+                  endX = endX | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8); // hi byte
+                                                 ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1085:41: warning: pointer cast to type of larger alignment
+                  endY = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                        ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1086:50: warning: pointer cast to type of larger alignment
+                  endY = endY | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                                 ^~~~~~~~~~~~~~~~
+Analyzing pia.xc
+../src/PIA/pia.xc:42:11: warning: unused variable `t' [-Wunused-variable]
+    timer t;
+          ^
+../src/PIA/pia.xc:44:19: warning: unused variable `time' [-Wunused-variable]
+    unsigned cmd, time, endTime;
+                  ^~~~
+../src/PIA/pia.xc:44:25: warning: unused variable `endTime' [-Wunused-variable]
+    unsigned cmd, time, endTime;
+                        ^~~~~~~
+Analyzing ps2.xc
+Analyzing memory.xc
+Analyzing rtc.xc
+Analyzing TMR.xc
+Analyzing xud_cdc.xc
+Analyzing promdisk.xc
+Analyzing ramdisk.xc
+Analyzing multi_uart_rx.xc
+Analyzing multi_uart_tx.xc
+Analyzing uart_fast_rx.xc
+Analyzing uart_fast_tx.xc
+Analyzing uart_half_duplex.xc
+Analyzing uart_rx.xc
+Analyzing uart_tx.xc
+Analyzing uart_tx_buffered.xc
+Analyzing device_reboot.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing usb_device.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing dfu.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing dfu_flash.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing endpoint0.xc
+warning: subword-select option is deprecated and has no effect
+D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/endpoint0/endpoint0.xc:602:53: warning: argument 2 of `sendConfigDescriptor' slices interface preventing analysis of its parallel usage [-Wunusual-code]
+                                                    i_ep0, numClients,
+                                                    ^~~~~
+D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/endpoint0/endpoint0.xc:615:53: warning: argument 2 of `sendConfigDescriptor' slices interface preventing analysis of its parallel usage [-Wunusual-code]
+                                                    i_ep0, numClients,
+                                                    ^~~~~
+D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/endpoint0/endpoint0.xc:683:55: warning: argument 2 of `sendConfigDescriptor' slices interface preventing analysis of its parallel usage [-Wunusual-code]
+                                                      i_ep0, numClients,
+                                                      ^~~~~
+D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/endpoint0/endpoint0.xc:696:55: warning: argument 2 of `sendConfigDescriptor' slices interface preventing analysis of its parallel usage [-Wunusual-code]
+                                                      i_ep0, numClients,
+                                                      ^~~~~
+Analyzing XUD_EpFunctions.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_Ports.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_Client.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_DeviceAttach.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_IOLoopCall.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_Manager.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_PhyResetUser.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_PowerSig.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_SetDevAddr.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_Support.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing XUD_TestMode.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing glx.xc
+warning: subword-select option is deprecated and has no effect
+Analyzing xassert.xc
+Analyzing gpio.xc
+Analyzing trycatch_asm.S
+Analyzing dfu_reset_override.S
+Analyzing XUD_EpFuncs.S
+Analyzing XUD_CRC5_Table.S
+Analyzing XUD_IoLoop.S
+Analyzing XUD_SetupChanOverride.S
+Analyzing XUD_UIFM_PConfig.S
+Analyzing XUD_UIFM_RegAccess.S
+Analyzing xcore_c_interrupt.S
+Analyzing xcore_c_select.S
+Rebuild .build_release_usb/_pca.rsp
+Propagating analysis
+Creating dependencies for xcore_c_select.S
+Creating dependencies for xcore_c_interrupt.S
+Creating dependencies for XUD_UIFM_RegAccess.S
+Creating dependencies for XUD_UIFM_PConfig.S
+Creating dependencies for XUD_SetupChanOverride.S
+Creating dependencies for XUD_IoLoop.S
+Creating dependencies for XUD_CRC5_Table.S
+Creating dependencies for XUD_EpFuncs.S
+Creating dependencies for dfu_reset_override.S
+Creating dependencies for trycatch_asm.S
+Creating dependencies for gpio.xc
+Creating dependencies for xassert.xc
+Creating dependencies for glx.xc
+Creating dependencies for XUD_TestMode.xc
+Creating dependencies for XUD_Support.xc
+Creating dependencies for XUD_SetDevAddr.xc
+Creating dependencies for XUD_PowerSig.xc
+Creating dependencies for XUD_PhyResetUser.xc
+Creating dependencies for XUD_Manager.xc
+Creating dependencies for XUD_IOLoopCall.xc
+Creating dependencies for XUD_DeviceAttach.xc
+Creating dependencies for XUD_Client.xc
+Creating dependencies for XUD_Ports.xc
+Creating dependencies for XUD_EpFunctions.xc
+Creating dependencies for endpoint0.xc
+Creating dependencies for dfu_flash.xc
+Creating dependencies for dfu.xc
+Creating dependencies for usb_device.xc
+Creating dependencies for device_reboot.xc
+Creating dependencies for uart_tx_buffered.xc
+Creating dependencies for uart_tx.xc
+Creating dependencies for uart_rx.xc
+Creating dependencies for uart_half_duplex.xc
+Creating dependencies for uart_fast_tx.xc
+Creating dependencies for uart_fast_rx.xc
+Creating dependencies for multi_uart_tx.xc
+Creating dependencies for multi_uart_rx.xc
+Creating dependencies for ramdisk.xc
+Creating dependencies for promdisk.xc
+Creating dependencies for xud_cdc.xc
+Creating dependencies for TMR.xc
+Creating dependencies for rtc.xc
+Creating dependencies for memory.xc
+Creating dependencies for ps2.xc
+Creating dependencies for pia.xc
+Creating dependencies for gdc.xc
+Creating dependencies for acia.xc
+Creating dependencies for main.xc
+Creating dependencies for xcore_c_select.c
+Creating dependencies for xcore_c_resource.c
+Creating dependencies for xcore_c_port.c
+Creating dependencies for xcore_c_lock.c
+Creating dependencies for xcore_c_interrupt.c
+Creating dependencies for xcore_c_hwtimer.c
+Creating dependencies for xcore_c_clock.c
+Creating dependencies for xcore_c_chan.c
+Creating dependencies for XUD_User.c
+Creating dependencies for XUD_SetCrcTableAddr.c
+Creating dependencies for XUD_GetDone.c
+Creating dependencies for trycatch.c
+Creating dependencies for debug_printf.c
+Creating dependencies for 6809.c
+Compiling 6809.c
+Compiling debug_printf.c
+Compiling trycatch.c
+Compiling XUD_GetDone.c
+Compiling XUD_SetCrcTableAddr.c
+Compiling XUD_User.c
+Compiling xcore_c_chan.c
+Compiling xcore_c_clock.c
+Compiling xcore_c_hwtimer.c
+Compiling xcore_c_interrupt.c
+Compiling xcore_c_lock.c
+Compiling xcore_c_port.c
+Compiling xcore_c_resource.c
+Compiling xcore_c_select.c
+Compiling main.xc
+Compiling acia.xc
+Compiling gdc.xc
+../src/GDC/gdc.xc:231:36: warning: suggest parentheses around arithmetic in operand of | [-Wparentheses]
+            cmd = vram[STATUS_REG] | FIFO_EMPTY & ~FIFO_FULL; // FIFO is always empty and never full
+                  ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:331:13: warning: pointer cast to type of larger alignment
+   c_disp <:(unsigned* unsafe) &vram;
+            ^~~~~~~~~~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:339:30: warning: pointer cast to type of larger alignment
+       while (popFIFO(c_gdc, (unsigned*)&vram) != 0) {};
+                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:342:27: warning: pointer cast to type of larger alignment
+           popFIFO(c_gdc, (unsigned*)&vram);
+                          ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:367:38: warning: pointer cast to type of larger alignment
+               cmd =  popFIFO(c_gdc, (unsigned*)&vram);
+                                     ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:400:23: warning: case not terminated with a break, return, continue or [[fallthrough]] [-Wswitch-fallthrough]
+                      default:
+                      ^~~~~~~~
+../src/GDC/gdc.xc:395:19: warning: case not terminated with a break, return, continue or [[fallthrough]] [-Wswitch-fallthrough]
+                  default:
+                  ^~~~~~~~
+../src/GDC/gdc.xc:388:15: warning: case not terminated with a break, return, continue or [[fallthrough]] [-Wswitch-fallthrough]
+              default:
+              ^~~~~~~~
+../src/GDC/gdc.xc:420:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram); // dump param
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:426:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram); // dump params
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:427:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram);
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:428:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram);
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:434:31: warning: pointer cast to type of larger alignment
+               popFIFO(c_gdc, (unsigned*)&vram); // dump params
+                              ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:473:49: warning: pointer cast to type of larger alignment
+                       pRAM[i] = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                                ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:499:41: warning: pointer cast to type of larger alignment
+                   cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                        ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:516:34: warning: pointer cast to type of larger alignment
+              if((popFIFO(c_gdc, (unsigned*)&vram) & 0x09) == 0) {
+                                 ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:532:36: warning: pointer cast to type of larger alignment
+              eAD = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:533:36: warning: pointer cast to type of larger alignment
+              dAD = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:537:37: warning: pointer cast to type of larger alignment
+              dAD = (popFIFO(c_gdc, (unsigned*)&vram) & 0xF0) >> 4;
+                                    ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:545:36: warning: pointer cast to type of larger alignment
+             mask = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:546:46: warning: pointer cast to type of larger alignment
+              mask = mask | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:560:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:566:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:569:46: warning: pointer cast to type of larger alignment
+                  DC = DC | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:577:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:580:44: warning: pointer cast to type of larger alignment
+                  D = D | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                           ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:588:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:591:46: warning: pointer cast to type of larger alignment
+                  D2 = D2 | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:599:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:602:46: warning: pointer cast to type of larger alignment
+                  D1 = D1 | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:610:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:613:46: warning: pointer cast to type of larger alignment
+                  DM = DM | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                             ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:629:36: warning: pointer cast to type of larger alignment
+              cmd = popFIFO(c_gdc, (unsigned*)&vram);
+                                   ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:632:58: warning: pointer cast to type of larger alignment
+                  xferData = xferData | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                                         ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:709:40: warning: pointer cast to type of larger alignment
+                  cmd = popFIFO(c_gdc, (unsigned*)&vram) & 0x7F; // pick up char
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:743:40: warning: pointer cast to type of larger alignment
+                  cmd = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF; // pick up char
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:784:40: warning: pointer cast to type of larger alignment
+                  cmd = popFIFO(c_gdc, (unsigned*)&vram) & 0x7F; // pick up char
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1055:40: warning: pointer cast to type of larger alignment
+                  row = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1056:40: warning: pointer cast to type of larger alignment
+                  col = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                       ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1058:43: warning: pointer cast to type of larger alignment
+                  offset = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF; // low byte
+                                          ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1059:54: warning: pointer cast to type of larger alignment
+                  offset = offset | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8); // high byte
+                                                     ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1072:38: warning: pointer cast to type of larger alignment
+                  x = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF; // lo byte
+                                     ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1073:44: warning: pointer cast to type of larger alignment
+                  x = x | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8); // hi byte
+                                           ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1074:38: warning: pointer cast to type of larger alignment
+                  y = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                     ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1075:44: warning: pointer cast to type of larger alignment
+                  y = y | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                           ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1083:41: warning: pointer cast to type of larger alignment
+                  endX = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF; // lo byte
+                                        ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1084:50: warning: pointer cast to type of larger alignment
+                  endX = endX | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8); // hi byte
+                                                 ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1085:41: warning: pointer cast to type of larger alignment
+                  endY = popFIFO(c_gdc, (unsigned*)&vram) & 0xFF;
+                                        ^~~~~~~~~~~~~~~~
+../src/GDC/gdc.xc:1086:50: warning: pointer cast to type of larger alignment
+                  endY = endY | ((popFIFO(c_gdc, (unsigned*)&vram) & 0xFF) << 8);
+                                                 ^~~~~~~~~~~~~~~~
+Compiling pia.xc
+../src/PIA/pia.xc:42:11: warning: unused variable `t' [-Wunused-variable]
+    timer t;
+          ^
+../src/PIA/pia.xc:44:19: warning: unused variable `time' [-Wunused-variable]
+    unsigned cmd, time, endTime;
+                  ^~~~
+../src/PIA/pia.xc:44:25: warning: unused variable `endTime' [-Wunused-variable]
+    unsigned cmd, time, endTime;
+                        ^~~~~~~
+Compiling ps2.xc
+Compiling memory.xc
+Compiling rtc.xc
+Compiling TMR.xc
+Compiling xud_cdc.xc
+Compiling promdisk.xc
+Compiling ramdisk.xc
+Compiling multi_uart_rx.xc
+Compiling multi_uart_tx.xc
+Compiling uart_fast_rx.xc
+Compiling uart_fast_tx.xc
+Compiling uart_half_duplex.xc
+Compiling uart_rx.xc
+Compiling uart_tx.xc
+Compiling uart_tx_buffered.xc
+Compiling device_reboot.xc
+warning: subword-select option is deprecated and has no effect
+Compiling usb_device.xc
+warning: subword-select option is deprecated and has no effect
+Compiling dfu.xc
+warning: subword-select option is deprecated and has no effect
+Compiling dfu_flash.xc
+warning: subword-select option is deprecated and has no effect
+Compiling endpoint0.xc
+warning: subword-select option is deprecated and has no effect
+D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/endpoint0/endpoint0.xc:602:53: warning: argument 2 of `sendConfigDescriptor' slices interface preventing analysis of its parallel usage [-Wunusual-code]
+                                                    i_ep0, numClients,
+                                                    ^~~~~
+D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/endpoint0/endpoint0.xc:615:53: warning: argument 2 of `sendConfigDescriptor' slices interface preventing analysis of its parallel usage [-Wunusual-code]
+                                                    i_ep0, numClients,
+                                                    ^~~~~
+D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/endpoint0/endpoint0.xc:683:55: warning: argument 2 of `sendConfigDescriptor' slices interface preventing analysis of its parallel usage [-Wunusual-code]
+                                                      i_ep0, numClients,
+                                                      ^~~~~
+D:/MB2K2_OS9/Firmware/workspace/lib_usb/src/experimental/endpoint0/endpoint0.xc:696:55: warning: argument 2 of `sendConfigDescriptor' slices interface preventing analysis of its parallel usage [-Wunusual-code]
+                                                      i_ep0, numClients,
+                                                      ^~~~~
+Compiling XUD_EpFunctions.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_Ports.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_Client.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_DeviceAttach.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_IOLoopCall.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_Manager.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_PhyResetUser.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_PowerSig.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_SetDevAddr.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_Support.xc
+warning: subword-select option is deprecated and has no effect
+Compiling XUD_TestMode.xc
+warning: subword-select option is deprecated and has no effect
+Compiling glx.xc
+warning: subword-select option is deprecated and has no effect
+Compiling xassert.xc
+Compiling gpio.xc
+Compiling trycatch_asm.S
+Compiling dfu_reset_override.S
+Compiling XUD_EpFuncs.S
+Compiling XUD_CRC5_Table.S
+Compiling XUD_IoLoop.S
+Compiling XUD_SetupChanOverride.S
+Compiling XUD_UIFM_PConfig.S
+Compiling XUD_UIFM_RegAccess.S
+Compiling xcore_c_interrupt.S
+Compiling xcore_c_select.S
+Rebuild .build_release_usb/_obj.rsp
+Creating mb2k2_release_usb.xe
+Constraint check for tile[0]:
+  Cores available:            8,   used:          8 .  OKAY
+  Timers available:          10,   used:          8 .  OKAY
+  Chanends available:        32,   used:         18 .  OKAY
+  Memory available:       262144,   used:      232732 .  OKAY
+    (Stack: 6036, Code: 69776, Data: 156920)
+Constraints checks PASSED.
+Constraint check for tile[1]:
+  Cores available:            8,   used:          7 .  OKAY
+  Timers available:          10,   used:          9 .  OKAY
+  Chanends available:        32,   used:         25 .  OKAY
+  Memory available:       262144,   used:      260008 .  OKAY
+    (Stack: 35644, Code: 15384, Data: 208980)
+Constraints checks PASSED.
+D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/multi_uart_rx.xc: Warning: Undefined reference to 'uart_rx_loop_8'
+xmap: Warning: More than 6 cores used on a tile. Ensure this is not the case on tile running XUD.
+D:/MB2K2_OS9/Firmware/workspace/lib_uart-master/lib_uart/src/multi_uart_rx.xc: Warning: Undefined reference to 'uart_rx_loop_8'
+xmap: Warning: More than 6 cores used on a tile. Ensure this is not the case on tile running XUD.
+Build Complete
+
+12:45:56 Build Finished (took 1m:30s.390ms)
+

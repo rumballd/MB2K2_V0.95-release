@@ -1,0 +1,17 @@
+* MB2K2 specific init
+* Set up PIA, /DDEN and MAP bits.
+ LDA #4
+ STA SYSREG
+* 
+* flush ACIA buffers
+ LDA #$FF
+ STA ACIAC1
+ STA ACIAC2
+*
+* clear any timer flag
+ lda $FF40
+* disable writing to PROMdisk
+ clra
+ sta PDWPRT
+*
+ JMP MINIT

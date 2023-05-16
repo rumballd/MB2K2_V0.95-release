@@ -1,0 +1,219 @@
+* Monitor definitions and equates for the MB2K2.
+PROM EQU $E000 Eprom start address.
+RAM EQU $DE00 Scratch ram + stack space.
+IO EQU $FF00 I/O base address.
+SSTACK EQU (RAM+127-16) Top of system stack.
+SCRAT EQU (RAM+384) Start of scratch space.
+*
+* User callable subroutines. Use indirect JSR's to call.
+RESET EQU $F000 Cold start.
+CONTRL EQU $F002 Warm start. 
+INCH1 EQU $F004 Input char without an echo .
+INCH EQU $F006 Input char .
+STATUS EQU $F008 Check for char.
+OUTCH EQU $F00A Output char.
+PDATA1 EQU $F00C Print string terminated by hex(04).
+PCRLF EQU $F00E Print a cr followed by a lf.
+PSTRNG EQU $F010 PCRLF followed by PDATA1.
+INIT EQU $F012 Init active device.
+DELAY EQU $F014 Delay for (XREG) m/S.
+BADDR EQU $F016 Get a four digit hex address into X.
+BYTE EQU $F018 Get a two hex digit number into A.
+INHEX EQU $F01A Get a one digit hex char into A.
+OUT2H EQU $F01C Output two hex chars pointed to by X.
+OUT2HS EQU $F01E OUT2H plus a space.
+OUT4HS EQU $F020 Output four hex chars etc.
+OUTHR EQU $F022 Output right hex digit in A.
+OUTHL EQU $F024 Output left hex digit in A.
+OUTS EQU $F026 Output a space.
+RANDOM EQU $F028 Returns a random number in the range 0-255.
+PRINTA EQU $F02A Print the contents of A.
+PRINTX EQU $F02C Print the contents of X.
+READ EQU $F02E Read sector.
+WRITE EQU $F030 Write sector.
+VERIFY EQU $F032 Verify sector.
+RST EQU $F034 Restore to track 00.
+DRV EQU $F036 Select drive.
+CHKRDY EQU $F038 Check for drive ready.
+QUICK EQU $F03A Quick check for drive ready.
+DINIT EQU $F03C Drive cold start.
+WARM EQU $F03E Drive warm start.
+SEEK EQU $F040 Seek to track.
+GETTIM EQU $F042 Get time string from RTC.
+PUTTIM EQU $F044 Put time string to RTC.
+GETRTC EQU $F046 Get a byte from the RTC.
+PUTRTC EQU $F048 Put a byte to the RTC.
+BEEP EQU $F04A Sound a 100ms tone.
+GCOM EQU $F04C Send command to GDC.
+GPRM EQU $F04E Send parameter to GDC.
+GPRMI EQU $F050 Get parameter from GDC.
+MASK EQU $F052 Load mask register.
+SETPEN EQU $F054 Define drawing mode.
+SETPAT EQU $F056 Define graphics pattern.
+FIGSF EQU $F058 Start figure drawing.
+FIGSG EQU $F05A Start graphics drawing.
+SETPAR EQU $F05C Define display partitions.
+SETCRG EQU $F05E Set graphics cursor.
+GETCRG EQU $F060 Get graphics cursor.
+SETCRT EQU $F062 Set text cursor.
+GETCRT EQU $F064 Get text cursor.
+OFF EQU $F066 Turn display off.
+ON EQU $F068 Turn display on.
+GRAPH EQU $F06A Set display to graphics.
+TEXT EQU $F06C Set display to text
+MODE EQU $F06E Set GDC mode.
+ZOOM EQU $F070 Set zoom factors.
+FILL EQU $F072 Area fill routine.
+CLEARX EQU $F074 Clear X words of display memory.
+CLEARG EQU $F076 Clear graphics display.
+CLEART EQU $F078 Clear text display.
+GDCINIT EQU $F07A Initialise GDC.
+GDCOUT EQU $F07C Output a character.
+INKEY EQU $F07E Get a character from the keyboard.
+POINT EQU $F080 Plot a point.
+LINE EQU $F082 Plot a line.
+RECT EQU $F084 Plot a rectangle.
+CIRCLE EQU $F086 Plot a circle.
+ARC EQU $F088 Plot an arc
+CLINK EQU $F08A Link text parameters.
+SYNC EQU $F08C Sync to vertical blanking.
+*
+* the following routines were not in the MB2 ROM.
+TOUPP EQU $F08E convert ASCII char to upper case
+BCD2B EQU $F090 convert BCD value to binary
+BIN2B EQU $F092 convert binary value to BCD
+*
+SCHAR EQU $F0A0 FlexNet driver send char
+RCHAR EQU $F0A2 FlexNet driver recieve char
+*
+*
+ ORG (RAM+128)
+BUFFER RMB 256 Floppy interface sector buffer.
+STACK RMB 2 User system stack.
+NMIV RMB 2 NMI interrupt vector.
+IRQV RMB 2 IRQ interrupt vector.
+FIRQV RMB 2 FIRQ interrupt vector.
+SWI2V RMB 2 SWI2 interrupt vector.
+SWI3V RMB 2 SWI3 interrupt vector.
+IPORT RMB 1 Active input port.
+OPORT RMB 1 Active output port.
+DRIVE RMB 1 Format drive value.
+TRACK RMB 1 Format track value.
+SECTOR RMB 1 Format sector value.
+TEMP RMB 1
+XTEMP RMB 2
+YTEMP RMB 2
+TTO RMB 2
+RNDM RMB 4 Random number storage.
+WARMS RMB 1 Warm start flag.
+DDSTAB RMB 4 Disc driver type table.
+REAVEC RMB 2 Disc driver jump table.
+WRIVEC RMB 2
+VERVEC RMB 2
+RSTVEC RMB 2
+DRVVEC RMB 2
+CHKVEC RMB 2
+QUIVEC RMB 2
+INIVEC RMB 2
+WARVEC RMB 2
+SEEVEC RMB 2
+RTCFAIL RMB 1 RTC fail flag.
+CURDRV RMB 1 Active floppy drive.
+XCOORD RMB 2 Cursor X value.
+YCOORD RMB 2 Cursor Y Value.
+PART1 RMB 4 Display partition one.
+PART2 RMB 4 Display partition two.
+GPARAM RMB 8 Parameter ram contents.
+GMODE RMB 1 GDC mode register contents.
+GZOOM RMB 1 Display + write zoom values.
+GFIGS RMB 1 Figs 1st parameter value.
+DC RMB 2
+D RMB 2
+D2 RMB 2
+D1 RMB 2
+DM RMB 2
+CONST RMB 1
+ROW RMB 1
+COL RMB 1
+MAXCOL RMB 1
+MAXROW RMB 1
+CCOL RMB 1
+CROW RMB 1
+BCOL RMB 1
+BROW RMB 1
+ATTRI RMB 1
+CSPACE RMB 1
+CHARTAB RMB 2
+CURSOR RMB 2 Text cursor position.
+OFFSET RMB 2
+CZOOM RMB 1
+CTYPE RMB 1
+ESCFLG RMB 1
+TS1 RMB 2
+TS2 RMB 2
+TL1 RMB 2
+TL2 RMB 2
+DEN RMB 1
+DEN1 RMB 1
+STEP RMB 1
+STEP0 RMB 1
+SPEED RMB 1
+FLASH RMB 1
+CFLAG RMB 1
+*
+* the following were not in the MB2 ROM.
+CHKSUM RMB 2             FlexNet driver checksum
+BRKPNT RMB 1             saved instruction byte from breakpoint
+PDWPRT RMB 1             promdisk write protect flag (0 = protected)
+*
+* Hardware device equates.
+KEYREG EQU $FF00 Keyboard register.
+PIACA EQU $FF01 Pia side a control register.
+SYSREG EQU $FF02 System control register.
+PIACB EQU $FF03 Pia side b control register.
+*
+ACIAD1 EQU $FF08 Acia port 0 data register.
+ACIAC1 EQU $FF09 Acia port 0 control register.
+ACIAD2 EQU $FF04 Acia port 1 data register.
+ACIAC2 EQU $FF05 Acia port 1 control register.
+BAUD1 EQU $FF0C Acia port 0 baud rate register.
+BAUD2 EQU $FF0D Acia port 1 baud rate register.
+*
+COMREG EQU $FF10 Fdc command register.
+TRKREG EQU $FF11 Fdc track register.
+SECREG EQU $FF12 Fdc sector register.
+DATREG EQU $FF13 Fdc data register.
+*
+GDCPRM EQU $FF14 Gdc command register.
+GDCCOM EQU $FF15 Gdc parameter register.
+*
+RTCADD EQU $FF18 Rtc address register.
+RTCDAT EQU $FF19 Rtc data register.
+*
+* ramdisk controller registers
+RCOMRG EQU $FF20
+RTRKRG EQU $FF21
+RSECRG EQU $FF22
+RDATRG EQU $FF23
+*
+* promdisk controller registers
+ECOMRG EQU $FF30
+ETRKRG EQU $FF31
+ESECRG EQU $FF32
+EDATRG EQU $FF33
+*
+* disk controller commands
+RSCMD EQU $00
+SECMD EQU $10
+RECMD EQU $84
+WRCMD EQU $A4
+*
+* Floppy disk controller status bits
+RSMASK EQU $58
+SEMASK EQU $10
+REMASK EQU $1C
+WRMASK EQU $5C
+VEMASK EQU $18
+DRQ EQU $2
+BUSY EQU $1
+

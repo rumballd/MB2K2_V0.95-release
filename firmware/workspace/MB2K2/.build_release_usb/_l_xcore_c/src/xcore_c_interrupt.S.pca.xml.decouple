@@ -1,0 +1,12 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_xcore_c/src/xcore_c_interrupt.S">
+  <fCall global="true" name="_xcore_c_interrupt_permitted_common"/>
+  <fCall global="true" name="_xcore_c_interrupt_permitted_common.nstackwords"/>
+  <fCall global="true" name="_xcore_c_interrupt_permitted_common.maxcores"/>
+  <fCall global="true" name="_xcore_c_interrupt_permitted_common.maxtimers"/>
+  <fCall global="true" name="_xcore_c_interrupt_permitted_common.maxchanends"/>
+  <fCall global="true" name="_xcore_c_interrupt_callback_common"/>
+  <fCall global="true" name="_xcore_c_interrupt_callback_common.nstackwords"/>
+  <fCall global="true" name="_xcore_c_interrupt_callback_common.maxcores"/>
+  <fCall global="true" name="_xcore_c_interrupt_callback_common.maxtimers"/>
+  <fCall global="true" name="_xcore_c_interrupt_callback_common.maxchanends"/>
+</preCompilationAnalysis>

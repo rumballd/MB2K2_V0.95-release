@@ -1,0 +1,6 @@
+12:40:25 **** Clean-only build of configuration Default for project lib_xcore_c ****
+xmake -f .makefile clean 
+xmake: Interrupt/Exception caught (code = 0xc00000fd, addr = 0x74f067)
+
+12:40:26 Build Finished (took 99ms)
+

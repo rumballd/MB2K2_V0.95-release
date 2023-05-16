@@ -1,0 +1,116 @@
+*****************************************************************************
+* A terminal driver for the MB2K2 using the 'secret' GDC terminal emulator  *
+* GDC commands and the internal GDC character set.                          *
+*****************************************************************************
+ opt nol
+ lib flexlink
+ opt lis
+ org $E000 'shadow' RAM
+*
+fast bra start
+ fcb 1
+*
+ jmp inch1
+ jmp status
+ jmp out
+ jmp in
+*
+flash fdb 0
+*
+start ldx #inch1
+ stx $D3E5 overlay the FLEX terminal jump table
+ ldx #status
+ stx $cd4f
+ ldx #out
+ stx $cd13
+ ldx #in
+ stx $cd0d
+*
+ LDA #$0C clear screen
+ bsr out
+ jmp FWARM
+*
+* Status routine.
+* Entry: no parameters.
+* Exit:  (Z)=0 if character ready.
+status PSHS D,X
+ ldx flash
+ bne flash2
+ JSR curs
+ LDX #1000
+flash2 LEAX -1,X
+ STX flash
+flash1 LDX #statab
+ LDB IPORT
+ ASLB
+ JSR [B,X]
+ PULS D,X,PC
+*
+* Input character with no echo.
+* Entry: no parameters.
+* Exit:  (A) = character.
+inch1 PSHS B,X
+inch1a BSR status
+ LDX #intab
+ LDB IPORT
+ ASLB
+ JSR [B,X]
+ PULS B,X,PC
+*
+in BSR inch1
+ jmp out
+*
+intab FDB inkey
+ FDB INTER
+ FDB INPRI
+*
+statab FDB STAKEY
+ FDB STATER
+ FDB STAPRI
+*
+* Keyboard input.
+inkey LDA KEYREG
+ RPT 8
+ NOP
+ RTS
+*
+* Terminal input routine.
+INTER LDA ACIAD1
+ NOP
+ NOP
+ RTS
+*
+* Printer input routine.
+INPRI LDA ACIAD2
+ ANDA #$7F
+ RTS
+*
+* Keyboard status routine.
+STAKEY LDA PIACA
+ BITA #$80
+ RTS
+*
+* Terminal status routine.
+STATER LDA ACIAC1
+ ANDA #$02
+ RTS
+*
+* Printer status routine.
+STAPRI LDA ACIAC2
+ ANDA #$2
+ RTS
+*
+out PSHS D,X,Y,U,DP
+ LDB #$D2 draw character
+ STB $FF15
+ STA $FF14
+ PULS D,X,Y,U,DP,PC
+*
+* Invert cursor at current position
+curs PSHS D
+ LDB #$D5 toggle cursor
+ STB $FF15
+CUREND PULS D,PC
+*
+*
+ end fast

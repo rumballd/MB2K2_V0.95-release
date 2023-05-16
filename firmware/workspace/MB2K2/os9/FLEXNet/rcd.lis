@@ -1,0 +1,110 @@
+                      (  FLEXNet\rcd.txt):00001         *************************************************************************************
+                      (  FLEXNet\rcd.txt):00002         *   This utility will Change to a new Directory on the remote host computer
+                      (  FLEXNet\rcd.txt):00003         *
+                      (  FLEXNet\rcd.txt):00004         *   Syntax: RCD <path>
+                      (  FLEXNet\rcd.txt):00005         *
+                      (  FLEXNet\rcd.txt):00006         *   Note: <path> may contain the whole directory path,
+                      (  FLEXNet\rcd.txt):00007         *         including the disk name, for example "C:\dir1\dir2\.."
+                      (  FLEXNet\rcd.txt):00008         *   
+                      (  FLEXNet\rcd.txt):00009         *   History
+                      (  FLEXNet\rcd.txt):00010         *   1.0 (2020-07-09) - Initial version derived from the MB2K codebase                                                               *
+                      (  FLEXNet\rcd.txt):00011         *****************************************************************************************
+                      (  FLEXNet\rcd.txt):00012         *
+                      (  FLEXNet\rcd.txt):00013         *
+                      (  FLEXNet\rcd.txt):00014          nam rcd
+                      (  FLEXNet\rcd.txt):00015          ttl Change to a new Directory on the remote host
+                      (  FLEXNet\rcd.txt):00016         *
+                      (  FLEXNet\rcd.txt):00017          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (  FLEXNet\rcd.txt):00018         *
+     F0A0             (  FLEXNet\rcd.txt):00019         SCHAR   equ     $F0A0           FLEXNet driver send char
+     F0A2             (  FLEXNet\rcd.txt):00020         RCHAR   equ     $F0A2           FLEXNet driver receive charck
+     0006             (  FLEXNet\rcd.txt):00021         ACK     equ     $06             acknowledge character
+     000D             (  FLEXNet\rcd.txt):00022         CR      equ     $0D             carriage return character
+                      (  FLEXNet\rcd.txt):00023         *
+                      (  FLEXNet\rcd.txt):00024         * Data area
+                      (  FLEXNet\rcd.txt):00025                     org         0
+0000                  (  FLEXNet\rcd.txt):00026         tbuff   rmb     256             text buffer
+                      (  FLEXNet\rcd.txt):00027         *
+0100                  (  FLEXNet\rcd.txt):00028         stack   rmb     200
+     01C8             (  FLEXNet\rcd.txt):00029         datsiz  equ     .
+                      (  FLEXNet\rcd.txt):00030         *
+                      (  FLEXNet\rcd.txt):00031         * Module header
+     0011             (  FLEXNet\rcd.txt):00032         type    equ     PRGRM+OBJCT
+     0081             (  FLEXNet\rcd.txt):00033         revs    equ     REENT+1
+0000 87CD00BF000D1181 (  FLEXNet\rcd.txt):00034                 mod     length,name,type,revs,start,datsiz
+     97001001C8
+000D 7263E4           (  FLEXNet\rcd.txt):00035         name    fcs     /rcd/
+                      (  FLEXNet\rcd.txt):00036         *
+                      (  FLEXNet\rcd.txt):00037         * main code 
+                      (  FLEXNet\rcd.txt):00038         *
+                      (  FLEXNet\rcd.txt):00039         *  get the drive numer and filename
+                      (  FLEXNet\rcd.txt):00040         *
+0010 A684             (  FLEXNet\rcd.txt):00041         start   lda             ,x                              x points to command line buffer
+0012 810D             (  FLEXNet\rcd.txt):00042                         cmpa    #CR                         empty command line?
+0014 1027002C         (  FLEXNet\rcd.txt):00043                         lbeq    where   
+                      (  FLEXNet\rcd.txt):00044         *
+0018 8650             (  FLEXNet\rcd.txt):00045                 lda     #'P             send P (Point) command to remote host
+001A AD9FF0A0         (  FLEXNet\rcd.txt):00046                 jsr     [SCHAR]
+001E 10240046         (  FLEXNet\rcd.txt):00047                 lbcc    nwrkng          time out, communication not working
+                      (  FLEXNet\rcd.txt):00048         *
+0022 A680             (  FLEXNet\rcd.txt):00049         lp1             lda             ,x+
+0024 AD9FF0A0         (  FLEXNet\rcd.txt):00050                         jsr     [SCHAR]         send one character to remote host
+0028 1024003C         (  FLEXNet\rcd.txt):00051                 lbcc    nwrkng          
+002C 810D             (  FLEXNet\rcd.txt):00052                 cmpa    #CR             last character in line?
+002E 26F2             (  FLEXNet\rcd.txt):00053                 bne     lp1
+                      (  FLEXNet\rcd.txt):00054         *
+0030 AD9FF0A2         (  FLEXNet\rcd.txt):00055         lp2             jsr     [RCHAR]         get response
+0034 10240030         (  FLEXNet\rcd.txt):00056                 lbcc    nwrkng          time out, communication not working
+0038 8106             (  FLEXNet\rcd.txt):00057                 cmpa    #ACK            got an ack?
+003A 10260030         (  FLEXNet\rcd.txt):00058                 lbne    badfnm          no, report bad file name
+003E 308D0053         (  FLEXNet\rcd.txt):00059                 leax    succst,pcr      report success
+0042 202E             (  FLEXNet\rcd.txt):00060                 bra     finish
+                      (  FLEXNet\rcd.txt):00061         *
+0044 863F             (  FLEXNet\rcd.txt):00062         where   lda     #'?                             send the 'where' command
+0046 AD9FF0A0         (  FLEXNet\rcd.txt):00063                 jsr     [SCHAR]
+004A 241C             (  FLEXNet\rcd.txt):00064                 bcc     nwrkng
+004C 30C4             (  FLEXNet\rcd.txt):00065         onelin  leax    tbuff,u         receive one line
+004E AD9FF0A2         (  FLEXNet\rcd.txt):00066         lp3     jsr     [RCHAR]
+0052 2414             (  FLEXNet\rcd.txt):00067                 bcc     nwrkng
+0054 A780             (  FLEXNet\rcd.txt):00068                 sta             ,x+
+0056 810D             (  FLEXNet\rcd.txt):00069                 cmpa    #CR
+0058 26F4             (  FLEXNet\rcd.txt):00070                 bne     lp3
+                      (  FLEXNet\rcd.txt):00071         *
+005A AD9FF0A2         (  FLEXNet\rcd.txt):00072         wtack   jsr     [RCHAR]
+005E 2408             (  FLEXNet\rcd.txt):00073                 bcc     nwrkng
+0060 8106             (  FLEXNet\rcd.txt):00074                 cmpa    #ACK
+0062 26F6             (  FLEXNet\rcd.txt):00075                 bne     wtack
+0064 30C4             (  FLEXNet\rcd.txt):00076                         leax    tbuff,u
+0066 200A             (  FLEXNet\rcd.txt):00077                         bra             finish
+                      (  FLEXNet\rcd.txt):00078         *                   
+0068 308D0013         (  FLEXNet\rcd.txt):00079         nwrkng  leax    nwrkst,pcr      communication is not working
+006C 2004             (  FLEXNet\rcd.txt):00080                 bra     finish
+                      (  FLEXNet\rcd.txt):00081         *
+006E 308D0038         (  FLEXNet\rcd.txt):00082         badfnm  leax    badfst,pcr      bad file name
+                      (  FLEXNet\rcd.txt):00083         *
+0072 108E0050         (  FLEXNet\rcd.txt):00084         finish  ldy     #80
+0076 8601             (  FLEXNet\rcd.txt):00085                 lda     #1
+0078 103F8C           (  FLEXNet\rcd.txt):00086                 os9     i$writln        print string pointed to by X
+007B 5F               (  FLEXNet\rcd.txt):00087         alldone clrb
+007C 103F06           (  FLEXNet\rcd.txt):00088                 os9     f$exit
+                      (  FLEXNet\rcd.txt):00089         * 
+007F 436F6D6D73207469 (  FLEXNet\rcd.txt):00090         nwrkst  fcc     /Comms time-out error!/
+     6D652D6F75742065
+     72726F7221
+0094 0D               (  FLEXNet\rcd.txt):00091                 fcb     CR
+0095 436F6D6D616E6420 (  FLEXNet\rcd.txt):00092         succst  fcc     /Command executed OK./
+     6578656375746564
+     204F4B2E
+00A9 0D               (  FLEXNet\rcd.txt):00093                 fcb     CR
+00AA 556E6B6E6F776E20 (  FLEXNet\rcd.txt):00094         badfst  fcc             /Unknown directory/
+     6469726563746F72
+     79
+00BB 0D               (  FLEXNet\rcd.txt):00095                         fcb             CR
+                      (  FLEXNet\rcd.txt):00096         *
+00BC E82BCA           (  FLEXNet\rcd.txt):00097          emod
+     00BF             (  FLEXNet\rcd.txt):00098         length equ *
+                      (  FLEXNet\rcd.txt):00099         
+                      (  FLEXNet\rcd.txt):00100                                                                                     

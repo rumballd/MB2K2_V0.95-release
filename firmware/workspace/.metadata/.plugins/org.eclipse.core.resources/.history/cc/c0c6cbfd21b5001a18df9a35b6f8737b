@@ -1,0 +1,9 @@
+ FCC 'DC' Display RTC contents.
+ FDB DCLK
+ FCC 'MC' Modify RTC contents.
+ FDB MC
+ FCC 'RM' Remote mount PROMdisk image
+ FDB RM
+ FCC 'TC' Display tickcount
+ FDB TC
+*

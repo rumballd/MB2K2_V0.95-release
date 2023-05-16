@@ -1,0 +1,43 @@
+ nam gotoxy
+ ttl paramater module for FranK Hogg apps
+*
+ use defsfile
+*
+* Module header
+type equ SBRTN+OBJCT
+revs equ REENT+1
+ 		mod 	length,name,type,revs,start,0
+name fcs /gotoxy/
+*
+*
+start	bra		curxy
+*
+  		fcb 	24  	number of lines on terminal
+  		fcb 	80  	number of characters per line
+  		fcb 	1   	This terminal scrolls
+  		fcb 	1   	length of clear-line message
+  		fcb 	$18 	MB2K2 erase to EOL
+  		fcb 	0   	no initialization sequence
+  		fcb 	0
+*
+curxy 	leas 	-3,s	allocate space on stack
+		lda		#$0E	MB2K2 move cursor control char
+		sta		,s
+* (X) = col, (B) = row, home = 1,1
+* MB2K2 needs #$20 added to each parameter and home = 0,0
+		addb  	#$1F
+		stb   	1,s
+		tfr		x,d
+		addb  	#$1F
+		stb   	2,s
+* output cursor move string
+		lda		#1			
+		leax	,s
+		ldy   	#3
+ 		os9   	I$Write
+ 		leas	3,s
+ 		rts
+*
+ emod
+*
+length equ *

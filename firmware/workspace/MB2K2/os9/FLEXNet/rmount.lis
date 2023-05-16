@@ -1,0 +1,223 @@
+                      (FLEXNet\rmount.tx):00001         *************************************************************************************
+                      (FLEXNet\rmount.tx):00002         *   This utility will "MOUNT" a .DSK file
+                      (FLEXNet\rmount.tx):00003         *   on a remote host computer, that is running FLEXNet.
+                      (FLEXNet\rmount.tx):00004         *
+                      (FLEXNet\rmount.tx):00005         *   Syntax: RMOUNT </hn> [<file_name>]
+                      (FLEXNet\rmount.tx):00006         *
+                      (FLEXNet\rmount.tx):00007         *   Note: <file_name> may contain the whole directory path,
+                      (FLEXNet\rmount.tx):00008         *         including the disk name, for example "C:\dir1\dir2\.."
+                      (FLEXNet\rmount.tx):00009         *
+                      (FLEXNet\rmount.tx):00010         *   
+                      (FLEXNet\rmount.tx):00011         *   History
+                      (FLEXNet\rmount.tx):00012         *   1.0 (2020-07-09) - Initial version derived from the MB2K codebase                                                               *
+                      (FLEXNet\rmount.tx):00013         *****************************************************************************************
+                      (FLEXNet\rmount.tx):00014         *
+                      (FLEXNet\rmount.tx):00015         *
+                      (FLEXNet\rmount.tx):00016          nam rmount
+                      (FLEXNet\rmount.tx):00017          ttl mount remote FLEXNet volume
+                      (FLEXNet\rmount.tx):00018         *
+                      (FLEXNet\rmount.tx):00019          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (FLEXNet\rmount.tx):00020         *
+     F0A0             (FLEXNet\rmount.tx):00021         SCHAR   equ     $F0A0           FLEXNet driver send char
+     F0A2             (FLEXNet\rmount.tx):00022         RCHAR   equ     $F0A2           FLEXNet driver receive charck
+     0006             (FLEXNet\rmount.tx):00023         ACK     equ     $06             acknowledge character
+     000D             (FLEXNet\rmount.tx):00024         CR      equ     $0D             carriage return character
+                      (FLEXNet\rmount.tx):00025         *
+                      (FLEXNet\rmount.tx):00026         * Data area
+                      (FLEXNet\rmount.tx):00027                     org         0
+0000                  (FLEXNet\rmount.tx):00028         tries   rmb     1               tries counter for resync
+0001                  (FLEXNet\rmount.tx):00029         drv     rmb     1                       FLEXNet drive number (0-3)
+0002                  (FLEXNet\rmount.tx):00030         param   rmb     2               parameter pointer
+0004                  (FLEXNet\rmount.tx):00031         tmp     rmb     1
+0005                  (FLEXNet\rmount.tx):00032         xtemp   rmb     2
+                      (FLEXNet\rmount.tx):00033         *
+0007                  (FLEXNet\rmount.tx):00034         stack   rmb     200
+     00CF             (FLEXNet\rmount.tx):00035         datsiz  equ     .
+                      (FLEXNet\rmount.tx):00036         *
+                      (FLEXNet\rmount.tx):00037         * Module header
+     0011             (FLEXNet\rmount.tx):00038         type    equ     PRGRM+OBJCT
+     0081             (FLEXNet\rmount.tx):00039         revs    equ     REENT+1
+0000 87CD01DD000D1181 (FLEXNet\rmount.tx):00040                 mod     length,name,type,revs,start,datsiz
+     F4001300CF
+000D 726D6F756EF4     (FLEXNet\rmount.tx):00041         name    fcs     /rmount/
+                      (FLEXNet\rmount.tx):00042         *
+                      (FLEXNet\rmount.tx):00043         * main code 
+                      (FLEXNet\rmount.tx):00044         *   Check if host is ready with 'Q', if not, then resync and report on connection
+                      (FLEXNet\rmount.tx):00045         *
+0013 AF42             (FLEXNet\rmount.tx):00046         start   stx     param,u
+0015 8651             (FLEXNet\rmount.tx):00047                 lda     #'Q             quick check that communication is working
+0017 AD9FF0A0         (FLEXNet\rmount.tx):00048                 jsr     [SCHAR]
+001B 240C             (FLEXNet\rmount.tx):00049                 bcc     timeout         time out, communication not working
+                      (FLEXNet\rmount.tx):00050         *
+001D AD9FF0A2         (FLEXNet\rmount.tx):00051                 jsr     [RCHAR]         get response
+0021 2406             (FLEXNet\rmount.tx):00052                 bcc     timeout         time out, communication not working
+0023 8106             (FLEXNet\rmount.tx):00053                 cmpa    #ack            got an ack?
+0025 2602             (FLEXNet\rmount.tx):00054                 bne     timeout         communication not working
+0027 204A             (FLEXNet\rmount.tx):00055                 bra     check           carry on with MOUNT
+                      (FLEXNet\rmount.tx):00056         *
+                      (FLEXNet\rmount.tx):00057         * sync and report on connection
+0029 8605             (FLEXNet\rmount.tx):00058         timeout lda     #5              number of tries
+002B A7C4             (FLEXNet\rmount.tx):00059                 sta     tries,u
+002D 8655             (FLEXNet\rmount.tx):00060                 lda     #$55            1st sync char
+002F A744             (FLEXNet\rmount.tx):00061         sync04  sta     tmp,u
+                      (FLEXNet\rmount.tx):00062         *
+0031 AD9FF0A0         (FLEXNet\rmount.tx):00063         sync08  jsr    [SCHAR]          send char
+0035 241E             (FLEXNet\rmount.tx):00064                 bcc     sync16          time out, report error
+                      (FLEXNet\rmount.tx):00065         *
+0037 AD9FF0A2         (FLEXNet\rmount.tx):00066                 jsr    [RCHAR]          get answer from receiver
+003B 2418             (FLEXNet\rmount.tx):00067                 bcc     sync16
+003D A144             (FLEXNet\rmount.tx):00068                 cmpa    tmp,u           same as sent?
+003F 270C             (FLEXNet\rmount.tx):00069                 beq     sync12          yes
+                      (FLEXNet\rmount.tx):00070         *
+0041 A644             (FLEXNet\rmount.tx):00071                 lda     tmp,u
+0043 8155             (FLEXNet\rmount.tx):00072                 cmpa    #$55            1st sync char?
+0045 260E             (FLEXNet\rmount.tx):00073                 bne     sync16          nope, something is wrong
+                      (FLEXNet\rmount.tx):00074         *
+0047 6AC4             (FLEXNet\rmount.tx):00075                 dec     tries,u         decrease try count
+0049 26E6             (FLEXNet\rmount.tx):00076                 bne     sync08          try again if not 0
+004B 2008             (FLEXNet\rmount.tx):00077                 bra     sync16          report sync error
+                      (FLEXNet\rmount.tx):00078         *
+004D 81AA             (FLEXNet\rmount.tx):00079         sync12  cmpa    #$aa            2nd sync char?
+004F 2715             (FLEXNet\rmount.tx):00080                 beq     sync20          yes, continue
+                      (FLEXNet\rmount.tx):00081         *
+0051 86AA             (FLEXNet\rmount.tx):00082                 lda     #$aa            send 2nd sync char
+0053 20DA             (FLEXNet\rmount.tx):00083                 bra     sync04
+                      (FLEXNet\rmount.tx):00084         *
+0055 308D00A8         (FLEXNet\rmount.tx):00085         sync16  leax    synstr,pcr      "Can't sync..."
+0059 108E0050         (FLEXNet\rmount.tx):00086         sync17  ldy     #80
+005D 8601             (FLEXNet\rmount.tx):00087                 lda     #1
+005F 103F8C           (FLEXNet\rmount.tx):00088                 os9     i$writln
+0062 5F               (FLEXNet\rmount.tx):00089                 clrb
+0063 103F06           (FLEXNet\rmount.tx):00090                 os9     f$exit
+                      (FLEXNet\rmount.tx):00091         *
+0066 308D00B3         (FLEXNet\rmount.tx):00092         sync20  leax    scnest,pcr       "Serial connection established"
+006A 108E0050         (FLEXNet\rmount.tx):00093                 ldy     #80
+006E 8601             (FLEXNet\rmount.tx):00094                 lda     #1
+0070 103F8C           (FLEXNet\rmount.tx):00095                 os9     i$writln
+                      (FLEXNet\rmount.tx):00096         *
+                      (FLEXNet\rmount.tx):00097         * ---------------------------------------------------------------
+                      (FLEXNet\rmount.tx):00098         *
+                      (FLEXNet\rmount.tx):00099         *  get the drive numer and filename
+                      (FLEXNet\rmount.tx):00100         *
+0073 AE42             (FLEXNet\rmount.tx):00101         check   ldx     param,u         point to command line buffer
+0075 A684             (FLEXNet\rmount.tx):00102                 lda             ,x                               
+0077 810D             (FLEXNet\rmount.tx):00103                         cmpa    #CR                         empty command line?
+0079 10270082         (FLEXNet\rmount.tx):00104                         lbeq    what    
+007D 812F             (FLEXNet\rmount.tx):00105                 cmpa    #'/                     check for path
+007F 2703             (FLEXNet\rmount.tx):00106                         beq             chk1
+0081 4F               (FLEXNet\rmount.tx):00107                         clra                                    if no path, assume /h0
+0082 2006             (FLEXNet\rmount.tx):00108                 bra             chk3
+0084 3002             (FLEXNet\rmount.tx):00109         chk1    leax    2,x                             skip the drive letter
+0086 A680             (FLEXNet\rmount.tx):00110                         lda             ,x+                             pick up drive number
+0088 8403             (FLEXNet\rmount.tx):00111                         anda    #3                              force range to 0-3
+008A A741             (FLEXNet\rmount.tx):00112         chk3    sta             drv,u
+008C A680             (FLEXNet\rmount.tx):00113         chk4    lda     ,x+
+008E 8120             (FLEXNet\rmount.tx):00114                         cmpa    #$20                    skip spaces
+0090 27FA             (FLEXNet\rmount.tx):00115                         beq             chk4
+0092 301F             (FLEXNet\rmount.tx):00116                         leax    -1,x            
+                      (FLEXNet\rmount.tx):00117         *               
+                      (FLEXNet\rmount.tx):00118         * ---------------------------------------------------------------
+                      (FLEXNet\rmount.tx):00119         *
+0094 866D             (FLEXNet\rmount.tx):00120         main    lda     #'m             send m(ount) command to remote host
+0096 AD9FF0A0         (FLEXNet\rmount.tx):00121                 jsr     [SCHAR]
+009A 1024004A         (FLEXNet\rmount.tx):00122                 lbcc    nwrkng          time out, communication not working
+                      (FLEXNet\rmount.tx):00123         *
+009E A641             (FLEXNet\rmount.tx):00124                         lda             drv,u                   send drive number first
+                      (FLEXNet\rmount.tx):00125         *
+00A0 AD9FF0A0         (FLEXNet\rmount.tx):00126         main08  jsr     [SCHAR]         send one character to remote host
+00A4 10240040         (FLEXNet\rmount.tx):00127                 lbcc    nwrkng          
+00A8 810D             (FLEXNet\rmount.tx):00128                 cmpa    #CR             last character in line?
+00AA 270A             (FLEXNet\rmount.tx):00129                 beq     main12
+00AC A680             (FLEXNet\rmount.tx):00130                 lda             ,x+             get next character
+00AE 812E             (FLEXNet\rmount.tx):00131                 cmpa    #'.             substitute cr for dot
+00B0 26EE             (FLEXNet\rmount.tx):00132                 bne     main08
+00B2 860D             (FLEXNet\rmount.tx):00133                 lda     #CR
+00B4 20EA             (FLEXNet\rmount.tx):00134                 bra     main08
+                      (FLEXNet\rmount.tx):00135         *
+00B6 AD9FF0A2         (FLEXNet\rmount.tx):00136         main12  jsr     [RCHAR]         get response
+00BA 1024002A         (FLEXNet\rmount.tx):00137                 lbcc    nwrkng          time out, communication not working
+00BE 8106             (FLEXNet\rmount.tx):00138                 cmpa    #ack            got an ack?
+00C0 1026002A         (FLEXNet\rmount.tx):00139                 lbne    badfnm          no, report bad file name
+                      (FLEXNet\rmount.tx):00140         *
+                      (FLEXNet\rmount.tx):00141         * Check for "R" or "W" after the ack
+00C4 AD9FF0A2         (FLEXNet\rmount.tx):00142                 jsr     [RCHAR]           get character
+00C8 1024001C         (FLEXNet\rmount.tx):00143                 lbcc    nwrkng          time out, not working
+00CC 8152             (FLEXNet\rmount.tx):00144                 cmpa    #'R             Read only?
+00CE 270C             (FLEXNet\rmount.tx):00145                 beq     read
+00D0 8157             (FLEXNet\rmount.tx):00146                 cmpa    #'W             Write only?
+00D2 270E             (FLEXNet\rmount.tx):00147                 beq     write
+00D4 2018             (FLEXNet\rmount.tx):00148                 bra     badfnm          otherwise, report error
+                      (FLEXNet\rmount.tx):00149         
+                      (FLEXNet\rmount.tx):00150         *
+                      (FLEXNet\rmount.tx):00151         * ---------------------------------------------------------------
+00D6 308D0061         (FLEXNet\rmount.tx):00152         badex   leax    exten,pcr          Bad extension
+00DA 2016             (FLEXNet\rmount.tx):00153                 bra     finish
+                      (FLEXNet\rmount.tx):00154         
+00DC 308D009C         (FLEXNet\rmount.tx):00155         read    leax    readst,pcr         Read-only message
+00E0 2010             (FLEXNet\rmount.tx):00156                 bra     finish
+                      (FLEXNet\rmount.tx):00157         
+00E2 308D00B2         (FLEXNet\rmount.tx):00158         write   leax    writest,pcr        Full access message
+00E6 200A             (FLEXNet\rmount.tx):00159                 bra     finish
+                      (FLEXNet\rmount.tx):00160         
+00E8 308D0066         (FLEXNet\rmount.tx):00161         nwrkng  leax    nwrkst,pcr         communication is not working
+00EC 2004             (FLEXNet\rmount.tx):00162                 bra     finish
+                      (FLEXNet\rmount.tx):00163         *
+00EE 308D0076         (FLEXNet\rmount.tx):00164         badfnm  leax    badfst,pcr          bad file name
+                      (FLEXNet\rmount.tx):00165         *
+00F2 108E0050         (FLEXNet\rmount.tx):00166         finish  ldy     #80
+00F6 8601             (FLEXNet\rmount.tx):00167                 lda     #1
+00F8 103F8C           (FLEXNet\rmount.tx):00168                 os9     i$writln         print string pointed to by X
+00FB 5F               (FLEXNet\rmount.tx):00169         alldone clrb
+00FC 103F06           (FLEXNet\rmount.tx):00170                 os9     f$exit
+                      (FLEXNet\rmount.tx):00171         *
+00FF 20FA             (FLEXNet\rmount.tx):00172         what    bra             alldone          if no parameters, show drive mapping
+                      (FLEXNet\rmount.tx):00173         *                    
+0101 43616E2774207379 (FLEXNet\rmount.tx):00174         synstr  fcc     /Can't sync serial transfer!/
+     6E63207365726961
+     6C207472616E7366
+     657221
+011C 0D               (FLEXNet\rmount.tx):00175                 fcb     CR
+011D 53657269616C2063 (FLEXNet\rmount.tx):00176         scnest  fcc     /Serial connection established/
+     6F6E6E656374696F
+     6E2065737461626C
+     6973686564
+013A 0D               (FLEXNet\rmount.tx):00177                 fcb     CR
+013B 496C6C6567616C20 (FLEXNet\rmount.tx):00178         exten   fcc     /Illegal file extension/
+     66696C6520657874
+     656E73696F6E
+0151 0D               (FLEXNet\rmount.tx):00179                 fcb     CR
+0152 436F6D6D73207469 (FLEXNet\rmount.tx):00180         nwrkst  fcc     /Comms time-out error!/
+     6D652D6F75742065
+     72726F7221
+0167 0D               (FLEXNet\rmount.tx):00181                 fcb     CR
+0168 436F756C64206E6F (FLEXNet\rmount.tx):00182         badfst  fcc     /Could not open file/
+     74206F70656E2066
+     696C65
+017B 0D               (FLEXNet\rmount.tx):00183                 fcb     CR
+017C 46696C65206F7065 (FLEXNet\rmount.tx):00184         readst  fcc     /File open in read-only mode/
+     6E20696E20726561
+     642D6F6E6C79206D
+     6F6465
+0197 0D               (FLEXNet\rmount.tx):00185                 fcb     CR
+0198 46696C65206F7065 (FLEXNet\rmount.tx):00186         writest fcc     'File opened with full access (read/write)'
+     6E65642077697468
+     2066756C6C206163
+     6365737320287265
+     61642F7772697465
+     29
+01C1 0D               (FLEXNet\rmount.tx):00187                 fcb     CR
+01C2 436F6D6D616E6420 (FLEXNet\rmount.tx):00188         succst  fcc     /Command executed OK./
+     6578656375746564
+     204F4B2E
+01D6 0D               (FLEXNet\rmount.tx):00189                 fcb     CR
+                      (FLEXNet\rmount.tx):00190         *
+                      (FLEXNet\rmount.tx):00191         * Extension string
+01D7 44534B           (FLEXNet\rmount.tx):00192         ext fcc /DSK/
+                      (FLEXNet\rmount.tx):00193         *
+01DA B3B87E           (FLEXNet\rmount.tx):00194          emod
+     01DD             (FLEXNet\rmount.tx):00195         length equ *
+                      (FLEXNet\rmount.tx):00196         
+                      (FLEXNet\rmount.tx):00197                                                                                     

@@ -1,0 +1,4 @@
+TEST CONFIG:{'baud rate':\d+}
+Performing rx test.
+0x..(  We only expect 2 numbers to be printed. Depends whether we're sending bad even/odd parities which will be sent)?
+0x..

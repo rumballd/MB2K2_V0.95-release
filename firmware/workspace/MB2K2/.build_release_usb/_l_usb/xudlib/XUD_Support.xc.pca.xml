@@ -1,0 +1,46 @@
+<preCompilationAnalysis file="D:/MB2K2_OS9/Firmware/workspace/lib_usb/xudlib/XUD_Support.xc">
+<fDef name="XUD_Sup_Delay" global="true" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="XUD_Sup_GetResourceId" global="true" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="XUD_Sup_inct" global="true" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="XUD_Sup_int" global="true" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="XUD_Sup_outct" global="true" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="XUD_Sup_outuchar" global="true" noreturn="false" doNotSpecialize="true" numParams="2"/>
+<fDef name="XUD_Sup_outuint" global="true" noreturn="false" doNotSpecialize="false" numParams="2"/>
+<fDef name="XUD_Sup_testct" global="true" noreturn="false" doNotSpecialize="false" numParams="1"/>
+<fDef name="delay_microseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_milliseconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fDef name="delay_seconds" global="true" noreturn="false" doNotSpecialize="true" numParams="1"/>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="delay_ticks_longlong" global="true" numArgs="1">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+<fCall name="__builtin_timer_after" global="true" numArgs="2">
+  <arg num="0">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+  <arg num="1">
+    <values>
+      <value type="unknown"/>
+    </values>
+  </arg>
+</fCall>
+</preCompilationAnalysis>

@@ -1,0 +1,12 @@
+GDCOUT PSHS D
+ LDB #$D2 draw character
+ STB $FF15
+ STA $FF14
+ PULS D,PC
+*
+* Invert cursor at current position
+CURS PSHS D
+ LDB #$D5 toggle cursor
+ STB $FF15
+CUREND PULS D,PC
+*

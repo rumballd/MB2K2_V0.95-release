@@ -1,0 +1,78 @@
+#include <xs1.h>
+
+#if defined(__XS1B__)
+  #define ENTSP(x) entsp x
+  #define ENTSP0
+  #define SINGLE_ISSUE
+#elif defined (__XS2A__)
+  #define ENTSP(x) ENTSP_lu6 x
+  #define ENTSP0 ENTSP(0)
+  #define SINGLE_ISSUE .issue_mode single
+#else
+  #error Error !defined [__XS1B__ | __XS2A__]
+#endif
+
+.globl _start
+.set _start.nstackwords, 5 + (memset.nstackwords \
+                              $M __init_threadlocal_timer.nstackwords \
+                              $M SwitchSetup_DoSwitchSetup.nstackwords)
+SINGLE_ISSUE
+_start:
+
+  ENTSP0
+  ldaw r11, cp[0]
+  mov r0, r11
+  ldaw r1, dp[0]
+  ldaw r2, sp[0]
+
+  //Initalise the cp, dp and sp
+  ldap r11, _cp
+  set cp, r11
+  ldap r11, _dp
+  set dp, r11
+  ldw sp, cp[initial_sp]
+
+  //Extend the stack and save our old cp, dp and sp onto it
+  //The old link register is automatically saved in entsp
+  ENTSP(4)
+  stw r0, sp[1]
+  stw r1, sp[2]
+  stw r2, sp[3]
+
+  // Zero initialise bss
+  ldap r11, _fbss
+  mov r0, r11
+  ldc r1, 0
+  ldw r2, cp[bss_size]
+  bl memset
+  ldaw r0, dp[_fdp.bss]
+  ldc r1, 0
+  ldw r2, cp[dp_bss_size]
+  bl memset
+
+  bl __init_threadlocal_timer
+
+  // Turn on the default clock block
+  ldc r11, _default_clkblk
+  setc res[r11], XS1_SETC_INUSE_ON
+  // And start it
+  setc res[r11], XS1_SETC_RUN_STARTR
+
+  bl SwitchSetup_DoSwitchSetup
+
+  //Restore out cp, dp, lr and sp
+  //retsp should now take us back to the s2l at top of memory
+  ldw cp, sp[1]
+  ldw dp, sp[2]
+  ldw lr, sp[4]
+  ldw sp, sp[3]
+  retsp 0
+
+.section .cp.const4, "acM", @progbits, 4
+.align 4
+initial_sp:
+  .word ((_edp.bss + (4 * _start.nstackwords)) $A 8)
+bss_size:
+  .word _ebss - _fbss
+dp_bss_size:
+  .word _edp.bss - _fdp.bss

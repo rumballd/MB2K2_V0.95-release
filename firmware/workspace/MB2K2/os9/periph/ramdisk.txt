@@ -1,0 +1,197 @@
+ nam ramdisk
+ ttl Device Driver for the MB2K2 RAMdisk
+
+ use defsfile
+
+Edition  equ 1 Current Edition
+Revision equ 1 Current Revision number
+
+NumDrvs  set 1 Number of drives
+
+
+ org Drvbeg
+ rmb NumDrvs*DrvMem
+LSNZERO  rmb 1
+RAMSTA equ .
+
+ mod RAMEND,RAMNAM,Drivr+Objct,Reent+Revision,RAMENT,RAMSTA
+ fcb $FF set all capabilities
+RAMNAM fcs /ramdisk/
+ fcb Edition
+
+RAMENT lbra INIT
+ lbra READ
+ lbra WRITE
+ lbra GETSTA
+ lbra PUTSTA
+ lbra TERM
+
+*****************************
+* INIT
+*  Set up the ramdisk
+*
+INIT clr V.WAKE,U
+ lda #1
+ sta V.NDRV,U
+ clr LSNZERO,U
+ lda #$FF
+ leax DrvBeg,U
+ sta DD.Tot,X
+ sta V.Trak,X
+* set up mode register (TRK:SEC = LSN)
+ ldb #1
+ stb RMODREG
+ clrb
+INITXIT rts
+
+*****************************
+* READ
+*  read a sector from disk
+*
+READ clr LSNZERO,U
+ bsr VALID
+ bcs READ99
+ bsr READS
+ tst LSNZERO,U
+ beq READ90
+ lda PD.DRV,Y
+ ldb #DRVMEM
+ mul
+ leax DRVBEG,U
+ leax D,X
+ ldy PD.BUF,Y
+ ldb #DD.SIZ-1
+COPLSN0 lda B,Y
+ sta B,X
+ decb
+ bpl COPLSN0
+
+READ90 clrb
+READ99 rts
+
+*****************************
+* WRITE
+*  Write a sector to disk
+*
+WRITE bsr VALID
+ bcs WRIT99
+ bsr WRITS
+ clrb
+WRIT99 rts
+
+
+*****************************
+* VALID
+*  validate a sector
+*  and set up external registers
+*
+VALID 		tstb 				can't have LSN > 65535 as TRK:SEC will roll over
+ 			bne 	SECTERR
+ 			cmpx 	#800 		max size is 200KB
+ 			bge 	SECTERR
+ 			cmpx 	#$0000 		LSN 0?
+ 			bne 	NOTLSN0
+		 	inc 	LSNZERO,U
+NOTLSN0 	tfr 	x,d
+ 			sta 	RTRKREG
+ 			stb 	RSECREG
+ 			clrb 				no error
+ 			rts
+SECTERR 	comb
+			ldb 	#241 sector error
+			rts
+*
+************************
+* READS
+*  Y=Path Discr.
+*
+READS 		pshs 	X,Y,D
+ 			ldy 	PD.BUF,Y
+ 			lda 	#$84 		RAMdisk read command
+ 			sta		RCOMREG
+ 			clrb
+READS10 	lda 	RDATREG
+ 			sta 	,y+
+ 			decb
+ 			bne 	READS10
+            puls    X,Y,D,PC
+
+************************
+* WRITS
+*  Y=Path Discr.
+*
+WRITS 		pshs 	X,Y,D
+ 			ldy 	PD.BUF,Y
+ 			lda 	#$A4 		RAMdisk write command
+ 			sta		RCOMREG
+			clrb
+WRITS10 	lda 	,y+
+ 			sta 	RDATREG
+ 			decb
+ 			bne 	WRITS10
+			puls 	X,Y,D,PC
+
+
+
+**************************
+* GETSTA
+*  get device status
+*
+GETSTA equ *
+
+Unknown comb
+ ldb #E$UnkSVC
+ rts
+
+**************************
+* PUTSTA
+*  Set device Status
+*
+PUTSTA cmpb #SS.Reset
+ beq PUTSTA90
+ cmpb #SS.WTrk
+ bne Unknown
+
+PUTSTA90 clrb
+ rts
+
+*****************************
+* TERM
+*  terminate Driver
+*
+TERM rts
+
+ emod
+RAMEND equ *
+
+******************************************
+* RAMdisk Discriptor module
+*
+
+ nam R0
+ ttl Drive Descriptor module
+
+ mod DEnd,DNam,DEVIC+OBJCT,REENT+1,DMgr,DDrv
+
+ fcb $FF mode byte (DIR.+SHARE.+PREAD.+PWRIT.+UPDAT.+EXEC.+PEXEC.)
+ fcb $FF IOBlock address bits 23:16 (unused)
+ fdb $FF34 hardware address
+ fcb DNam-*-1 option byte count
+ fcb $1 Rbf device
+ fcb 0 Drive number
+ fcb 03 6ms Step rate
+ fcb $80 Standard OS9 Winchester drive
+ fcb 0 Single density
+ fdb 40 number of tracks
+ fcb 1 number of sides
+ fcb 1 don't verify any writes
+ fdb 20 sectors per track
+ fdb 20 sectors on track 0, side 0
+ fcb 1 sector interleave factor
+ fcb 1 sector allocation size
+DNam fcs "R0"
+DMgr fcs "RBF"
+DDrv fcs "ramdisk"
+ emod
+DEnd equ *
+ end

@@ -1,0 +1,70 @@
+                      (FLEXNet\rexit.txt):00001         *************************************************************************************
+                      (FLEXNet\rexit.txt):00002         *   Exit a FLEXNet session on the remote host computer.
+                      (FLEXNet\rexit.txt):00003         *
+                      (FLEXNet\rexit.txt):00004         *   Syntax: REXIT
+                      (FLEXNet\rexit.txt):00005         *
+                      (FLEXNet\rexit.txt):00006         *   History
+                      (FLEXNet\rexit.txt):00007         *   1.0 (2020-07-09) - Initial version derived from the MB2K codebase                                                               *
+                      (FLEXNet\rexit.txt):00008         *****************************************************************************************
+                      (FLEXNet\rexit.txt):00009         *
+                      (FLEXNet\rexit.txt):00010         *
+                      (FLEXNet\rexit.txt):00011          nam rexit
+                      (FLEXNet\rexit.txt):00012          ttl exit FLEXNet session
+                      (FLEXNet\rexit.txt):00013         *
+                      (FLEXNet\rexit.txt):00014          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (FLEXNet\rexit.txt):00015         *
+     F0A0             (FLEXNet\rexit.txt):00016         SCHAR   equ     $F0A0           FLEXNet driver send char
+     F0A2             (FLEXNet\rexit.txt):00017         RCHAR   equ     $F0A2           FLEXNet driver receive charck
+     0006             (FLEXNet\rexit.txt):00018         ACK     equ     $06             acknowledge character
+     000D             (FLEXNet\rexit.txt):00019         CR      equ     $0D             carriage return character
+                      (FLEXNet\rexit.txt):00020         *
+                      (FLEXNet\rexit.txt):00021         * Data area
+                      (FLEXNet\rexit.txt):00022                     org         0
+                      (FLEXNet\rexit.txt):00023         *
+0000                  (FLEXNet\rexit.txt):00024         stack   rmb     200
+     00C8             (FLEXNet\rexit.txt):00025         datsiz  equ     .
+                      (FLEXNet\rexit.txt):00026         *
+                      (FLEXNet\rexit.txt):00027         * Module header
+     0011             (FLEXNet\rexit.txt):00028         type    equ     PRGRM+OBJCT
+     0081             (FLEXNet\rexit.txt):00029         revs    equ     REENT+1
+0000 87CD0060000D1181 (FLEXNet\rexit.txt):00030                 mod     length,name,type,revs,start,datsiz
+     48001200C8
+000D 72657869F4       (FLEXNet\rexit.txt):00031         name    fcs     /rexit/
+                      (FLEXNet\rexit.txt):00032         *
+                      (FLEXNet\rexit.txt):00033         * main code 
+                      (FLEXNet\rexit.txt):00034         *
+0012 8645             (FLEXNet\rexit.txt):00035         start   lda     #'E
+0014 AD9FF0A0         (FLEXNet\rexit.txt):00036                 jsr     [SCHAR]         send command
+0018 2410             (FLEXNet\rexit.txt):00037                 bcc     nowork          exit if time-out
+                      (FLEXNet\rexit.txt):00038         *
+001A AD9FF0A2         (FLEXNet\rexit.txt):00039         wtack   JSR     [RCHAR]                 waait for ACK
+001E 240A             (FLEXNet\rexit.txt):00040                 BCC     nowork          exit if time-out
+0020 8106             (FLEXNet\rexit.txt):00041                 CMPA    #ACK            "ack" received?
+0022 26F6             (FLEXNet\rexit.txt):00042                 BNE     wtack           No, try again
+                      (FLEXNet\rexit.txt):00043         *
+0024 308D0028         (FLEXNet\rexit.txt):00044                         leax    exitst,pcr      Report exit from program
+0028 2004             (FLEXNet\rexit.txt):00045                         bra     finish
+                      (FLEXNet\rexit.txt):00046         *
+002A 308D000D         (FLEXNet\rexit.txt):00047         nowork  leax    timot,pcr       Report time-out error
+                      (FLEXNet\rexit.txt):00048         *
+002E 108E0050         (FLEXNet\rexit.txt):00049         finish  ldy     #80
+0032 8601             (FLEXNet\rexit.txt):00050                 lda     #1
+0034 103F8C           (FLEXNet\rexit.txt):00051                 os9     i$writln
+0037 5F               (FLEXNet\rexit.txt):00052                 clrb
+0038 103F06           (FLEXNet\rexit.txt):00053                 os9     f$exit
+                      (FLEXNet\rexit.txt):00054         *
+003B 436F6D6D73207469 (FLEXNet\rexit.txt):00055         timot   FCC     /Comms time-out error/
+     6D652D6F75742065
+     72726F72
+004F 0D               (FLEXNet\rexit.txt):00056                 fcb     CR
+0050 50726F6772616D20 (FLEXNet\rexit.txt):00057         exitst  fcc     /Program Exit/
+     45786974
+005C 0D               (FLEXNet\rexit.txt):00058                 fcb     CR
+                      (FLEXNet\rexit.txt):00059         *
+005D 5644B3           (FLEXNet\rexit.txt):00060          emod
+     0060             (FLEXNet\rexit.txt):00061         length equ *
+                      (FLEXNet\rexit.txt):00062         
+                      (FLEXNet\rexit.txt):00063                                                                                     
