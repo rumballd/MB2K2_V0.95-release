@@ -1,4 +1,4 @@
-# MB2K2_V0.95 release - NOTE: Alpha version, not yet complete!
+# MB2K2_V0.95 release
 
 Microbox 2K2 (MB2K2). 
 
