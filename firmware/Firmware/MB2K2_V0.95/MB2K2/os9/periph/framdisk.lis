@@ -1,0 +1,222 @@
+                      (periph\framdisk.t):00001          nam framdisk
+                      (periph\framdisk.t):00002          ttl Device Driver for the MB2K2 F-RAMdisk
+                      (periph\framdisk.t):00003         
+                      (periph\framdisk.t):00004          use defsfile
+     0001             (         defsfile):00001         LEVEL equ 1 select level one
+                      (         defsfile):00002         *
+                      (         defsfile):00003          
+                      (periph\framdisk.t):00005         
+     0001             (periph\framdisk.t):00006         Edition  equ 1 Current Edition
+     0001             (periph\framdisk.t):00007         Revision equ 1 Current Revision number
+                      (periph\framdisk.t):00008         
+     0001             (periph\framdisk.t):00009         NumDrvs  set 1 Number of drives
+                      (periph\framdisk.t):00010         
+                      (periph\framdisk.t):00011         
+                      (periph\framdisk.t):00012          org Drvbeg
+000F                  (periph\framdisk.t):00013          rmb NumDrvs*DrvMem
+0035                  (periph\framdisk.t):00014         LSNZERO  rmb 1
+     0036             (periph\framdisk.t):00015         FRAMSTA equ .
+                      (periph\framdisk.t):00016         
+0000 87CD00E8000EE181 (periph\framdisk.t):00017          mod FRAMEND,FRAMNAM,Drivr+Objct,Reent+Revision,FRAMENT,FRAMSTA
+     3300150036
+000D FF               (periph\framdisk.t):00018          fcb $FF set all capabilities
+000E 66726D6473EB     (periph\framdisk.t):00019         FRAMNAM fcs /frmdsk/
+0014 01               (periph\framdisk.t):00020          fcb Edition
+                      (periph\framdisk.t):00021         
+0015 16000F           (periph\framdisk.t):00022         FRAMENT lbra INIT
+0018 160025           (periph\framdisk.t):00023          lbra READ
+001B 160048           (periph\framdisk.t):00024          lbra WRITE
+001E 1600B5           (periph\framdisk.t):00025          lbra GETSTA
+0021 1600B6           (periph\framdisk.t):00026          lbra PUTSTA
+0024 1600BD           (periph\framdisk.t):00027          lbra TERM
+                      (periph\framdisk.t):00028         
+                      (periph\framdisk.t):00029         *****************************
+                      (periph\framdisk.t):00030         * INIT
+                      (periph\framdisk.t):00031         *  Set up the framdisk
+                      (periph\framdisk.t):00032         *
+0027 6F45             (periph\framdisk.t):00033         INIT clr V.WAKE,U
+0029 8601             (periph\framdisk.t):00034          lda #1
+002B A746             (periph\framdisk.t):00035          sta V.NDRV,U
+002D 6FC835           (periph\framdisk.t):00036          clr LSNZERO,U
+0030 86FF             (periph\framdisk.t):00037          lda #$FF
+0032 304F             (periph\framdisk.t):00038          leax DrvBeg,U
+0034 A784             (periph\framdisk.t):00039          sta DD.Tot,X
+0036 A78815           (periph\framdisk.t):00040          sta V.Trak,X
+                      (periph\framdisk.t):00041         * set up mode register (TRK:SEC = LSN)
+0039 C601             (periph\framdisk.t):00042          ldb #1
+003B F7FF5C           (periph\framdisk.t):00043          stb FRMODREG
+003E 5F               (periph\framdisk.t):00044          clrb
+003F 39               (periph\framdisk.t):00045         INITXIT rts
+                      (periph\framdisk.t):00046         
+                      (periph\framdisk.t):00047         *****************************
+                      (periph\framdisk.t):00048         * READ
+                      (periph\framdisk.t):00049         *  read a sector from disk
+                      (periph\framdisk.t):00050         *
+0040 6FC835           (periph\framdisk.t):00051         READ clr LSNZERO,U
+0043 8D29             (periph\framdisk.t):00052          bsr VALID
+0045 251E             (periph\framdisk.t):00053          bcs READ99
+0047 8D43             (periph\framdisk.t):00054          bsr READS
+0049 6DC835           (periph\framdisk.t):00055          tst LSNZERO,U
+004C 2716             (periph\framdisk.t):00056          beq READ90
+004E A6A821           (periph\framdisk.t):00057          lda PD.DRV,Y
+0051 C626             (periph\framdisk.t):00058          ldb #DRVMEM
+0053 3D               (periph\framdisk.t):00059          mul
+0054 304F             (periph\framdisk.t):00060          leax DRVBEG,U
+0056 308B             (periph\framdisk.t):00061          leax D,X
+0058 10AE28           (periph\framdisk.t):00062          ldy PD.BUF,Y
+005B C614             (periph\framdisk.t):00063          ldb #DD.SIZ-1
+005D A6A5             (periph\framdisk.t):00064         COPLSN0 lda B,Y
+005F A785             (periph\framdisk.t):00065          sta B,X
+0061 5A               (periph\framdisk.t):00066          decb
+0062 2AF9             (periph\framdisk.t):00067          bpl COPLSN0
+                      (periph\framdisk.t):00068         
+0064 5F               (periph\framdisk.t):00069         READ90 clrb
+0065 39               (periph\framdisk.t):00070         READ99 rts
+                      (periph\framdisk.t):00071         
+                      (periph\framdisk.t):00072         *****************************
+                      (periph\framdisk.t):00073         * WRITE
+                      (periph\framdisk.t):00074         *  Write a sector to disk
+                      (periph\framdisk.t):00075         *
+0066 8D06             (periph\framdisk.t):00076         WRITE bsr VALID
+0068 2503             (periph\framdisk.t):00077          bcs WRIT99
+006A 8D45             (periph\framdisk.t):00078          bsr WRITS
+006C 5F               (periph\framdisk.t):00079          clrb
+006D 39               (periph\framdisk.t):00080         WRIT99 rts
+                      (periph\framdisk.t):00081         
+                      (periph\framdisk.t):00082         
+                      (periph\framdisk.t):00083         *****************************
+                      (periph\framdisk.t):00084         * VALID
+                      (periph\framdisk.t):00085         *  validate a sector
+                      (periph\framdisk.t):00086         *  and set up external registers
+                      (periph\framdisk.t):00087         *
+006E 5D               (periph\framdisk.t):00088         VALID           tstb                            can't have LSN > 65535 as TRK:SEC will roll over
+006F 2617             (periph\framdisk.t):00089                                 bne     SECTERR
+0071 8C0190           (periph\framdisk.t):00090                                 cmpx    #400            max size is 100KB
+0074 2C12             (periph\framdisk.t):00091                                 bge     SECTERR
+0076 8C0000           (periph\framdisk.t):00092                                 cmpx    #$0000          LSN 0?
+0079 2603             (periph\framdisk.t):00093                                 bne     NOTLSN0
+007B 6CC835           (periph\framdisk.t):00094                                 inc     LSNZERO,U
+007E 1F10             (periph\framdisk.t):00095         NOTLSN0         tfr     x,d
+0080 B7FF59           (periph\framdisk.t):00096                                 sta     FRTRKREG
+0083 F7FF5A           (periph\framdisk.t):00097                                 stb     FRSECREG
+0086 5F               (periph\framdisk.t):00098                                 clrb                            no error
+0087 39               (periph\framdisk.t):00099                                 rts
+0088 53               (periph\framdisk.t):00100         SECTERR         comb
+0089 C6F1             (periph\framdisk.t):00101                                 ldb     #241 sector error
+008B 39               (periph\framdisk.t):00102                                 rts
+                      (periph\framdisk.t):00103         *
+                      (periph\framdisk.t):00104         ************************
+                      (periph\framdisk.t):00105         * READS
+                      (periph\framdisk.t):00106         *  Y=Path Discr.
+                      (periph\framdisk.t):00107         *
+008C 3436             (periph\framdisk.t):00108         READS           pshs    X,Y,D
+                      (periph\framdisk.t):00109         *
+008E B6FF02           (periph\framdisk.t):00110                                 lda SYSREG set activity LED
+0091 8A02             (periph\framdisk.t):00111                     ora #2
+0093 B7FF02           (periph\framdisk.t):00112                     sta SYSREG
+                      (periph\framdisk.t):00113         *
+0096 10AE28           (periph\framdisk.t):00114                                 ldy     PD.BUF,Y
+0099 8684             (periph\framdisk.t):00115                                 lda     #$84            RAMdisk read command
+009B B7FF58           (periph\framdisk.t):00116                                 sta             FRCOMREG
+009E 5F               (periph\framdisk.t):00117                                 clrb
+009F B6FF5B           (periph\framdisk.t):00118         READS10         lda     FRDATREG
+00A2 A7A0             (periph\framdisk.t):00119                                 sta     ,y+
+00A4 5A               (periph\framdisk.t):00120                                 decb
+00A5 26F8             (periph\framdisk.t):00121                                 bne     READS10
+                      (periph\framdisk.t):00122         *
+00A7 B6FF02           (periph\framdisk.t):00123                                 lda SYSREG clr activity LED
+00AA 84FD             (periph\framdisk.t):00124                     anda #$FD
+00AC B7FF02           (periph\framdisk.t):00125                     sta SYSREG
+                      (periph\framdisk.t):00126         *
+00AF 35B6             (periph\framdisk.t):00127                     puls    X,Y,D,PC
+                      (periph\framdisk.t):00128         
+                      (periph\framdisk.t):00129         ************************
+                      (periph\framdisk.t):00130         * WRITS
+                      (periph\framdisk.t):00131         *  Y=Path Discr.
+                      (periph\framdisk.t):00132         *
+00B1 3436             (periph\framdisk.t):00133         WRITS           pshs    X,Y,D
+                      (periph\framdisk.t):00134         *
+00B3 B6FF02           (periph\framdisk.t):00135                                 lda SYSREG set activity LED
+00B6 8A02             (periph\framdisk.t):00136                     ora #2
+00B8 B7FF02           (periph\framdisk.t):00137                     sta SYSREG
+                      (periph\framdisk.t):00138         *
+00BB 10AE28           (periph\framdisk.t):00139                                 ldy     PD.BUF,Y
+00BE 86A4             (periph\framdisk.t):00140                                 lda     #$A4            RAMdisk write command
+00C0 B7FF58           (periph\framdisk.t):00141                                 sta             FRCOMREG
+00C3 5F               (periph\framdisk.t):00142                                 clrb
+00C4 A6A0             (periph\framdisk.t):00143         WRITS10         lda     ,y+
+00C6 B7FF5B           (periph\framdisk.t):00144                                 sta     FRDATREG
+00C9 5A               (periph\framdisk.t):00145                                 decb
+00CA 26F8             (periph\framdisk.t):00146                                 bne     WRITS10
+                      (periph\framdisk.t):00147         *
+00CC B6FF02           (periph\framdisk.t):00148                                 lda SYSREG clr activity LED
+00CF 84FD             (periph\framdisk.t):00149                     anda #$FD
+00D1 B7FF02           (periph\framdisk.t):00150                     sta SYSREG
+                      (periph\framdisk.t):00151         *
+00D4 35B6             (periph\framdisk.t):00152                                 puls    X,Y,D,PC
+                      (periph\framdisk.t):00153         
+                      (periph\framdisk.t):00154         
+                      (periph\framdisk.t):00155         
+                      (periph\framdisk.t):00156         **************************
+                      (periph\framdisk.t):00157         * GETSTA
+                      (periph\framdisk.t):00158         *  get device status
+                      (periph\framdisk.t):00159         *
+     00D6             (periph\framdisk.t):00160         GETSTA equ *
+                      (periph\framdisk.t):00161         
+00D6 53               (periph\framdisk.t):00162         Unknown comb
+00D7 C6D0             (periph\framdisk.t):00163          ldb #E$UnkSVC
+00D9 39               (periph\framdisk.t):00164          rts
+                      (periph\framdisk.t):00165         
+                      (periph\framdisk.t):00166         **************************
+                      (periph\framdisk.t):00167         * PUTSTA
+                      (periph\framdisk.t):00168         *  Set device Status
+                      (periph\framdisk.t):00169         *
+00DA C103             (periph\framdisk.t):00170         PUTSTA cmpb #SS.Reset
+00DC 2704             (periph\framdisk.t):00171          beq PUTSTA90
+00DE C104             (periph\framdisk.t):00172          cmpb #SS.WTrk
+00E0 26F4             (periph\framdisk.t):00173          bne Unknown
+                      (periph\framdisk.t):00174         
+00E2 5F               (periph\framdisk.t):00175         PUTSTA90 clrb
+00E3 39               (periph\framdisk.t):00176          rts
+                      (periph\framdisk.t):00177         
+                      (periph\framdisk.t):00178         *****************************
+                      (periph\framdisk.t):00179         * TERM
+                      (periph\framdisk.t):00180         *  terminate Driver
+                      (periph\framdisk.t):00181         *
+00E4 39               (periph\framdisk.t):00182         TERM rts
+                      (periph\framdisk.t):00183         
+00E5 25BF46           (periph\framdisk.t):00184          emod
+     00E8             (periph\framdisk.t):00185         FRAMEND equ *
+                      (periph\framdisk.t):00186         
+                      (periph\framdisk.t):00187         ******************************************
+                      (periph\framdisk.t):00188         * F-RAMdisk Discriptor module
+                      (periph\framdisk.t):00189         *
+                      (periph\framdisk.t):00190         
+                      (periph\framdisk.t):00191          nam F0
+                      (periph\framdisk.t):00192          ttl Drive Descriptor module
+                      (periph\framdisk.t):00193         
+0000 87CD002F0021F181 (periph\framdisk.t):00194          mod DEnd,DNam,DEVIC+OBJCT,REENT+1,DMgr,DDrv
+     CB00230026
+                      (periph\framdisk.t):00195         
+000D FF               (periph\framdisk.t):00196          fcb $FF mode byte (DIR.+SHARE.+PREAD.+PWRIT.+UPDAT.+EXEC.+PEXEC.)
+000E FF               (periph\framdisk.t):00197          fcb $FF IOBlock address bits 23:16 (unused)
+000F FF58             (periph\framdisk.t):00198          fdb $FF58 hardware address
+0011 0F               (periph\framdisk.t):00199          fcb DNam-*-1 option byte count
+0012 01               (periph\framdisk.t):00200          fcb $1 Rbf device
+0013 00               (periph\framdisk.t):00201          fcb 0 Drive number
+0014 03               (periph\framdisk.t):00202          fcb 03 6ms Step rate
+0015 80               (periph\framdisk.t):00203          fcb $80 Standard OS9 Winchester drive
+0016 00               (periph\framdisk.t):00204          fcb 0 Single density
+0017 0028             (periph\framdisk.t):00205          fdb 40 number of tracks
+0019 01               (periph\framdisk.t):00206          fcb 1 number of sides
+001A 01               (periph\framdisk.t):00207          fcb 1 don't verify any writes
+001B 000A             (periph\framdisk.t):00208          fdb 10 sectors per track
+001D 000A             (periph\framdisk.t):00209          fdb 10 sectors on track 0, side 0
+001F 01               (periph\framdisk.t):00210          fcb 1 sector interleave factor
+0020 01               (periph\framdisk.t):00211          fcb 1 sector allocation size
+0021 46B0             (periph\framdisk.t):00212         DNam fcs "F0"
+0023 5242C6           (periph\framdisk.t):00213         DMgr fcs "RBF"
+0026 66726D6473EB     (periph\framdisk.t):00214         DDrv fcs "frmdsk"
+002C 3B463B           (periph\framdisk.t):00215          emod
+     002F             (periph\framdisk.t):00216         DEnd equ *
+                      (periph\framdisk.t):00217          end
