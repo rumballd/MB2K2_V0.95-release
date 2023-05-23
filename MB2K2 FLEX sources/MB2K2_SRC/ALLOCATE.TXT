@@ -1,0 +1,64 @@
+ opt nol
+ lib flexlink
+ opt lis
+ org $c100
+*
+allocate bra start
+ fcb 1
+start jsr NXTCH
+ cmpa #$0d
+ lbeq print
+*
+ ldy #DDSTAB
+ ldb #$10
+ jsr CLASS
+ bra loop4
+loop jsr NXTCH
+loop4 bcc loop1
+ lda #$ff
+ bra loop2
+loop1 anda #$0f
+loop2 sta ,y+
+ jsr [PUTRTC]
+ incb
+ cmpb #$14
+ bne loop
+*
+ jmp FWARM
+*
+mess1 fcc 'Drive ',4
+mess2 fcc ' is the PROMdisk. ',4
+mess3 fcc ' is the RAMdisk	',4
+mess4 fcc ' is the F-RAMdisk.',4
+mess5 fcc ' is FlexNet.	',4
+mess6 fcc ' is unassigned.',4
+print ldy #DDSTAB
+ploop ldx #mess1
+ jsr FPSTRNG
+ tfr y,d
+ subd #DDSTAB
+ tfr b,a
+ adda #$30
+ jsr PUTCHR
+ lda ,y+
+ cmpa #$ff
+ bne print1
+ ldx #mess6
+ bra print2
+print1 ldb #19
+ mul
+ ldx #mess2
+ abx
+print2 jsr pdata1
+ cmpy #(DDSTAB+4)
+ bne ploop
+ jmp FWARM
+*
+p jsr PUTCHR
+pdata1 lda ,x+
+ cmpa #4
+ bne p
+ rts
+*
+ end allocate
+                                                                                                                                                                                                                      
