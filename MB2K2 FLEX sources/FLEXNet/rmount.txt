@@ -1,0 +1,292 @@
+*   This utility will "MOUNT" a .DSK file
+*   on a remote host computer, that is running NETPC.
+*   netdrv must already be running on the FLEX computer.
+*
+*   Syntax: RMOUNT <drive number> [<file_name>]
+*
+*   Note: <file_name> may contain the whole directory path,
+*         including the disk name, for example "C:\dir1\dir2\.."
+*         In order to achieve this, the FLEX EOL character is
+*         temporarily cleared. Thus, multiple commands on one
+*         line can be used with this utility, only if RMOUNT
+*         is the last command on the line.
+*
+****************************************************************************************
+*   This version is modified for the MB2K system and it's internal drivers for FlexNet. *
+*   D.A.Rumball 29-3-2005                                                               *
+*****************************************************************************************
+*
+*
+ack     equ     $06             acknowledge character
+cr      equ     $0d             carriage return character
+*
+        lib     flexlink
+*
+        org     $c100
+rmount  bra start
+version fdb 0100
+eoltmp  rmb     1               temp storage for EOL character
+chrcnt  rmb     1               character counter
+tries   rmb     1               tries counter for resync
+drv     fcb     0
+*
+start   lda     TTYEOL          save EOL character
+        sta     eoltmp
+*   Check if host is ready with 'Q', if not, then resync and report on connection
+*
+        lda     #'Q             quick check that communication is working
+        jsr     [SCHAR]
+        bcc     timeout          time out, communication not working
+*
+        jsr     [RCHAR]         get response
+        bcc     timeout          time out, communication not working
+        cmpa    #ack            got an ack?
+        bne     timeout          communication not working
+        bra     check           carry on with MOUNT
+*
+* sync and report on connection (same as old FNETDRV)
+timeout lda     #5              number of tries
+        sta     tries
+        lda     #$55            1st sync char
+sync04  sta     tmp
+*
+sync08  jsr    [SCHAR]         send char
+        bcc     sync16          time out, report error
+*
+        jsr    [RCHAR]         get answer from receiver
+        bcc     sync16
+        cmpa    tmp             same as sent?
+        beq     sync12          yes
+*
+        lda     tmp
+        cmpa    #$55            1st sync char?
+        bne     sync16          nope, something is wrong
+*
+        dec     tries           decrease try count
+        bne     sync08          try again if not 0
+        bra     sync16          report sync error
+*
+sync12  cmpa    #$aa            2nd sync char?
+        beq     sync20          yes, continue
+*
+        lda     #$aa            send 2nd sync char
+        bra     sync04
+*
+sync16  ldx     #synstr         "Can't sync..."
+sync17  jsr     FPSTRNG
+        jmp     FWARM           back to FLEX
+*
+sync20  ldx     #scnest         "Serial connection established"
+        jsr     FPSTRNG
+        ldx     #500
+        jsr     [DELAY]
+*
+* ---------------------------------------------------------------
+*
+*  Check file name length/extension
+*
+check   clr     chrcnt          no character input yet
+        ldx     TTYLBP          point to TTY Line Buffer
+*
+chec04  lda     ,x+             skip leading spaces
+        cmpa    #$20
+        beq     chec04
+*
+        cmpa    #cr             if empty line, show the current mapping
+        lbeq    shwmap
+*
+chec08  cmpa    #cr             parse the rest of the line
+        beq     chec12
+        cmpa    #'.             Extension provided?
+        bne     chec10
+*
+* the next characters must be "dsk"
+*
+        ldy     #ext
+chec09  lda     ,x+
+        anda    #$5f
+        cmpa    ,y+
+        lbne    badex
+        cmpy    #ext+3
+        bne     chec09
+*
+chec10  inc     chrcnt          no, inc character count
+        pshs    a
+        lda     chrcnt          check character count
+        cmpa    #1              just a drive specified?
+        puls    a               does not change cc reg
+        bne     chec11
+        anda    #$03
+        staa    drv
+*
+chec11  lda     ,x+             check next character
+        bra     chec08
+*
+chec12  lda     chrcnt          check character count
+        cmpa    #1
+        bne     chec13
+*
+        ldx     #DDSTAB         set unmapped flag for drive if only drive number
+        ldab    drv
+        ldaa    #-1
+        staa    b,x
+*
+        ldx     #mess7         unmapped message
+        jsr     FPSTRNG
+        bra     main
+*
+chec13  ldx     #DDSTAB         map the drive as redirected
+        ldab    drv
+        cmpb    #3              will be > 3 if no drive specified
+        bgt     chec14          because it will be a letter
+        lda     #3              FlexNet drive type
+        staa    b,x
+        bra     chec15
+*
+chec14  ldab    #3              if user does not supply drive
+        stab    b,x             assume drive 3 requested
+*
+chec15  lda     chrcnt
+        cmpa    #2              less than 2 characters?
+        lblo    badfnm          yes, report bad file name
+*
+* ---------------------------------------------------------------
+*
+main    clr     TTYEOL          disable TTYEOL
+
+        lda     #'m             send m(ount) command to remote host
+        jsr     [SCHAR]
+        lbcc    nwrkng          time out, communication not working
+*
+main04  jsr     NXTCH           skip leading spaces
+        cmpa    #$20
+        beq     main04
+
+        anda    #$03
+
+main08  cmpa    #$20
+        bne     main09
+        jsr     NXTCH
+        bra     main08
+
+main09  jsr     [SCHAR]           send one character to remote host
+        lbcc    nwrkng          time out, communication not working
+        cmpa    #cr             last character in line?
+        beq     main12
+        jsr     NXTCH           get next character
+        cmpa    #'.             substitute cr for dot
+        bne     main08
+        ldaa    #cr
+        bra     main08
+*
+main12  jsr     [RCHAR]           get response
+        lbcc    nwrkng          time out, communication not working
+        cmpa    #ack            got an ack?
+        lbne    badfnm          no, report bad file name
+*
+* Check for "R" or "W" after the ack
+        jsr     [RCHAR]           get character
+        lbcc    nwrkng          time out, not working
+        cmpa    #'R             Read only?
+        beq     read
+        cmpa    #'W             Write only?
+        beq     write
+        bra     badfnm          otherwise, report error
+
+*
+* ---------------------------------------------------------------
+badex   ldx     #exten          Bad extension
+        bra     finish
+
+read    ldx     #readst         Read-only message
+        bra     finish
+
+write   ldx     #writest        Full access message
+        bra     finish
+
+nwrkng  ldx     #nwrkst         communication is not working
+        bra     finish
+*
+badfnm  ldx     #badfst         bad file name
+*
+finish  lda     chrcnt
+        cmpa    #1
+        beq     alldone
+
+        jsr     FPSTRNG          print string pointed to by XREG
+alldone lda     eoltmp          restore EOL character
+        sta     TTYEOL
+        jmp     FWARM            back to FLEX
+
+* User entered command with NO parameters - Show mount map
+
+shwmap  ldy     #DDSTAB       point to drive array
+        clrb
+*
+chkmap  cmpb    #4
+        beq     mapend
+*
+        ldx     #mapped
+        addb    #'0
+        stb     6,x
+        jsr     FPSTRNG
+        subb    #'0
+        lda     0,y+
+        cmpa    #$03          see if remote drive type
+        beq     shwdsk       drive mapped to FLEXNet
+        ldx     #mess6
+        jsr     [PDATA1]
+        incb
+        bra     chkmap
+*
+mapend  jsr     FPCRLF
+        bra     alldone
+*
+shwdsk  pshs    b
+        ldx     #dsknam
+        stx     xtemp2
+        pshs    b
+        lda     #'d          send 'd'sk command
+        jsr     [SCHAR]
+        lbcc    nwrkng       error
+        pula                 get drive number
+        jsr     [SCHAR]      send it also
+        lbcc    nwrkng       error
+sdloop  jsr     [RCHAR]      get character from HOST
+        cmpa    #ack         are we done?
+        beq     sdprnt       show user what we got
+        ldx     xtemp2       get pointer to where we are saving
+        sta     0,x+
+        lda     #4
+        sta     0,x          terminate string on each character
+        stx     xtemp2
+        bra     sdloop
+*
+sdprnt  ldx     #dsknam
+        jsr     [PDATA1]
+        puls    b
+        incb
+        bra     chkmap
+
+*                    *
+tmp     rmb     1
+xtemp1  fdb     0
+xtemp2  fdb     0
+mapped  fcc     /Drive   -> /,4
+dsknam  rmb     256
+exten   fcc     /Illegal file extension/,4
+nwrkst  fcc     /Communication is not working!/,4
+badfst  fcc     /Could not open file/,4
+readst  fcc     /File open in read-only mode/,4
+writest fcc     'File opened with full access (read/write)',4
+mess6   fcc     'not allocated to FlexNet',4
+mess7   fcc     'Drive deallocated',4
+succst  fcc     /Command executed OK./,4
+synstr  fcc     /Can't sync serial transfer!/,4
+scnest  fcc     /Serial connection established/,4
+*
+* Extension string
+ext fcc /DSK/
+
+        end     start
+                                                                               

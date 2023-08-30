@@ -1,0 +1,160 @@
+ NAM RLIST
+*
+* REMOTE DIRECTORY LISTING THROUGH NETPC
+*
+*
+*       02.01   2002-08-31 js Use signature string
+*       02.02   2002-09-19 js New vectors
+* ---------------------------------------------------------------
+****************************************************************************************
+*   This version is modified for the MB2K system and it's internal drivers for FlexNet. *
+*   D.A.Rumball 29-3-2005                                                               *
+*************************************************************************************** 
+ LIB FLEXLINK
+*
+* SEPARATOR IN THE OUTPUT STREAM
+SEP EQU CR
+
+* LINES PER SCREEN
+SCREEN EQU 20
+
+ ORG $C100
+rlist BRA COLD
+*
+* VERSION NUMBER
+VN FCB 1,0
+*
+* TEMP STORAGE
+COUNT RMB 1 LINE COUNTER
+PTR RMB 2 POINTER
+*
+*
+
+COLD EQU * START OF CODE
+
+*INITIALIZE THE BUFFER
+ LDX #BUFF
+ STX PTR INITIALIZE POINTER
+
+* PUT THE "RLIST" COMMAND
+ LDA #'I
+ JSR PUTIT
+
+* SEND A <CR>
+ LDA A #SEP
+ JSR PUTIT
+
+* NOW TERMINATE THE STRING
+ CLR A
+ JSR PUTIT
+
+* NOW SEND OUT THE CONTENTS OF
+* THE BUFFER AS ONE SERIAL STREAM
+ LDX #BUFF
+LOOP LDA A 0,X+
+ BEQ SEREND
+ JSR [SCHAR]
+ BCC NOWORK
+ BRA LOOP
+SEREND EQU *
+*
+* ADDED CODE
+* SEND A SPACE TO START THE FIRST LINE
+ LDA A #$20
+ JSR [SCHAR]
+ BCC NOWORK
+
+*
+* START A NEW SCREEN
+NEW LDA A #SCREEN
+ STA A COUNT
+
+* RECEIVE ONE LINE
+ONELIN EQU *
+ LDX #BUFF INITIALIZE POINTER
+ STX PTR
+LP1 JSR [RCHAR] GET CHAR
+ BCC NOWORK
+ CMPA #ACK FINISHED?
+ BEQ EXIT
+* STORE THE CHARACTER
+ JSR PUTIT
+* LOOP IF NOT <LF>
+ CMPA #LF
+ BNE LP1
+
+* LINE FEED RECEIVED, DISPLAY LINE ON CRT
+ CLR A ADD TERMINATOR
+ JSR PUTIT
+ LDX #BUFF
+ JSR PDATA
+
+* COUNT DOWN LINES
+ DEC COUNT
+ BEQ ASK
+
+* SEND A SPACE FOR NEXT LINE
+ LDA A #$20
+ JSR [SCHAR]
+ BCC NOWORK
+ BRA ONELIN
+
+* ASK THE USER
+ASK LDX #ASKUSR
+ JSR PDATA
+ JSR [INCH1]
+ CMP A #ESC
+ BEQ EX1
+ CMP A #$20
+ BNE ASK
+
+* GO FOR ANOTHER SCREEN
+ JSR [SCHAR]
+ BRA NEW
+
+* ESCAPE RECEIVED, SEND ESCAPE TO MSD0S
+EX1 JSR [SCHAR]
+ BCC NOWORK
+ JSR PCRLF
+
+* WAIT FOR ACK
+WTACK JSR [RCHAR]
+ BCC NOWORK
+ CMP A #ACK
+ BNE WTACK
+ BRA EXIT
+
+NOWORK LDX #TIMOUT
+finish JSR PDATA
+
+EXIT JMP FWARM
+
+* LOW-LEVEL ROUTINES
+* PRINT A STRING
+PDATA2 JSR PUTCHR
+PDATA LDA A 0,X+
+ BNE PDATA2
+ RTS
+
+* PUT A CHARACTER IN BUFFER
+PUTIT LDX PTR GET POINTER
+ STA A 0,X+ STORE BYTE AND BUMP PTR
+ STX PTR
+ RTS
+
+* CHARACTER STRINGS
+
+ASKUSR FCB CR
+ FCC /Press spacebar to continue, ESC to stop /
+ fcb 0
+
+TIMOUT FCB CR,LF
+ FCC /Communication time-out error/
+ FCB 0
+
+* BUFFER AREA
+BUFF RMB 256
+
+ END rlist
+
+                                                                                                                                                                                                                                                                                                        

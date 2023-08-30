@@ -1,0 +1,254 @@
+    NAM     FCREATE
+    OPT     PAG
+*
+* REMOTE CREATE A DSK FILE THROUGH NETPC
+*
+*
+*       02.01   2002-08-31 js Use signature string
+*       02.02   2002-09-19 JS New vectors
+* ---------------------------------------------------------------
+****************************************************************************************
+*   This version is modified for the MB2K system and it's internal drivers for FlexNet. *
+*   D.A.Rumball 29-3-2005                                                               *
+*****************************************************************************************
+    lib flexlink
+*
+* SEPARATOR IN THE OUTPUT STREAM
+* '*' SUGGESTED FOR DEBUG
+* CR FOR NORMAL USE
+*
+SEP     EQU     $0D
+
+*
+        ORG     $C100
+        BRA     check
+* VERSION NUMBER
+VN      FCB     1,0
+* TEMP STORAGE
+PTR     RMB     2               POINTER IN BUFFER
+SAVPTR  RMB     2               SAVE POINTER
+NUMFLG  RMB     1               NUMERIC FLAG
+*
+drv     fcb     3               default to drive 3
+ndarray rmb     4               place to store address of array
+*
+*
+check   LDX     #buff
+        STX     PTR             INITIALIZE POINTER
+
+* PUT THE "c" COMMAND IN BUFFER
+        LDAA    #'c
+notfnet JSR     PUTIT
+*       
+* Get the drive from the command line
+getdrv  jsr     NXTCH           skip leading spaces
+        cmpa    #$20
+        beq     getdrv
+        cmpa    #CR             last character in line?
+        beq     nodrv
+        anda    #$03
+        bra     gotdrv
+nodrv   ldaa    #3              default to drive 3
+        staa    drv
+gotdrv  JSR     PUTIT
+*
+* PROMPT FOR PATH
+        LDX     #STR1 PROMPT THE USER
+        JSR     NAMIN GET NAME
+        JSR     PUTSEP
+*
+* PROMPT FOR FILE NAME
+        LDX     #STR2           PROMPT USER
+        JSR     NAMIN           GET NAME
+        JSR     PUTSEP
+*
+* PROMPT FOR VOLUME NUMBER
+        LDY     #STR3
+        JSR     GETDEC
+        JSR     PUTSEP
+*
+* PROMPT FOR TRACKS
+        LDY     #STR4
+        JSR     GETDEC
+        JSR     PUTSEP
+*
+* PROMPT FOR SECTORS
+        LDY     #STR5
+        JSR     GETDEC
+        JSR     PUTSEP
+*
+* NOW TERMINATE THE STRING
+        CLR     A
+        JSR     PUTIT
+*
+* ASK FOR PERMISSION
+        LDX     #GO
+        JSR     PDATA
+*
+* GET RESPONSE
+        JSR     GETCHR
+        ANDA    #$5F
+        CMPA    #'Y
+        BNE     EXIT2
+*
+* NOW SEND OUT THE CONTENTS OF
+* THE BUFFER AS ONE SERIAL STREAM
+        LDX     #buff
+LOOP    LDAA    0,X+
+        BEQ     SEREND
+        JSR     [SCHAR]
+        BCC     NOWORK
+        BRA     LOOP
+SEREND EQU *
+*
+* DATA TRANSMISSION DONE, WAIT
+* FOR RESPONSE (ACK OR NACK)
+        ldb     #255
+LP      pshs    b
+        JSR     [RCHAR]
+        puls    b
+        BCS     CHKSTAT         got response - process it
+        dec     b               try this thirty times
+        bne     LP              for really big drives
+        bra     NOWORK          TIME-OUT ERROR?
+*
+CHKSTAT CMP     A #$06          IS IT ACK ?
+        BEQ     GOOD
+        CMP     A #$15          IS IT NACK?
+        BEQ     BAD
+        BRA     LP
+*
+GOOD    ldx     #DDSTAB          update MB2K allocation table
+        ldab    drv
+        lda     #3
+        staa    b,x
+*
+good1   LDX     #GOODST
+        BRA     EXIT
+*
+BAD     LDX     #BADST
+        BRA     EXIT
+*
+NOWORK  LDX     #TIMOUT
+EXIT    JSR     PDATA
+*
+EXIT2   JMP     FWARM           RETURN TO FLEX
+
+* LOW-LEVEL ROUTINES
+* PRINT A STRING
+PDATA2  JSR     PUTCHR
+PDATA   LDAA    0,X+
+        BNE     PDATA2
+        RTS
+*
+* PRINT A PROMPT STRING, THEN
+* INPUT A NAME (OR NUMBER) IN BUFFER
+* IF ANY NON-NUMERIC CHARACTER IS FOUND,
+* SET "NUMFLG" TO NON-ZERO.
+* OTHERWISE, ZERO MEANS ALL NUMERIC
+NAMIN   JSR     PDATA           PRINT THE PROMPT
+        CLR     NUMFLG          CLEAR "NUMERIC" FLAG
+        CLR     B               CLEAR BYTE COUNTER
+NAM3    JSR     [INCH1]        GET A CHARACTER
+        CMPA    #BS             IS IT BACKSPACE?
+        BNE     NOBACK          NO, PROCEED
+*
+* BACKSPACE FOUND
+        TST     B               FIRST CHARACTER?
+        BEQ     NAM3            YES, DO NOTHING
+*
+* PROCESS BACKSPACE
+        DEC     B               DECREMENT "GOOD" COUNTER
+*
+* NOW OVERWRITE THE BAD CHARACTER
+        LDAA    #BS
+        JSR     PUTCHR
+        LDAA    #$20
+        JSR     PUTCHR
+        LDAA    #BS             RE-POSITION CURSOR
+        JSR     PUTCHR
+*
+* DECREMENT BUFFER POINTER
+        LDX     PTR
+        DEX
+        STX     PTR
+        BRA     NAM3            GO FOR NEXT CHARACTER
+*
+* DISPLAY THE CHARACTER AND STORE IT
+NOBACK  JSR     PUTCHR
+        CMPA    #CR             DONE?
+        BNE     NXT             NO, ADD TO BUFFER
+        RTS
+*
+* ADD ONE CHARACTER TO BUFFER
+NXT     JSR     PUTIT
+        INC     B               INCREMENT GOOD COUNTER
+*
+* CHECK FOR DIGITS
+        CMPA    #$30            BELOW ZERO?
+        BLO     NOTNUM          NO, NOT NUMERIC
+        CMPA    #$40            ABOVE 9?
+        BHS     NOTNUM          YES, NOT NUMERIC
+        BRA     NAM3            GO FOR NEXT CHARACTER
+NOTNUM  INC     NUMFLG          SAY NON-NUMERIC
+        BRA     NAM3            AND LOOP BACK
+*
+* PUT A SEPARATOR
+PUTSEP  LDAA    #SEP            AND EXI THRU PUTIT
+*
+* PUT A CHARACTER IN BUFFER
+PUTIT   LDX     PTR             GET POINTER
+        STAA    0,X+            STORE BYTE AND BUMP PTR
+        STX     PTR
+        RTS
+*
+* PROMPT FOR A DECIMAL NUMBER
+* AND PUT IT IN BUFFER
+* ENTRY: Y POINTS TO PROMPT STRING
+GETDEC  LDX     PTR             SAVE POINTER IN CASE OF ERROR
+        STX     SAVPTR
+ASKVOL  LDX     SAVPTR          RECALL POINTER
+        STX     PTR
+        TFR     Y,X             PROMPT USER
+        JSR     NAMIN           GET NAME
+        TST     NUMFLG          ALL NUMERIC INPUT?
+        BNE     ASKVOL          NOT NUMERIC, RESTART
+        RTS
+*
+* CHARACTER STRINGS
+STR1    FCB     CR,LF
+        FCC     /File path ? /
+        FCB     0
+STR2    FCB     CR,LF
+        FCC     /File name ? /
+        FCB     0
+STR3    FCB     CR,LF
+        FCC     /Disk number (in decimal) ? /
+        FCB     0
+STR4    FCB     CR,LF
+        FCC     /Number of tracks (in decimal) ? /
+        FCB     0
+STR5    FCB     CR,LF
+        FCC     /Sectors per track (in decimal) ? /
+        FCB     0
+GOODST  FCB     CR,LF
+        fcc    /Command executed OK./
+        FCB     0
+BADST   FCB     CR,LF
+        FCC     /Error message received from NETPC./
+        FCB     0
+GO      FCB     CR,LF
+        FCC     /OK to proceed ? /
+        FCB     0
+TIMOUT  FCB     CR,LF
+        FCC     /Communication time-out error/
+        FCB     0
+nodrvms FCB     CR,LF
+        FCC     /NETDRV is not loaded in memory, no action taken./
+        FCB     0
+*
+* BUFFER AREA
+buff  RMB     256
+
+        END     $C100
+                                                                                                                                                                                                                                                  
