@@ -6,7 +6,7 @@ The MB2K2 is a hardware based emulator built around the Xmos XU216 SoC where eac
 
 Initially I’ve used it to emulate an old 1982 era 6809/Flex single board computer design of mine (Microbox 2) but there’s nothing to stop the emulation of other processors and LSI devices by using a low cost JTAG interface and free toolchain from Xmos. 
 
-PCBs and assembled units can be ordered on Tindie (search for MB2K2).
+PCBs and assembled units can be ordered from intriguingindustries.co.uk.
 
 The hardware is complete and the initial firmware supports:-
 
